@@ -1,10 +1,11 @@
+// Bilingual Curriculum Dataset: English & Spanish
 export const CHAPTERS_DATA = [
   {
     "num": 1,
     "code_module": "Module 1",
     "title": "Variables, Data Types & Formatting",
-    "icon": "\ud83d\udc0d",
-    "prof_source": "Prof. Jade Cao (CCCC) \u2014 01_Variables_and_Data_Types.ipynb",
+    "icon": "🐍",
+    "prof_source": "Prof. Jade Cao (CCCC) — 01_Variables_and_Data_Types.ipynb",
     "desc": "Variables as memory labels, string transformations (f-strings, whitespace stripping), integers, floats, and the Student Profile Card mini-project.",
     "sections": [
       {
@@ -21,7 +22,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Create student='Alex', course='Intro to Python', and room=204. Combine into card = f'{student} is in {course} (Room {room})'.",
           "starter": "student = 'Alex'\ncourse = 'Intro to Python'\nroom = 204\ncard = f'{student} is in {course} (Room {room})'\nprint(card)",
           "test_var": "card",
-          "expected_val": "Alex is in Intro to Python (Room 204)"
+          "expected_val": "Alex is in Intro to Python (Room 204)",
+          "title_es": "Repetición: Tarjeta de Perfil Estudiantil",
+          "prompt_es": "Crea student='Alex', course='Intro to Python', y room=204. Combina en card = f'{student} is in {course} (Room {room})'."
         },
         "quiz": {
           "question": "Which of the following is a valid Python variable name following PEP 8 conventions?",
@@ -32,8 +35,20 @@ export const CHAPTERS_DATA = [
             "total-score"
           ],
           "answer": 2,
-          "explanation": "In Python, variable names cannot start with numbers, cannot contain spaces, and cannot contain hyphens. `total_score` uses valid snake_case!"
-        }
+          "explanation": "In Python, variable names cannot start with numbers, cannot contain spaces, and cannot contain hyphens. `total_score` uses valid snake_case!",
+          "question_es": "¿Cuál de los siguientes es un nombre de variable válido en Python según las convenciones PEP 8?",
+          "options_es": [
+            "2nd_score",
+            "quiz score",
+            "total_score",
+            "total-score"
+          ],
+          "explanation_es": "En Python, los nombres de variables no pueden comenzar con números, contener espacios ni guiones. ¡`total_score` utiliza snake_case válido!"
+        },
+        "title_es": "Variables: Nombres para Valores en Memoria",
+        "why_es": "Las computadoras necesitan etiquetas comprensibles para rastrear datos almacenados en la RAM. Asignar `score = 95` almacena 95 en una ranura de memoria y nombra esa ranura `score`.",
+        "concept_es": "Las variables pueden cambiar con el tiempo. Reglas de nomenclatura: deben iniciar con letra o guion bajo; sin espacios; distinguen mayúsculas; snake_case es el estándar de Python.",
+        "pitfall_es": "¡Olvidar que las variables en Python distinguen mayúsculas y minúsculas: `Score` y `score` son dos ranuras de memoria completamente diferentes!"
       },
       {
         "id": "1-2",
@@ -49,7 +64,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Given raw = '  ada lovelace  ', clean whitespace and title-case into 'clean_name'.",
           "starter": "raw = '  ada lovelace  '\nclean_name = raw.strip().title()\nprint(clean_name)",
           "test_var": "clean_name",
-          "expected_val": "Ada Lovelace"
+          "expected_val": "Ada Lovelace",
+          "title_es": "Repetición: Limpieza y Formato de Nombre",
+          "prompt_es": "Dado raw = '  ada lovelace  ', limpia espacios en blanco y aplica mayúsculas en 'clean_name'."
         },
         "quiz": {
           "question": "What does `user = '  chris  '; user.strip(); print(user)` output on screen?",
@@ -60,17 +77,31 @@ export const CHAPTERS_DATA = [
             "SyntaxError"
           ],
           "answer": 1,
-          "explanation": "Strings are immutable! Calling `user.strip()` returns a new clean string, but because we didn't reassign `user = user.strip()`, `user` still has its spaces!"
-        }
+          "explanation": "Strings are immutable! Calling `user.strip()` returns a new clean string, but because we didn't reassign `user = user.strip()`, `user` still has its spaces!",
+          "question_es": "¿Qué muestra en pantalla `user = '  chris  '; user.strip(); print(user)`?",
+          "options_es": [
+            "'chris'",
+            "'  chris  '",
+            "None",
+            "SyntaxError"
+          ],
+          "explanation_es": "¡Las cadenas son inmutables! Llamar a `user.strip()` genera una nueva cadena limpia, pero como no reasignamos `user = user.strip()`, ¡`user` conserva sus espacios!"
+        },
+        "title_es": "Cadenas: Transformaciones, Espacios y f-Strings",
+        "why_es": "El texto introducido por el usuario suele ser desordenado (espacios adicionales, mayúsculas inconsistentes). Los métodos de cadenas limpian entradas para que 'si ' y 'SI' coincidan con 'si'.",
+        "concept_es": ".strip() elimina espacios invisibles. .title() capitaliza cada palabra. Las f-strings (f'Hola, {name}') inyectan variables en vivo en el texto de forma limpia.",
+        "pitfall_es": "¡Las cadenas en Python son inmutables! Llamar a `name.strip()` NO modifica `name` a menos que lo reasignes: `name = name.strip()`."
       }
-    ]
+    ],
+    "title_es": "Variables, Tipos de Datos y Formato",
+    "desc_es": "Variables como etiquetas de memoria, transformaciones de texto (f-strings, eliminación de espacios), enteros, flotantes y el mini-proyecto Tarjeta de Perfil Estudiantil."
   },
   {
     "num": 2,
     "code_module": "Module 2.1",
     "title": "Introducing Lists (Store, Access, & Organize)",
-    "icon": "\ud83d\udccb",
-    "prof_source": "Prof. Jade Cao (CCCC) \u2014 Lecture_Module2.1_Intro_to_Lists.ipynb",
+    "icon": "📋",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module2.1_Intro_to_Lists.ipynb",
     "desc": "Prof. Cao teaches lists early: 0-based and negative indexing, modifying elements, append(), insert(), del, pop(), remove(), sort() vs sorted().",
     "sections": [
       {
@@ -87,7 +118,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Start with orders = ['latte', 'drip']. Append 'mocha' and insert 'espresso' at index 0. Store first item in 'next_order'.",
           "starter": "orders = ['latte', 'drip']\norders.append('mocha')\norders.insert(0, 'espresso')\nnext_order = orders[0]\nprint(next_order)",
           "test_var": "next_order",
-          "expected_val": "espresso"
+          "expected_val": "espresso",
+          "title_es": "Repetición: Cola de Pedidos de Café",
+          "prompt_es": "Comienza con orders = ['latte', 'drip']. Agrega 'mocha' con append e inserta 'espresso' en el índice 0. Guarda el primer elemento en 'next_order'."
         },
         "quiz": {
           "question": "Given `planets = ['Mercury', 'Venus', 'Earth', 'Mars']`, what does `planets[-2]` return?",
@@ -98,8 +131,20 @@ export const CHAPTERS_DATA = [
             "'Mars'"
           ],
           "answer": 2,
-          "explanation": "Negative indexing counts backwards from the right: -1 is 'Mars', -2 is 'Earth'!"
-        }
+          "explanation": "Negative indexing counts backwards from the right: -1 is 'Mars', -2 is 'Earth'!",
+          "question_es": "Dada la lista `planets = ['Mercury', 'Venus', 'Earth', 'Mars']`, ¿qué devuelve `planets[-2]`?",
+          "options_es": [
+            "'Mercury'",
+            "'Venus'",
+            "'Earth'",
+            "'Mars'"
+          ],
+          "explanation_es": "La indexación negativa cuenta hacia atrás desde la derecha: -1 es 'Mars', ¡y -2 es 'Earth'!"
+        },
+        "title_es": "Indexación de Listas y Agregar Elementos (append e insert)",
+        "why_es": "Una sola variable contiene un solo valor. Una lista contiene una secuencia completa en orden. `append()` agrega al final de la cola; `insert()` inserta en una posición específica.",
+        "concept_es": "Las listas usan indexación en base cero (`[0]`). Los índices negativos cuentan desde el final (`[-1]` es el último). `append(x)` añade al final; `insert(idx, x)` añade en la posición.",
+        "pitfall_es": "IndexError: intentar acceder a un índice igual a len(lista). Para una lista de 3 elementos, los índices válidos son 0, 1, 2. ¡El índice 3 provoca un error fatal!"
       },
       {
         "id": "2-2",
@@ -115,7 +160,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Given watchlist = ['Dune', 'Shrek', 'Arrival'], pop the last movie into 'watched'.",
           "starter": "watchlist = ['Dune', 'Shrek', 'Arrival']\nwatched = watchlist.pop()\nprint(watched)",
           "test_var": "watched",
-          "expected_val": "Arrival"
+          "expected_val": "Arrival",
+          "title_es": "Repetición: Limpieza de Lista de Películas",
+          "prompt_es": "Dada watchlist = ['Dune', 'Shrek', 'Arrival'], extrae con pop la última película en 'watched'."
         },
         "quiz": {
           "question": "Why does `print(['banana', 'apple'].sort())` output `None`?",
@@ -126,17 +173,31 @@ export const CHAPTERS_DATA = [
             "Because the list was empty"
           ],
           "answer": 1,
-          "explanation": "In Python, in-place mutating methods like `.sort()` and `.reverse()` return `None` so you know they modified the existing list rather than creating a new one."
-        }
+          "explanation": "In Python, in-place mutating methods like `.sort()` and `.reverse()` return `None` so you know they modified the existing list rather than creating a new one.",
+          "question_es": "¿Por qué `print(['banana', 'apple'].sort())` produce `None`?",
+          "options_es": [
+            "`sort()` no funciona en cadenas de texto",
+            "Los métodos que modifican listas in-situ en Python retornan `None` por diseño para evitar copias confusas",
+            "Es un error de sintaxis",
+            "Porque la lista estaba vacía"
+          ],
+          "explanation_es": "En Python, los métodos que mutan directamente como `.sort()` y `.reverse()` retornan `None` para confirmar que modificaron la lista existente en lugar de crear una nueva."
+        },
+        "title_es": "Eliminar Elementos y Organizar (del, pop, remove, sort)",
+        "why_es": "Diferentes tareas requieren herramientas distintas: `del` elimina por índice; `pop()` elimina y te entrega el elemento; `remove()` busca por valor; `sort()` organiza.",
+        "concept_es": "`del lista[idx]` elimina. `item = lista.pop(idx)` extrae y retorna. `lista.remove('valor')` elimina la primera coincidencia. `lista.sort()` ordena directamente; `sorted(lista)` retorna una copia ordenada.",
+        "pitfall_es": "Escribir `mi_lista = mi_lista.sort()`. `sort()` modifica la lista directamente y retorna `None`, ¡por lo que `mi_lista` se convierte en `None`!"
       }
-    ]
+    ],
+    "title_es": "Introducción a las Listas (Almacenar, Acceder y Organizar)",
+    "desc_es": "La profesora Cao enseña listas desde el inicio: indexación en base 0 y negativa, modificación de elementos, append(), insert(), del, pop(), remove(), sort() frente a sorted()."
   },
   {
     "num": 3,
     "code_module": "Module 2.2",
     "title": "Working with Lists, Slices, & Tuples",
-    "icon": "\ud83d\udd04",
-    "prof_source": "Prof. Jade Cao (CCCC) \u2014 Lecture_Module2.2_Working_with_Lists.ipynb",
+    "icon": "🔄",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module2.2_Working_with_Lists.ipynb",
     "desc": "Looping through lists with for-loops, generating numbers with range(), slices [:], list copy vs assignment, and immutable tuples.",
     "sections": [
       {
@@ -153,7 +214,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Given miles = [150, 220, 85], calculate total = sum(miles) and average = round(total / len(miles), 1). Store average in 'avg_miles'.",
           "starter": "miles = [150, 220, 85]\ntotal = sum(miles)\navg_miles = round(total / len(miles), 1)\nprint(avg_miles)",
           "test_var": "avg_miles",
-          "expected_val": "151.7"
+          "expected_val": "151.7",
+          "title_es": "Repetición: Millas Diarias de Viaje",
+          "prompt_es": "Dadas miles = [150, 220, 85], calcula total = sum(miles) y promedio = round(total / len(miles), 1). Guarda en 'avg_miles'."
         },
         "quiz": {
           "question": "What numbers are generated by `list(range(2, 10, 3))`?",
@@ -164,14 +227,26 @@ export const CHAPTERS_DATA = [
             "[2, 3, 4]"
           ],
           "answer": 0,
-          "explanation": "Start at 2, add step of 3: 2 + 3 = 5, 5 + 3 = 8. Adding 3 again reaches 11, which exceeds the stop limit of 10!"
-        }
+          "explanation": "Start at 2, add step of 3: 2 + 3 = 5, 5 + 3 = 8. Adding 3 again reaches 11, which exceeds the stop limit of 10!",
+          "question_es": "¿Qué números son generados por `list(range(2, 10, 3))`?",
+          "options_es": [
+            "[2, 5, 8]",
+            "[2, 5, 8, 10]",
+            "[3, 6, 9]",
+            "[2, 3, 4]"
+          ],
+          "explanation_es": "Inicia en 2, suma paso de 3: 2 + 3 = 5, 5 + 3 = 8. Sumar 3 de nuevo daría 11, ¡lo cual excede el límite de parada de 10!"
+        },
+        "title_es": "Bucles for, range() y Listas Numéricas",
+        "why_es": "Hacer cosas manualmente elemento por elemento es inviable con 10,000 datos. Un bucle `for` automatiza tareas repetitivas sobre cada elemento de una secuencia.",
+        "concept_es": "`for item in coleccion:` ejecuta el bloque indentado una vez por elemento. `range(inicio, fin, paso)` genera números hasta (sin incluir) fin. Funciones integradas: `min()`, `max()`, `sum()`.",
+        "pitfall_es": "Errores de indentación: Python utiliza los espacios en blanco para saber qué líneas están dentro del bucle y cuál se ejecuta al terminar."
       },
       {
         "id": "3-2",
         "num": "3.2",
         "title": "Slicing, Copying (.copy() vs =), and Tuples",
-        "why": "`list_b = list_a` does NOT copy the items\u2014it creates a second alias to the exact same list in RAM! To protect data, use `.copy()` or slices `[:]`.",
+        "why": "`list_b = list_a` does NOT copy the items—it creates a second alias to the exact same list in RAM! To protect data, use `.copy()` or slices `[:]`.",
         "concept": "Slicing: `list[start:stop]`. Safe copy: `friend_route = my_route.copy()`. Tuples: defined with parentheses `(1920, 1080)` and are immutable (read-only).",
         "code": "my_route = ['Raleigh', 'Chicago', 'Denver']\nfriend_route = my_route.copy()\nfriend_route.append('Seattle')\nprint(f'My route: {my_route}')\nprint(f'Friend: {friend_route}')",
         "expected_output": "My route: ['Raleigh', 'Chicago', 'Denver']\nFriend: ['Raleigh', 'Chicago', 'Denver', 'Seattle']",
@@ -181,7 +256,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Given stops = ['Raleigh', 'Richmond', 'DC', 'Philly', 'NYC'], slice the first 3 stops into 'preview'.",
           "starter": "stops = ['Raleigh', 'Richmond', 'DC', 'Philly', 'NYC']\npreview = stops[:3]\nprint(preview)",
           "test_var": "preview",
-          "expected_val": "['Raleigh', 'Richmond', 'DC']"
+          "expected_val": "['Raleigh', 'Richmond', 'DC']",
+          "title_es": "Repetición: Vista Previa de Paradas de Ruta",
+          "prompt_es": "Dadas stops = ['Raleigh', 'Richmond', 'DC', 'Philly', 'NYC'], extrae las primeras 3 paradas en 'preview'."
         },
         "quiz": {
           "question": "Why should you use a Tuple instead of a List for screen dimensions like `(1920, 1080)`?",
@@ -192,18 +269,32 @@ export const CHAPTERS_DATA = [
             "Tuples run 100x faster"
           ],
           "answer": 0,
-          "explanation": "Tuples provide data integrity. When data should remain fixed (like coordinate pairs or screen dimensions), immutability prevents bugs."
-        }
+          "explanation": "Tuples provide data integrity. When data should remain fixed (like coordinate pairs or screen dimensions), immutability prevents bugs.",
+          "question_es": "¿Por qué deberías usar una Tupla en lugar de una Lista para dimensiones de pantalla como `(1920, 1080)`?",
+          "options_es": [
+            "Las tuplas son inmutables, garantizando que las dimensiones no se alteren accidentalmente por otras funciones",
+            "Las tuplas admiten números más grandes que las listas",
+            "Las listas no pueden almacenar números",
+            "Las tuplas corren 100 veces más rápido"
+          ],
+          "explanation_es": "Las tuplas garantizan la integridad de los datos. Cuando los valores deben permanecer fijos (como coordenadas o resoluciones), la inmutabilidad previene errores."
+        },
+        "title_es": "Rebanado (Slicing), Copias (.copy() vs =) y Tuplas",
+        "why_es": "`lista_b = lista_a` NO copia los elementos: ¡crea un segundo alias a la misma lista en RAM! Para proteger datos, usa `.copy()` o rebanadas `[:]`.",
+        "concept_es": "Rebanado: `lista[inicio:fin]`. Copia segura: `amigo = mi_ruta.copy()`. Tuplas: definidas entre paréntesis `(1920, 1080)` y son inmutables (solo lectura).",
+        "pitfall_es": "Escribir `b = a` y modificar `b`, lo cual altera en secreto a `a` porque ambos apuntan a la misma dirección de memoria."
       }
-    ]
+    ],
+    "title_es": "Trabajando con Listas, Rebanadas y Tuplas",
+    "desc_es": "Recorrer listas con bucles for, generar secuencias numéricas con range(), rebanadas [:], copia de listas frente a asignación, y tuplas inmutables."
   },
   {
     "num": 4,
     "code_module": "Module 3.1",
     "title": "Decision Structures with if, elif, else",
-    "icon": "\ud83d\udd00",
-    "prof_source": "Prof. Jade Cao (CCCC) \u2014 Lecture_Module3.1_If_Statements.ipynb",
-    "desc": "Boolean conditions, = vs ==, string case handling, multiple conditions (and, or, in), if-elif-else chains, Smart Caf\u00e9 Order Assistant.",
+    "icon": "🔀",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module3.1_If_Statements.ipynb",
+    "desc": "Boolean conditions, = vs ==, string case handling, multiple conditions (and, or, in), if-elif-else chains, Smart Café Order Assistant.",
     "sections": [
       {
         "id": "4-1",
@@ -215,11 +306,13 @@ export const CHAPTERS_DATA = [
         "expected_output": "Serving your latte!",
         "pitfall": "Accidentally using single `=` inside an `if` header instead of `==`.",
         "rep": {
-          "title": "Caf\u00e9 Order Availability Rep",
+          "title": "Café Order Availability Rep",
           "prompt": "Given menu = ['muffin', 'bagel', 'scone'] and item = 'bagel', check if item in menu and set available=True.",
           "starter": "menu = ['muffin', 'bagel', 'scone']\nitem = 'bagel'\navailable = item in menu\nprint(available)",
           "test_var": "available",
-          "expected_val": "True"
+          "expected_val": "True",
+          "title_es": "Repetición: Disponibilidad de Menú de Café",
+          "prompt_es": "Dado menu = ['muffin', 'bagel', 'scone'] e item = 'bagel', comprueba si item in menu y asigna available=True."
         },
         "quiz": {
           "question": "What is the output of `'admin' in ['alice', 'bob', 'charlie']`?",
@@ -230,8 +323,20 @@ export const CHAPTERS_DATA = [
             "TypeError"
           ],
           "answer": 1,
-          "explanation": "The `in` keyword checks if the item is an element of the collection. Since 'admin' is not in the list, it returns False."
-        }
+          "explanation": "The `in` keyword checks if the item is an element of the collection. Since 'admin' is not in the list, it returns False.",
+          "question_es": "¿Cuál es el resultado de `'admin' in ['alice', 'bob', 'charlie']`?",
+          "options_es": [
+            "True",
+            "False",
+            "None",
+            "TypeError"
+          ],
+          "explanation_es": "La palabra clave `in` comprueba si el elemento pertenece a la colección. Como 'admin' no está en la lista, retorna False."
+        },
+        "title_es": "Comparaciones, Lógica Booleana y Pertenencia (in)",
+        "why_es": "Los programas deben ramificarse según datos en tiempo real. Los operadores relacionales comparan valores; los lógicos combinan reglas; `in` comprueba si un elemento está en una lista.",
+        "concept_es": "`==` comprueba igualdad; `=` asigna. `in` comprueba pertenencia en listas/cadenas. Mayúsculas/minúsculas: `resp.lower() == 'si'`. Múltiples: `and` (ambas), `or` (cualquiera).",
+        "pitfall_es": "Usar por accidente un solo `=` dentro del encabezado de un `if` en lugar del comparador `==`."
       },
       {
         "id": "4-2",
@@ -247,7 +352,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Given size='medium', set price=3.00 for small, 4.00 for medium, 5.00 for large. Store price in 'drink_price'.",
           "starter": "size = 'medium'\nif size == 'small': drink_price = 3.00\nelif size == 'medium': drink_price = 4.00\nelse: drink_price = 5.00\nprint(drink_price)",
           "test_var": "drink_price",
-          "expected_val": "4.0"
+          "expected_val": "4.0",
+          "title_es": "Repetición: Precios por Tamaño de Bebida",
+          "prompt_es": "Dado size='medium', asigna price=3.00 para small, 4.00 para medium, 5.00 para large en 'drink_price'."
         },
         "quiz": {
           "question": "In an `if-elif-else` ladder, what happens once Python finds a True condition?",
@@ -258,17 +365,31 @@ export const CHAPTERS_DATA = [
             "It converts the values to integers"
           ],
           "answer": 0,
-          "explanation": "In an if-elif-else chain, conditions are mutually exclusive. Once one branch evaluates to True, its block runs and the entire rest of the chain is skipped."
-        }
+          "explanation": "In an if-elif-else chain, conditions are mutually exclusive. Once one branch evaluates to True, its block runs and the entire rest of the chain is skipped.",
+          "question_es": "En una estructura `if-elif-else`, ¿qué sucede una vez que Python encuentra una condición Verdadera (True)?",
+          "options_es": [
+            "Ejecuta ese bloque y sale de toda la estructura, ignorando el resto de comprobaciones elif/else",
+            "Continúa comprobando cada uno de los elif posteriores",
+            "Reinicia desde el principio",
+            "Convierte los valores a números enteros"
+          ],
+          "explanation_es": "En una cadena if-elif-else, las condiciones son mutuamente excluyentes. En cuanto una rama resulta Verdadera, su bloque se ejecuta y el resto de la cadena se omite."
+        },
+        "title_es": "La Cadena de Decisiones if-elif-else",
+        "why_es": "Cuando las decisiones tienen más de dos resultados posibles (como niveles de precios o rangos de edad), `if-elif-else` evalúa de arriba a abajo y sale en la primera coincidencia.",
+        "concept_es": "`if` evalúa la primera condición. `elif` (else-if) evalúa condiciones posteriores mutuamente excluyentes. `else` es la opción por defecto cuando nada coincide.",
+        "pitfall_es": "Usar múltiples sentencias `if` independientes en lugar de `elif`, provocando que varias ramas se ejecuten sin desearlo."
       }
-    ]
+    ],
+    "title_es": "Estructuras de Decisión con if, elif, else",
+    "desc_es": "Condiciones booleanas, = vs ==, manejo de mayúsculas/minúsculas, condiciones múltiples (and, or, in), cadenas if-elif-else y el Asistente Inteligente de Pedidos de Café."
   },
   {
     "num": 5,
     "code_module": "Module 3.2",
     "title": "Dictionaries: Data with Labels",
-    "icon": "\ud83d\udcd6",
-    "prof_source": "Prof. Jade Cao (CCCC) \u2014 Lecture_Module3.2_Dictionaries.ipynb",
+    "icon": "📖",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module3.2_Dictionaries.ipynb",
     "desc": "Prof. Cao introduces Dictionaries right after Lists! Key-value pairs, adding/updating, safe lookups with .get(), looping with .items(), and nesting.",
     "sections": [
       {
@@ -285,7 +406,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Create course = {'name': 'Python', 'seats': 24}. Add key 'instructor' = 'Jade Cao'. Store instructor in 'prof'.",
           "starter": "course = {'name': 'Python', 'seats': 24}\ncourse['instructor'] = 'Jade Cao'\nprof = course['instructor']\nprint(prof)",
           "test_var": "prof",
-          "expected_val": "Jade Cao"
+          "expected_val": "Jade Cao",
+          "title_es": "Repetición: Registro de Curso Universitario",
+          "prompt_es": "Crea course = {'name': 'Python', 'seats': 24}. Agrega la clave 'instructor' = 'Jade Cao'. Guarda en 'prof'."
         },
         "quiz": {
           "question": "What does `{'theme': 'dark'}.get('font_size', 14)` return?",
@@ -296,8 +419,20 @@ export const CHAPTERS_DATA = [
             "'dark'"
           ],
           "answer": 2,
-          "explanation": "Since 'font_size' is not in the dictionary, `.get()` safely returns the provided fallback default of 14!"
-        }
+          "explanation": "Since 'font_size' is not in the dictionary, `.get()` safely returns the provided fallback default of 14!",
+          "question_es": "¿Qué retorna `{'theme': 'dark'}.get('font_size', 14)`?",
+          "options_es": [
+            "KeyError",
+            "None",
+            "14",
+            "'dark'"
+          ],
+          "explanation_es": "Dado que 'font_size' no está en el diccionario, `.get()` retorna de forma segura el valor de respaldo proporcionado: 14."
+        },
+        "title_es": "Creación, Acceso y Búsquedas Seguras (.get())",
+        "why_es": "Las listas se indexan por número (`items[0]`). Pero los datos reales tienen etiquetas: nombre, precio, créditos. Los diccionarios asocian claves significativas directamente a valores.",
+        "concept_es": "`dict = {'clave': valor}`. Acceso con `dict['clave']`. Si la clave podría no existir, `dict.get(clave, por_defecto)` retorna el valor por defecto sin fallar con KeyError.",
+        "pitfall_es": "Acceder directamente a `curso['prereq']` cuando la clave no existe genera un error fatal KeyError. ¡Usa siempre `.get()` para campos opcionales!"
       },
       {
         "id": "5-2",
@@ -313,7 +448,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Given stock = {'apples': 10, 'bananas': 15, 'oranges': 8}, sum all quantities into 'total_fruit'.",
           "starter": "stock = {'apples': 10, 'bananas': 15, 'oranges': 8}\ntotal_fruit = sum(stock.values())\nprint(total_fruit)",
           "test_var": "total_fruit",
-          "expected_val": "33"
+          "expected_val": "33",
+          "title_es": "Repetición: Cálculo Total de Inventario",
+          "prompt_es": "Dado stock = {'apples': 10, 'bananas': 15, 'oranges': 8}, suma todas las cantidades en 'total_fruit'."
         },
         "quiz": {
           "question": "Which dictionary method should you use in a `for` loop to unpack BOTH the key and the value simultaneously?",
@@ -324,17 +461,31 @@ export const CHAPTERS_DATA = [
             ".all()"
           ],
           "answer": 2,
-          "explanation": "`dict.items()` yields key-value tuples, allowing clean unpacking like `for k, v in dict.items():`."
-        }
+          "explanation": "`dict.items()` yields key-value tuples, allowing clean unpacking like `for k, v in dict.items():`.",
+          "question_es": "¿Qué método de diccionario debes usar en un bucle `for` para desempaquetar TANTO la clave como el valor simultáneamente?",
+          "options_es": [
+            ".keys()",
+            ".values()",
+            ".items()",
+            ".all()"
+          ],
+          "explanation_es": "`dict.items()` produce tuplas de clave y valor, permitiendo un desempaquetado limpio como `for k, v in dict.items():`."
+        },
+        "title_es": "Recorrer Diccionarios (.items(), .keys())",
+        "why_es": "Para mostrar un resumen o calcular totales en un diccionario, necesitas iterar por sus registros sin tener que conocer cada clave de antemano.",
+        "concept_es": "`for clave, valor in dict.items():` te entrega ambos elementos en cada ciclo. `dict.keys()` entrega claves; `dict.values()` entrega valores.",
+        "pitfall_es": "Hacer un bucle directo con `for item in mi_dict:` solo itera sobre las claves, no los pares clave-valor. ¡Usa `.items()` para desempaquetar ambos!"
       }
-    ]
+    ],
+    "title_es": "Diccionarios: Datos con Etiquetas",
+    "desc_es": "¡La profesora Cao presenta Diccionarios inmediatamente después de Listas! Pares clave-valor, agregar/actualizar, búsquedas seguras con .get(), iteración con .items() y anidación."
   },
   {
     "num": 6,
     "code_module": "Module 4.1 & 4.2",
     "title": "User Input, while Loops, & Workshops",
-    "icon": "\ud83d\udd01",
-    "prof_source": "Prof. Jade Cao (CCCC) \u2014 Lecture_Module4.1_While_Loops & Module4.2_workshop.ipynb",
+    "icon": "🔁",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module4.1_While_Loops & Module4.2_workshop.ipynb",
     "desc": "input() casting, % modulo, condition-controlled while loops, sentinel values ('quit'), flags, break/continue, and the Grocery/Road Trip Workshops.",
     "sections": [
       {
@@ -351,7 +502,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Sum prices = [4.50, 12.00, 3.25] using a while loop into 'cart_total' rounded to 2 decimals.",
           "starter": "prices = [4.50, 12.00, 3.25]\ncart_total = 0.0\nidx = 0\nwhile idx < len(prices):\n    cart_total += prices[idx]\n    idx += 1\ncart_total = round(cart_total, 2)\nprint(cart_total)",
           "test_var": "cart_total",
-          "expected_val": "19.75"
+          "expected_val": "19.75",
+          "title_es": "Repetición: Acumulador de Carrito de Compras",
+          "prompt_es": "Suma precios = [4.50, 12.00, 3.25] usando un bucle while en 'cart_total' redondeado a 2 decimales."
         },
         "quiz": {
           "question": "What is the purpose of a 'sentinel value' in a while loop?",
@@ -362,8 +515,20 @@ export const CHAPTERS_DATA = [
             "The starting value of an accumulator"
           ],
           "answer": 1,
-          "explanation": "A sentinel is a distinct value entered by a user or encountered in data that signals that data entry is finished and repetition should stop."
-        }
+          "explanation": "A sentinel is a distinct value entered by a user or encountered in data that signals that data entry is finished and repetition should stop.",
+          "question_es": "¿Cuál es el propósito de un 'valor centinela' en un bucle while?",
+          "options_es": [
+            "Encriptar la entrada del usuario",
+            "Un valor de entrada predeterminado (como 'quit' o -1) que indica al bucle que debe terminar",
+            "Una variable especial que acelera las matemáticas",
+            "El valor inicial de un acumulador"
+          ],
+          "explanation_es": "Un centinela es un valor distintivo ingresado por el usuario o encontrado en los datos que indica que la captura terminó y la repetición debe parar."
+        },
+        "title_es": "Bucles while con Centinelas y Banderas",
+        "why_es": "Un bucle `for` se ejecuta un número fijo de veces. Un bucle `while` sigue ejecutándose hasta que una condición específica o centinela (ej. usuario escribe 'quit') indica que debe detenerse.",
+        "concept_es": "Centinela: un valor que señala el fin (ej. `while respuesta != 'quit':`). Bandera: variable booleana (`activa = True`) que controla el bucle. `break` sale inmediatamente.",
+        "pitfall_es": "Olvidar actualizar la condición del bucle, creando un bucle infinito que congela el procesador."
       },
       {
         "id": "6-2",
@@ -379,7 +544,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Given stops = [{'city': 'Raleigh', 'miles': 120}, {'city': 'Richmond', 'miles': 140}], calculate total_miles = sum(s['miles'] for s in stops).",
           "starter": "stops = [{'city': 'Raleigh', 'miles': 120}, {'city': 'Richmond', 'miles': 140}]\ntotal_miles = sum(s['miles'] for s in stops)\nprint(total_miles)",
           "test_var": "total_miles",
-          "expected_val": "260"
+          "expected_val": "260",
+          "title_es": "Repetición: Acumulador de Paradas de Viaje",
+          "prompt_es": "Dadas stops = [{'city': 'Raleigh', 'miles': 120}, {'city': 'Richmond', 'miles': 140}], calcula total_miles = sum(s['miles'] for s in stops)."
         },
         "quiz": {
           "question": "If `trip = [{'stop': 'A', 'miles': 50}, {'stop': 'B', 'miles': 70}]`, how do you access the miles of stop B?",
@@ -390,17 +557,31 @@ export const CHAPTERS_DATA = [
             "trip.miles[1]"
           ],
           "answer": 1,
-          "explanation": "`trip` is a list, so `trip[1]` gets the second dictionary `{'stop': 'B', 'miles': 70}`. Then `['miles']` extracts the value 70!"
-        }
+          "explanation": "`trip` is a list, so `trip[1]` gets the second dictionary `{'stop': 'B', 'miles': 70}`. Then `['miles']` extracts the value 70!",
+          "question_es": "Si `trip = [{'stop': 'A', 'miles': 50}, {'stop': 'B', 'miles': 70}]`, ¿cómo accedes a las millas de la parada B?",
+          "options_es": [
+            "trip['miles'][1]",
+            "trip[1]['miles']",
+            "trip[1][0]",
+            "trip.miles[1]"
+          ],
+          "explanation_es": "`trip` es una lista, así que `trip[1]` obtiene el segundo diccionario `{'stop': 'B', 'miles': 70}`. ¡Luego `['miles']` extrae el valor 70!"
+        },
+        "title_es": "Taller de Resolución de Problemas: Estructuras Integradas",
+        "why_es": "Las aplicaciones reales combinan herramientas: una lista de diccionarios, actualizada en un bucle while, totalizada con un acumulador. Este es el patrón de los talleres de la Prof. Cao.",
+        "concept_es": "Lista de diccionarios: `carrito = [{'name': 'Milk', 'price': 3.50}]`. Acumula totales recorriendo los registros. Separa la recolección de datos de su visualización.",
+        "pitfall_es": "Intentar sumar diccionarios directamente: `sum(carrito)` genera TypeError porque Python no puede sumar diccionarios. ¡Extrae el campo numérico!"
       }
-    ]
+    ],
+    "title_es": "Entrada de Usuario, Bucles while y Talleres",
+    "desc_es": "Conversión de input(), operador módulo %, bucles while controlados por condición, centinelas ('quit'), banderas, break/continue y talleres de compras/viajes."
   },
   {
     "num": 7,
     "code_module": "Module 5.1 & 5.2",
     "title": "Functions: Modular Program Design",
-    "icon": "\ud83d\udce6",
-    "prof_source": "Prof. Jade Cao (CCCC) \u2014 Lecture_Module5.1_Function1 & Module5.2_Function2.ipynb",
+    "icon": "📦",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module5.1_Function1 & Module5.2_Function2.ipynb",
     "desc": "Prof. Cao's function series: Give a job a name, parameters vs arguments, defaults, return vs print, None for optional params, passing lists, and modules.",
     "sections": [
       {
@@ -413,11 +594,13 @@ export const CHAPTERS_DATA = [
         "expected_output": "Regular sale: $45.00\nVIP sale: $37.50",
         "pitfall": "Using `print()` inside a function instead of `return`. `print()` only displays text on screen; `return` gives the value back so your program can use it!",
         "rep": {
-          "title": "Caf\u00e9 Discount Function Rep",
+          "title": "Café Discount Function Rep",
           "prompt": "Write calc_bill(price, tip_pct=0.15) that returns round(price * (1 + tip_pct), 2). Store calc_bill(40.0) in 'bill'.",
           "starter": "def calc_bill(price, tip_pct=0.15):\n    return round(price * (1 + tip_pct), 2)\nbill = calc_bill(40.0)\nprint(bill)",
           "test_var": "bill",
-          "expected_val": "46.0"
+          "expected_val": "46.0",
+          "title_es": "Repetición: Función de Descuento de Café",
+          "prompt_es": "Escribe calc_bill(price, tip_pct=0.15) que retorne round(price * (1 + tip_pct), 2). Guarda calc_bill(40.0) en 'bill'."
         },
         "quiz": {
           "question": "What is the critical difference between `print()` and `return` inside a function?",
@@ -428,8 +611,20 @@ export const CHAPTERS_DATA = [
             "`print()` is required in every function"
           ],
           "answer": 1,
-          "explanation": "`print()` is a display side-effect. `return` passes the computed result back to the caller so it can be assigned to a variable or used in an `if` condition."
-        }
+          "explanation": "`print()` is a display side-effect. `return` passes the computed result back to the caller so it can be assigned to a variable or used in an `if` condition.",
+          "question_es": "¿Cuál es la diferencia fundamental entre `print()` y `return` dentro de una función?",
+          "options_es": [
+            "Son exactamente idénticos",
+            "`print()` muestra texto en pantalla para un humano, mientras que `return` envía un valor a la memoria para que el programa lo use en otros cálculos",
+            "`return` solo puede devolver texto",
+            "`print()` es obligatorio en cada función"
+          ],
+          "explanation_es": "`print()` es un efecto visual. `return` entrega el resultado calculado a quien llamó a la función para asignarlo a variables o usarlo en condiciones `if`."
+        },
+        "title_es": "Definición de Funciones, Parámetros y Retorno",
+        "why_es": "Copiar y pegar código crea errores. Una función da un nombre a una tarea, empaqueta la lógica en un bloque reutilizable y devuelve resultados calculados.",
+        "concept_es": "`def nombre_funcion(param1, param2=defecto):`. `return` devuelve datos a quien llama. Argumentos posicionales coinciden por posición; por clave coinciden por nombre.",
+        "pitfall_es": "Usar `print()` dentro de una función en vez de `return`. `print()` solo muestra texto en pantalla; ¡`return` entrega el valor para que el programa pueda utilizarlo!"
       },
       {
         "id": "7-2",
@@ -445,7 +640,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Write format_title(name, rank=None). If rank, return f'{name} ({rank})', else return name. Store format_title('Chris', 'Captain') in 'title'.",
           "starter": "def format_title(name, rank=None):\n    if rank:\n        return f'{name} ({rank})'\n    return name\ntitle = format_title('Chris', 'Captain')\nprint(title)",
           "test_var": "title",
-          "expected_val": "Chris (Captain)"
+          "expected_val": "Chris (Captain)",
+          "title_es": "Repetición: Función de Perfil de Personaje",
+          "prompt_es": "Escribe format_title(name, rank=None). Si rank existe, retorna f'{name} ({rank})', si no retorna name. Guarda format_title('Chris', 'Captain') en 'title'."
         },
         "quiz": {
           "question": "If you want to pass a list `todo` to a function without allowing the function to modify your original list, what should you pass?",
@@ -456,17 +653,31 @@ export const CHAPTERS_DATA = [
             "`None`"
           ],
           "answer": 1,
-          "explanation": "Passing `todo[:]` creates a slice copy of the list. The function can modify its copy freely without altering the caller's original list in memory."
-        }
+          "explanation": "Passing `todo[:]` creates a slice copy of the list. The function can modify its copy freely without altering the caller's original list in memory.",
+          "question_es": "Si deseas pasar una lista `todo` a una función sin permitir que la función modifique tu lista original, ¿qué debes pasar?",
+          "options_es": [
+            "`todo`",
+            "`todo[:]` (una copia por rebanada)",
+            "`str(todo)`",
+            "`None`"
+          ],
+          "explanation_es": "Pasar `todo[:]` genera una copia de la lista. La función puede modificar su copia libremente sin alterar la lista original en la memoria."
+        },
+        "title_es": "Parámetros Opcionales con None y Paso de Listas",
+        "why_es": "Las funciones deben manejar datos completos y parciales. Usar `None` permite parámetros opcionales. Pasar listas permite procesar lotes de datos.",
+        "concept_es": "Parámetro opcional: `def crear_usuario(nombre, apodo=None):`. Paso de listas: modificar una lista dentro de una función altera la lista original a menos que pases una copia `mi_lista[:]`.",
+        "pitfall_es": "Modificar una lista recibida dentro de una función altera involuntariamente los datos originales. Pasa `lista[:]` si necesitas protegerla."
       }
-    ]
+    ],
+    "title_es": "Funciones: Diseño Modular de Programas",
+    "desc_es": "La serie de funciones de la Prof. Cao: dar un nombre a una tarea, parámetros frente a argumentos, valores por defecto, return vs print, None para parámetros opcionales y paso de listas."
   },
   {
     "num": 8,
     "code_module": "Extended Ch 6",
     "title": "Files, Exceptions, & Data Persistence",
-    "icon": "\ud83d\udcc1",
-    "prof_source": "Tony Gaddis (6th Ed.) \u2014 Chapter 6 Companion",
+    "icon": "📁",
+    "prof_source": "Tony Gaddis (6th Ed.) — Chapter 6 Companion",
     "desc": "Moving beyond RAM: writing to disk ('w', 'a'), reading records ('r'), the with statement, and robust error recovery with try-except blocks.",
     "sections": [
       {
@@ -483,7 +694,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Strip trailing newline from raw = 'data_record\\\\n' and store in 'clean_record'.",
           "starter": "raw = 'data_record\\n'\nclean_record = raw.rstrip('\\n')\nprint(clean_record)",
           "test_var": "clean_record",
-          "expected_val": "data_record"
+          "expected_val": "data_record",
+          "title_es": "Repetición: Limpieza de Línea de Archivo",
+          "prompt_es": "Elimina el salto de línea final de raw = 'data_record\\\\n' y guarda en 'clean_record'."
         },
         "quiz": {
           "question": "Which file mode adds new content to the end of a file without erasing its existing data?",
@@ -494,8 +707,20 @@ export const CHAPTERS_DATA = [
             "'x'"
           ],
           "answer": 2,
-          "explanation": "Mode 'a' (Append) preserves existing file contents and writes all new records to the end of the file."
-        }
+          "explanation": "Mode 'a' (Append) preserves existing file contents and writes all new records to the end of the file.",
+          "question_es": "¿Qué modo de archivo añade nuevo contenido al final de un archivo sin borrar sus datos existentes?",
+          "options_es": [
+            "'w'",
+            "'r'",
+            "'a'",
+            "'x'"
+          ],
+          "explanation_es": "El modo 'a' (Append) conserva los contenidos existentes del archivo y escribe todos los nuevos registros al final del mismo."
+        },
+        "title_es": "Entrada/Salida de Archivos y la Sentencia with",
+        "why_es": "Las variables desaparecen cuando el programa termina. Los archivos conservan los datos en el disco de forma permanente. La sentencia `with` garantiza que los archivos se cierren limpiamente.",
+        "concept_es": "Modos: 'r' (lectura), 'w' (sobrescribir), 'a' (anexar). Administrador de contexto: `with open('datos.txt', 'r') as f:`. Limpia saltos de línea con `.rstrip('\\n')`.",
+        "pitfall_es": "Abrir un archivo existente en modo 'w' por error. ¡El modo 'w' borra instantáneamente todo el contenido previo! Usa 'a' para agregar al final."
       },
       {
         "id": "8-2",
@@ -511,7 +736,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Try int('invalid'). On ValueError, set status='recovered'.",
           "starter": "try:\n    val = int('invalid')\nexcept ValueError:\n    status = 'recovered'\nprint(status)",
           "test_var": "status",
-          "expected_val": "recovered"
+          "expected_val": "recovered",
+          "title_es": "Repetición: Convertidor Seguro de Enteros",
+          "prompt_es": "Intenta int('invalido'). Al ocurrir ValueError, asigna status='recovered'."
         },
         "quiz": {
           "question": "Which block in a try-except structure executes regardless of whether an exception occurred or not?",
@@ -522,17 +749,31 @@ export const CHAPTERS_DATA = [
             "catch"
           ],
           "answer": 2,
-          "explanation": "`finally` always executes at the end, making it ideal for cleanup tasks like closing database connections or release file locks."
-        }
+          "explanation": "`finally` always executes at the end, making it ideal for cleanup tasks like closing database connections or release file locks.",
+          "question_es": "¿Qué bloque en una estructura try-except se ejecuta sin importar si ocurrió una excepción o no?",
+          "options_es": [
+            "else",
+            "except",
+            "finally",
+            "catch"
+          ],
+          "explanation_es": "`finally` siempre se ejecuta al final, haciéndolo ideal para tareas de limpieza como cerrar conexiones a bases de datos o liberar archivos."
+        },
+        "title_es": "Manejo de Excepciones: try, except, finally",
+        "why_es": "En el mundo real, los usuarios ingresan datos incorrectos y los archivos pueden no existir. El manejo de excepciones captura los fallos con gracia y ofrece instrucciones de recuperación.",
+        "concept_es": "`try:` ejecuta código que podría fallar. `except ValueError:` captura un error específico. `else:` corre si no hubo error. `finally:` corre siempre.",
+        "pitfall_es": "Capturar con un `except:` general sin especificar el tipo de error, lo cual oculta errores tipográficos de sintaxis o NameErrors."
       }
-    ]
+    ],
+    "title_es": "Archivos, Excepciones y Persistencia de Datos",
+    "desc_es": "Más allá de la RAM: escribir en disco ('w', 'a'), leer registros ('r'), la sentencia with y recuperación robusta de errores con bloques try-except."
   },
   {
     "num": 9,
     "code_module": "Extended Ch 10 & 11",
     "title": "Classes, OOP & Encapsulation",
-    "icon": "\ud83c\udfd7\ufe0f",
-    "prof_source": "Tony Gaddis (6th Ed.) \u2014 Chapters 10 & 11 Companion",
+    "icon": "🏗️",
+    "prof_source": "Tony Gaddis (6th Ed.) — Chapters 10 & 11 Companion",
     "desc": "Object-Oriented Programming: classes as blueprints, instances in memory, __init__, encapsulation with private attributes, and inheritance.",
     "sections": [
       {
@@ -549,7 +790,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Create class Student with __init__(self, name, major). Create s = Student('Alex', 'CS'). Store s.name in 'st_name'.",
           "starter": "class Student:\n    def __init__(self, name, major):\n        self.name = name\n        self.major = major\ns = Student('Alex', 'CS')\nst_name = s.name\nprint(st_name)",
           "test_var": "st_name",
-          "expected_val": "Alex"
+          "expected_val": "Alex",
+          "title_es": "Repetición: Clase Student",
+          "prompt_es": "Crea la clase Student con __init__(self, name, major). Crea s = Student('Alex', 'CS'). Guarda s.name en 'st_name'."
         },
         "quiz": {
           "question": "What is the role of the `self` parameter in Python class methods?",
@@ -560,17 +803,31 @@ export const CHAPTERS_DATA = [
             "It is an optional comment"
           ],
           "answer": 1,
-          "explanation": "`self` provides the method access to that particular object's unique attributes in RAM."
-        }
+          "explanation": "`self` provides the method access to that particular object's unique attributes in RAM.",
+          "question_es": "¿Cuál es el rol del parámetro `self` en los métodos de clase en Python?",
+          "options_es": [
+            "Es una palabra clave para importar clases estándar",
+            "Representa la instancia específica del objeto que invoca el método",
+            "Oculta el método de otros archivos",
+            "Es un comentario opcional"
+          ],
+          "explanation_es": "`self` brinda al método acceso a los atributos únicos de ese objeto en particular dentro de la memoria RAM."
+        },
+        "title_es": "Clases, __init__ y Encapsulación",
+        "why_es": "El código procedimental dispersa datos y funciones. La POO agrupa datos (atributos) y comportamiento (métodos) en una sola entidad coherente.",
+        "concept_es": "`class Nombre:` define el plano. `__init__(self, ...)` inicializa el estado. `self` refiere a la instancia activa. Atributos privados (`__var`) previenen alteraciones no autorizadas.",
+        "pitfall_es": "Olvidar `self` como primer parámetro en métodos de clase, lo que provoca TypeError al invocar `instancia.metodo()`."
       }
-    ]
+    ],
+    "title_es": "Clases, Programación Orientada a Objetos y Encapsulación",
+    "desc_es": "Programación Orientada a Objetos: clases como planos de diseño, instancias en memoria, __init__, encapsulación con atributos privados y herencia."
   },
   {
     "num": 10,
     "code_module": "Extended Ch 14",
     "title": "Database Programming with SQLite",
-    "icon": "\ud83d\uddc4\ufe0f",
-    "prof_source": "Tony Gaddis (6th Ed.) \u2014 Chapter 14 Companion",
+    "icon": "🗄️",
+    "prof_source": "Tony Gaddis (6th Ed.) — Chapter 14 Companion",
     "desc": "Connecting to SQLite databases, creating tables, parameterized CRUD queries, and preventing SQL injection attacks.",
     "sections": [
       {
@@ -587,7 +844,9 @@ export const CHAPTERS_DATA = [
           "prompt": "Create query string with ? placeholder: sql = 'SELECT * FROM Students WHERE major = ?'. Store in 'query'.",
           "starter": "query = 'SELECT * FROM Students WHERE major = ?'\nprint(query)",
           "test_var": "query",
-          "expected_val": "SELECT * FROM Students WHERE major = ?"
+          "expected_val": "SELECT * FROM Students WHERE major = ?",
+          "title_es": "Repetición: Consulta SQL Parametrizada",
+          "prompt_es": "Crea una cadena de consulta con marcador ?: sql = 'SELECT * FROM Students WHERE major = ?'. Guarda en 'query'."
         },
         "quiz": {
           "question": "Why should you always use '?' placeholders instead of string formatting in SQL queries?",
@@ -598,9 +857,55 @@ export const CHAPTERS_DATA = [
             "SQL only accepts question marks"
           ],
           "answer": 1,
-          "explanation": "Parameterized queries treat inputs as literal data values, preventing attackers from injecting executable SQL commands into your database."
-        }
+          "explanation": "Parameterized queries treat inputs as literal data values, preventing attackers from injecting executable SQL commands into your database.",
+          "question_es": "¿Por qué siempre debes usar marcadores de posición '?' en lugar de formato de cadenas en consultas SQL?",
+          "options_es": [
+            "Las f-strings son ilegales en módulos SQL de Python",
+            "Los marcadores '?' aseguran que la entrada del usuario se trate estrictamente como dato, impidiendo ataques de Inyección SQL",
+            "'?' hace que las consultas se ejecuten más rápido en RAM",
+            "SQL solo acepta signos de interrogación"
+          ],
+          "explanation_es": "Las consultas parametrizadas tratan las entradas como datos literales, impidiendo que usuarios malintencionados inyecten comandos SQL ejecutables en tu base de datos."
+        },
+        "title_es": "CRUD en SQLite y Consultas Parametrizadas",
+        "why_es": "Los archivos de texto plano no pueden gestionar múltiples usuarios concurrentes ni consultas indexadas. Las bases de datos relacionales proporcionan almacenamiento estructurado, indexado y seguro.",
+        "concept_es": "`sqlite3.connect()`. `cur.execute()`. Usa siempre marcadores de posición `?` para datos de usuario para evitar ataques de inyección SQL. `conn.commit()` guarda cambios.",
+        "pitfall_es": "¡Usar f-strings (f'INSERT INTO ... {val}') para construir consultas SQL deja tu aplicación completamente vulnerable a ataques de inyección SQL!"
       }
-    ]
+    ],
+    "title_es": "Programación de Bases de Datos con SQLite",
+    "desc_es": "Conexión a bases de datos SQLite, creación de tablas, consultas CRUD parametrizadas y prevención de ataques de inyección SQL."
   }
 ];
+
+/**
+ * Dynamically returns localized chapters based on active language.
+ * When lang === 'es', swaps in Spanish titles, descriptions, why explanations,
+ * pitfalls, and quiz questions.
+ */
+export function getLocalizedChapters(lang = 'en') {
+  if (lang !== 'es') return CHAPTERS_DATA;
+  return CHAPTERS_DATA.map(ch => ({
+    ...ch,
+    title: ch.title_es || ch.title,
+    desc: ch.desc_es || ch.desc,
+    sections: ch.sections.map(sec => ({
+      ...sec,
+      title: sec.title_es || sec.title,
+      why: sec.why_es || sec.why,
+      concept: sec.concept_es || sec.concept,
+      pitfall: sec.pitfall_es || sec.pitfall,
+      quiz: sec.quiz ? {
+        ...sec.quiz,
+        question: sec.quiz.question_es || sec.quiz.question,
+        options: sec.quiz.options_es || sec.quiz.options,
+        explanation: sec.quiz.explanation_es || sec.quiz.explanation
+      } : sec.quiz,
+      rep: sec.rep ? {
+        ...sec.rep,
+        title: sec.rep.title_es || sec.rep.title,
+        prompt: sec.rep.prompt_es || sec.rep.prompt
+      } : sec.rep
+    }))
+  }));
+}

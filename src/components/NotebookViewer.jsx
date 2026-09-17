@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Play, Copy, Check, Upload, Trash2, FileText, ShieldCheck, Sparkles, AlertCircle } from 'lucide-react';
 
-const SAMPLE_NOTEBOOK = {
+const SAMPLE_NOTEBOOK_EN = {
   id: 'sample-cafe-workshop',
   name: 'Sample_Cafe_Order_Workshop.ipynb',
   title: 'Interactive Python Workshop: Cafe Ordering System',
@@ -68,6 +68,73 @@ const SAMPLE_NOTEBOOK = {
   ]
 };
 
+const SAMPLE_NOTEBOOK_ES = {
+  id: 'sample-cafe-workshop',
+  name: 'Taller_Muestra_Pedidos_Cafe.ipynb',
+  title: 'Taller Interactivo de Python: Sistema de Pedidos de Café',
+  cells: [
+    {
+      cell_type: 'markdown',
+      source: [
+        '# ☕ Taller Interactivo de Café: Listas y Lógica de Decisión\n',
+        '¡Bienvenido a este cuaderno interactivo! En este taller aprenderás a:\n',
+        '- Administrar una cola de pedidos usando **listas en Python** (`.append()`, `.pop()`)\n',
+        '- Escribir lógica de decisión con estructuras **`if-elif-else`**\n',
+        '- Calcular totales de bebidas y aplicar descuentos automáticos\n',
+        '\n',
+        '> **Consejo Pro**: Haz clic en **"Ejecutar Celda"** en cualquier bloque de código para probarlo en vivo con Pyodide.'
+      ]
+    },
+    {
+      cell_type: 'code',
+      source: [
+        '# Paso 1: Inicializar la cola de bebidas y el menú disponible\n',
+        'menu = {\n',
+        '    "latte": 4.50,\n',
+        '    "cappuccino": 4.25,\n',
+        '    "cold brew": 4.00,\n',
+        '    "drip coffee": 3.00\n',
+        '}\n',
+        '\n',
+        'cola_pedidos = ["latte", "cold brew"]\n',
+        'print(f"Cola actual: {cola_pedidos}")\n',
+        'print(f"Elementos del menú: {list(menu.keys())}")'
+      ]
+    },
+    {
+      cell_type: 'markdown',
+      source: [
+        '### Paso 2: Procesar Pedidos y Aplicar Reglas Comerciales\n',
+        'A continuación procesamos los pedidos de los clientes. Si el pedido supera $8.00, aplicamos un **10% de descuento estudiantil / militar**.'
+      ]
+    },
+    {
+      cell_type: 'code',
+      source: [
+        'def calcular_cuenta(items, es_estudiante_o_veterano=True):\n',
+        '    total = 0.0\n',
+        '    for item in items:\n',
+        '        if item in menu:\n',
+        '            total += menu[item]\n',
+        '        else:\n',
+        '            print(f"Aviso: {item} está agotado.")\n',
+        '            \n',
+        '    descuento = 0.0\n',
+        '    if es_estudiante_o_veterano and total >= 8.0:\n',
+        '        descuento = total * 0.10\n',
+        '        print(f"Descuento del 10% aplicado: -${descuento:.2f}")\n',
+        '        \n',
+        '    total_final = total - descuento\n',
+        '    return round(total_final, 2)\n',
+        '\n',
+        'mi_pedido = ["latte", "cappuccino"]\n',
+        'monto_a_pagar = calcular_cuenta(mi_pedido, es_estudiante_o_veterano=True)\n',
+        'print(f"Monto total a pagar: ${monto_a_pagar:.2f}")'
+      ]
+    }
+  ]
+};
+
 export function NotebookViewer({ 
   notebooks, 
   activeNotebookId, 
@@ -75,7 +142,9 @@ export function NotebookViewer({
   onAddNotebook, 
   onDeleteNotebook,
   onExecuteCode,
-  pyodideReady 
+  pyodideReady,
+  t,
+  lang = 'en'
 }) {
   const [cellOutputs, setCellOutputs] = useState({});
   const [cellRunning, setCellRunning] = useState({});
@@ -83,6 +152,7 @@ export function NotebookViewer({
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
+  const sampleNotebook = lang === 'es' ? SAMPLE_NOTEBOOK_ES : SAMPLE_NOTEBOOK_EN;
   const activeNotebook = notebooks.find(n => n.id === activeNotebookId) || notebooks[0] || null;
 
   const handleFileUpload = (file) => {
@@ -157,13 +227,15 @@ export function NotebookViewer({
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xl">📓</span>
-            <h2 className="text-base font-bold text-white">Bring Your Own Notebook (BYOD) Lab</h2>
+            <h2 className="text-base font-bold text-white">
+              {t ? t('byodTitle') : 'Bring Your Own Notebook (BYOD) Lab'}
+            </h2>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 inline" /> 100% Client-Side Privacy
+              <ShieldCheck className="w-3 h-3 inline" /> {t ? t('clientSidePrivacy') : '100% Client-Side Privacy'}
             </span>
           </div>
           <p className="text-[11px] text-slate-400 mt-0.5">
-            Load your lecture notebooks locally. Code runs in your browser via WebAssembly (Pyodide). Zero files stored on remote servers.
+            {t ? t('byodSubtitle') : 'Load your lecture notebooks locally. Code runs in your browser via WebAssembly (Pyodide). Zero files stored on remote servers.'}
           </p>
         </div>
 
@@ -184,16 +256,16 @@ export function NotebookViewer({
             className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-blue-600/20 transition-all"
           >
             <Upload className="w-3.5 h-3.5" />
-            <span>Import .ipynb</span>
+            <span>{t ? t('importIpynb') : 'Import .ipynb'}</span>
           </button>
           
           {notebooks.length === 0 && (
             <button
-              onClick={() => onAddNotebook(SAMPLE_NOTEBOOK)}
+              onClick={() => onAddNotebook(sampleNotebook)}
               className="px-3 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 font-medium text-xs flex items-center gap-1.5 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Load Sample Demo</span>
+              <span>{t ? t('loadSampleDemo') : 'Load Sample Demo'}</span>
             </button>
           )}
         </div>
@@ -202,7 +274,9 @@ export function NotebookViewer({
       {/* Notebook Selector Bar (if multiple notebooks imported) */}
       {notebooks.length > 0 && (
         <div className="border-b border-slate-800/80 bg-slate-950 px-4 py-2 flex items-center gap-2 overflow-x-auto custom-scroll">
-          <span className="text-[10px] uppercase font-bold text-slate-500 shrink-0">Notebooks:</span>
+          <span className="text-[10px] uppercase font-bold text-slate-500 shrink-0">
+            {t ? t('notebooksCount') : 'Notebooks:'}
+          </span>
           {notebooks.map(nb => {
             const isActive = nb.id === activeNotebook?.id;
             return (
@@ -249,9 +323,11 @@ export function NotebookViewer({
               📂
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Import Any Jupyter Notebook (.ipynb)</h3>
+              <h3 className="text-lg font-bold text-white">
+                {t ? t('dropTitle') : 'Import Any Jupyter Notebook (.ipynb)'}
+              </h3>
               <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto leading-relaxed">
-                Drag and drop your lecture notebooks from Blackboard, Google Colab, or VS Code. Everything runs locally in your browser.
+                {t ? t('dropSubtitle') : 'Drag and drop your lecture notebooks from Blackboard, Google Colab, or VS Code. Everything runs locally in your browser.'}
               </p>
             </div>
 
@@ -261,20 +337,20 @@ export function NotebookViewer({
                 className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/20 flex items-center gap-2 transition-all"
               >
                 <Upload className="w-4 h-4" />
-                <span>Browse .ipynb File</span>
+                <span>{t ? t('browseFile') : 'Browse .ipynb File'}</span>
               </button>
               <button
-                onClick={() => onAddNotebook(SAMPLE_NOTEBOOK)}
+                onClick={() => onAddNotebook(sampleNotebook)}
                 className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs border border-slate-700 flex items-center gap-2 transition-all"
               >
                 <Sparkles className="w-4 h-4 text-purple-400" />
-                <span>Load Sample Notebook</span>
+                <span>{t ? t('loadSampleDemo') : 'Load Sample Notebook'}</span>
               </button>
             </div>
 
             <div className="pt-4 border-t border-slate-800/80 text-[11px] text-slate-500 flex items-center justify-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Compliant with Community College policies: No files uploaded to servers.</span>
+              <span>{t ? t('complianceNote') : 'Compliant with Community College policies: No files uploaded to servers.'}</span>
             </div>
           </div>
         ) : (
@@ -284,11 +360,11 @@ export function NotebookViewer({
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <span className="text-[10px] font-mono text-blue-400 uppercase tracking-wider font-bold">
-                  Active Notebook: {activeNotebook.name}
+                  {t ? t('activeNotebook') : 'Active Notebook:'} {activeNotebook.name}
                 </span>
                 <h2 className="text-xl font-bold text-white mt-0.5">{activeNotebook.title}</h2>
                 <span className="text-xs text-slate-400">
-                  {activeNotebook.cells.length} Total Cells ({activeNotebook.cells.filter(c => c.cell_type === 'code').length} Executable Code Cells)
+                  {activeNotebook.cells.length} {t ? t('totalCells') : 'Total Cells'} ({activeNotebook.cells.filter(c => c.cell_type === 'code').length} {t ? t('executableCells') : 'Executable Code Cells'})
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -297,7 +373,7 @@ export function NotebookViewer({
                   className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 flex items-center gap-1.5"
                 >
                   <Upload className="w-3 h-3" />
-                  <span>Import Another</span>
+                  <span>{t ? t('importAnother') : 'Import Another'}</span>
                 </button>
               </div>
             </div>
@@ -339,7 +415,7 @@ export function NotebookViewer({
                             className="px-2 py-1 rounded text-[11px] font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1"
                           >
                             {copiedCell === idx ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                            <span>{copiedCell === idx ? 'Copied' : 'Copy'}</span>
+                            <span>{copiedCell === idx ? (t ? t('copiedCode') : 'Copied') : (t ? t('copyCode') : 'Copy')}</span>
                           </button>
                           <button
                             onClick={() => handleRunCell(idx, src)}
@@ -347,7 +423,7 @@ export function NotebookViewer({
                             className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-xs flex items-center gap-1.5 shadow transition-all"
                           >
                             <Play className="w-3 h-3 fill-current" />
-                            <span>{isRunning ? 'Running...' : 'Run Cell'}</span>
+                            <span>{isRunning ? (t ? t('running') : 'Running...') : (t ? t('runCell') : 'Run Cell')}</span>
                           </button>
                         </div>
                       </div>

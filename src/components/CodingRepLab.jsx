@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
 
-export function CodingRepLab({ repData, onExecuteCode, onCompleteRep, pyodideReady }) {
+export function CodingRepLab({ repData, onExecuteCode, onCompleteRep, pyodideReady, t, lang = 'en' }) {
   const [code, setCode] = useState(repData ? repData.starter : '');
-  const [prompt, setPrompt] = useState(repData ? repData.prompt : '');
+  const [prompt, setPrompt] = useState(repData ? (lang === 'es' && repData.prompt_es ? repData.prompt_es : repData.prompt) : '');
   const [testVar, setTestVar] = useState(repData ? repData.test_var : null);
   const [expectedVal, setExpectedVal] = useState(repData ? repData.expected_val : null);
   const [result, setResult] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [repCount, setRepCount] = useState(0);
 
-  // Sync state if section changes
+  // Sync state if section or language changes
   useEffect(() => {
     if (repData) {
       setCode(repData.starter);
-      setPrompt(repData.prompt);
+      setPrompt(lang === 'es' && repData.prompt_es ? repData.prompt_es : repData.prompt);
       setTestVar(repData.test_var);
       setExpectedVal(repData.expected_val);
       setResult(null);
     }
-  }, [repData]);
+  }, [repData, lang]);
 
   if (!repData) return null;
 
@@ -27,12 +27,12 @@ export function CodingRepLab({ repData, onExecuteCode, onCompleteRep, pyodideRea
     setResult(null);
     const names = [["Grace", "Hopper"], ["Alan", "Turing"], ["Guido", "van Rossum"], ["Ada", "Lovelace"], ["Katherine", "Johnson"]];
     const pickedName = names[Math.floor(Math.random() * names.length)];
-    const randNum1 = Math.floor(Math.random() * 80) + 20;
-    const randNum2 = Math.floor(Math.random() * 8) + 2;
 
     if (testVar === 'full_name') {
       const newExp = `${pickedName[0]} ${pickedName[1]}`;
-      setPrompt(`Combine first='${pickedName[0]}' and last='${pickedName[1]}' into full_name='${newExp}'.`);
+      setPrompt(lang === 'es' 
+        ? `Combina first='${pickedName[0]}' y last='${pickedName[1]}' en full_name='${newExp}'.`
+        : `Combine first='${pickedName[0]}' and last='${pickedName[1]}' into full_name='${newExp}'.`);
       setCode(`first = '${pickedName[0]}'
 last = '${pickedName[1]}'
 full_name = f'{first} {last}'
@@ -42,7 +42,9 @@ print(full_name)`);
       const newPrice = Math.floor(Math.random() * 20) + 5;
       const newQty = Math.floor(Math.random() * 6) + 2;
       const newExp = String(newPrice * newQty * 1.0);
-      setPrompt(`Given str_qty = '${newQty}' and price = ${newPrice}.0, calculate total = int(str_qty) * price.`);
+      setPrompt(lang === 'es'
+        ? `Dados str_qty = '${newQty}' y price = ${newPrice}.0, calcula total = int(str_qty) * price.`
+        : `Given str_qty = '${newQty}' and price = ${newPrice}.0, calculate total = int(str_qty) * price.`);
       setCode(`str_qty = '${newQty}'
 price = ${newPrice}.0
 total = int(str_qty) * price
@@ -52,12 +54,13 @@ print(total)`);
       const dividend = Math.floor(Math.random() * 70) + 30;
       const divisor = Math.floor(Math.random() * 7) + 3;
       const newExp = String(dividend % divisor);
-      setPrompt(`Find remainder of ${dividend} divided by ${divisor} and store in 'rem'.`);
+      setPrompt(lang === 'es'
+        ? `Encuentra el residuo de ${dividend} dividido por ${divisor} y guárdalo en 'rem'.`
+        : `Find remainder of ${dividend} divided by ${divisor} and store in 'rem'.`);
       setCode(`rem = ${dividend} % ${divisor}
 print(rem)`);
       setExpectedVal(newExp);
     } else {
-      // General random variation
       setCode(repData.starter + `\n# Rep #${repCount + 1}`);
     }
     setRepCount(prev => prev + 1);
@@ -79,14 +82,16 @@ print(rem)`);
     setResult(null);
   };
 
+  const repTitle = lang === 'es' && repData.title_es ? repData.title_es : repData.title;
+
   return (
     <div className="bg-slate-950 border-2 border-purple-500/40 rounded-2xl p-4 md:p-5 space-y-3 shadow-lg">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-purple-500/20 pb-2.5">
         <div className="flex items-center gap-2">
           <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold font-mono text-[11px] uppercase border border-purple-500/30">
-            🏋️ Coding Reps Lab
+            🏋️ {t ? t('interactiveWorkout') : 'Coding Reps Lab'}
           </span>
-          <span className="text-xs font-bold text-white">{repData.title}</span>
+          <span className="text-xs font-bold text-white">{repTitle}</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -97,7 +102,7 @@ print(rem)`);
             title="Generate fresh randomized inputs to test your logic"
           >
             <span>🎲</span>
-            <span>New Random Rep</span>
+            <span>{t ? t('newRandomRep') : 'New Random Rep'}</span>
           </button>
 
           {/* Run Python Rep Button */}
@@ -107,14 +112,14 @@ print(rem)`);
             className="px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow transition-all flex items-center gap-1.5 disabled:opacity-50"
           >
             <span>{isRunning ? '⏳' : '▶'}</span>
-            <span>{isRunning ? 'Running...' : 'Run with Python'}</span>
+            <span>{isRunning ? (t ? t('running') : 'Running...') : (t ? t('runCode') : 'Run with Python')}</span>
           </button>
 
           <button
             onClick={handleReset}
             className="text-[11px] text-slate-400 hover:text-white px-2 py-1 rounded bg-slate-900 border border-slate-800 transition-colors"
           >
-            Reset
+            {lang === 'es' ? 'Reiniciar' : 'Reset'}
           </button>
         </div>
       </div>
@@ -141,7 +146,7 @@ print(rem)`);
             <div className="p-3.5 rounded-xl bg-emerald-500/15 border-2 border-emerald-500/40 space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
-                  <span>🎉</span> Rep Completed! Test Case Passed!
+                  <span>🎉</span> {lang === 'es' ? '¡Repetición Completada! ¡Prueba Superada!' : 'Rep Completed! Test Case Passed!'}
                 </span>
                 <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded font-mono">
                   {result.elapsed}ms • {result.engine}
@@ -153,14 +158,16 @@ print(rem)`);
                 </div>
               )}
               <p className="text-xs text-emerald-100/90">
-                Target variable <code>{testVar}</code> evaluated to <code>{result.actualVal}</code>. Muscle memory rep logged!
+                {lang === 'es' 
+                  ? <>La variable objetivo <code>{testVar}</code> se evaluó a <code>{result.actualVal}</code>. ¡Memoria muscular registrada!</>
+                  : <>Target variable <code>{testVar}</code> evaluated to <code>{result.actualVal}</code>. Muscle memory rep logged!</>}
               </p>
             </div>
           ) : (
             <div className="p-3.5 rounded-xl bg-rose-500/15 border-2 border-rose-500/40 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-rose-300 flex items-center gap-1.5">
-                  <span>❌</span> Rep Failed / Needs Review
+                  <span>❌</span> {lang === 'es' ? 'Repetición Fallida / Necesita Revisión' : 'Rep Failed / Needs Review'}
                 </span>
                 <span className="text-[10px] bg-rose-500/20 text-rose-300 font-bold px-2 py-0.5 rounded font-mono">
                   {result.elapsed}ms
@@ -168,17 +175,21 @@ print(rem)`);
               </div>
 
               {result.error ? (
-                <div className="space-y-1 text-xs">
-                  <div className="font-bold text-rose-300">{result.error.type}:</div>
-                  <div className="text-rose-100/90">{result.error.summary}</div>
-                  <pre className="text-[11px] text-rose-300/80 p-2 bg-slate-950/80 rounded overflow-x-auto">
-                    {result.rawError}
-                  </pre>
+                <div className="space-y-1">
+                  <div className="text-xs font-bold text-rose-200">
+                    {result.error.type}: {result.error.summary}
+                  </div>
+                  {result.error.details && (
+                    <pre className="p-2 bg-slate-950/90 rounded text-[11px] font-mono text-rose-400 overflow-x-auto">
+                      {result.error.details}
+                    </pre>
+                  )}
                 </div>
               ) : (
-                <div className="text-xs text-rose-200 space-y-1">
-                  <div>Expected <code>{testVar} = {expectedVal}</code></div>
-                  <div>Got: <code>{testVar} = {result.actualVal || 'undefined'}</code></div>
+                <div className="text-xs text-rose-200">
+                  {lang === 'es'
+                    ? <>Valor esperado <code>{result.expectedVal}</code>, pero se obtuvo <code>{result.actualVal ?? 'None'}</code>.</>
+                    : <>Expected <code>{result.expectedVal}</code>, but got <code>{result.actualVal ?? 'None'}</code>.</>}
                 </div>
               )}
             </div>

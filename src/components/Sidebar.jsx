@@ -13,7 +13,8 @@ export function Sidebar({
   notebooks = [],
   activeNotebookId = null,
   onSelectNotebook,
-  onOpenNotebookLab
+  onOpenNotebookLab,
+  t
 }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -42,12 +43,14 @@ export function Sidebar({
           <div className="flex items-center gap-2">
             <span className="text-2xl">⚡</span>
             <div>
-              <h2 className="text-sm font-extrabold text-white tracking-wide">P101 Mastery</h2>
-              <span className="text-[10px] text-slate-400 font-mono">Tony Gaddis 6th Edition</span>
+              <h2 className="text-sm font-extrabold text-white tracking-wide">
+                P101 {t ? t('mastery') : 'Mastery'}
+              </h2>
+              <span className="text-[10px] text-slate-400 font-mono">Tony Gaddis &amp; Prof. Cao</span>
             </div>
           </div>
           <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">
-            {masteryPct}% Mastered
+            {masteryPct}% {t ? t('masteredPct') : 'Mastered'}
           </span>
         </div>
 
@@ -67,9 +70,11 @@ export function Sidebar({
           >
             <span className="flex items-center gap-1.5">
               <span>⚠️</span>
-              <span>Review Needed ({reviewCount})</span>
+              <span>{t ? t('reviewNeeded') : 'Review Needed'} ({reviewCount})</span>
             </span>
-            <span className="text-[10px] font-mono text-rose-400">Review &rarr;</span>
+            <span className="text-[10px] font-mono text-rose-400">
+              {t ? t('reviewArrow') : 'Review →'}
+            </span>
           </button>
         )}
 
@@ -77,7 +82,7 @@ export function Sidebar({
         <div className="relative">
           <input
             type="text"
-            placeholder="Search topics, syntax, why..."
+            placeholder={t ? t('searchPlaceholder') : 'Search topics, syntax, why...'}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
@@ -98,8 +103,10 @@ export function Sidebar({
           <div className="flex items-center gap-2">
             <span className="text-base">📓</span>
             <div>
-              <div className="font-bold">Notebook Lab (BYOD)</div>
-              <div className="text-[10px] text-purple-300/80">Import &amp; Run .ipynb Locally</div>
+              <div className="font-bold">{t ? t('notebookLabBYOD') : 'Notebook Lab (BYOD)'}</div>
+              <div className="text-[10px] text-purple-300/80">
+                {t ? t('importRunLocally') : 'Import & Run .ipynb Locally'}
+              </div>
             </div>
           </div>
           <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-200 border border-purple-400/30 font-bold">
@@ -132,7 +139,7 @@ export function Sidebar({
 
       {/* Chapters Navigation List */}
       <div className="px-3 pt-2 pb-1 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold">
-        Course Modules
+        {t ? t('courseModules') : 'Course Modules'}
       </div>
       <nav className="flex-1 overflow-y-auto custom-scroll p-2 space-y-1">
         {filteredChapters.map(ch => {
@@ -153,7 +160,9 @@ export function Sidebar({
             >
               <div className="flex items-center gap-2.5 truncate">
                 <span className="text-base">{ch.icon}</span>
-                <span className="truncate">{ch.code_module ? `${ch.code_module}: ${ch.title}` : `Ch ${ch.num}: ${ch.title}`}</span>
+                <span className="truncate">
+                  {ch.code_module ? `${ch.code_module}: ${ch.title}` : `${t ? t('chapter') : 'Ch'} ${ch.num}: ${ch.title}`}
+                </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0 ml-2">
                 {isComplete && <span className="text-emerald-300 font-bold">✓</span>}
@@ -172,13 +181,13 @@ export function Sidebar({
           onClick={onOpenCitation}
           className="text-slate-400 hover:text-slate-200 flex items-center gap-1 text-[11px]"
         >
-          <span>📜</span> Citations
+          <span>📜</span> {t ? t('citations') : 'Citations'}
         </button>
         <button
           onClick={onResetProgress}
           className="text-[11px] text-slate-500 hover:text-rose-400 transition-colors"
         >
-          Reset Progress
+          {t ? t('resetProgress') : 'Reset Progress'}
         </button>
       </div>
     </aside>

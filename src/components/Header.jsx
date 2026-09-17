@@ -12,6 +12,9 @@ export function Header({
   onSelectVoice,
   activeVoice,
   pyodideReady,
+  lang = 'en',
+  onToggleLang,
+  t,
 }) {
   const [voicePickerOpen, setVoicePickerOpen] = useState(false);
   const pickerRef = useRef(null);
@@ -35,8 +38,11 @@ export function Header({
         .replace('Desktop', '')
         .replace(' - English (United States)', '')
         .replace(' - English (United Kingdom)', '')
+        .replace(' - Spanish (Spain)', ' (ES)')
+        .replace(' - Spanish (Mexico)', ' (MX)')
+        .replace(' - Spanish (United States)', ' (US)')
         .trim()
-    : 'Default Voice';
+    : (lang === 'es' ? 'Voz por defecto' : 'Default Voice');
 
   return (
     <header className="h-16 border-b border-slate-800 bg-slate-900/70 backdrop-blur-md px-4 md:px-6 flex items-center justify-between shrink-0 sticky top-0 z-20">
@@ -45,7 +51,7 @@ export function Header({
         <div className="flex items-center gap-2">
           <span className="text-xl">🐍</span>
           <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400 hidden sm:inline">
-            Chapter {activeChapter.num} of {totalChapters}
+            {t ? t('chapter') : 'Chapter'} {activeChapter.num} {t ? t('of') : 'of'} {totalChapters}
           </span>
         </div>
         <span className="text-slate-600 hidden sm:inline">|</span>
@@ -56,22 +62,46 @@ export function Header({
 
       {/* Right: Controls */}
       <div className="flex items-center gap-2 shrink-0">
+        {/* Language Switcher Toggle */}
+        <div className="flex items-center bg-slate-950 border border-slate-800 rounded-lg p-0.5 text-xs font-mono font-bold shadow-inner">
+          <button
+            onClick={() => onToggleLang && onToggleLang('en')}
+            title="Switch to English"
+            className={`px-2 py-1 rounded-md transition-all flex items-center gap-1 text-[11px] ${
+              lang === 'en'
+                ? 'bg-blue-600 text-white shadow'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <span>🇺🇸</span> <span>EN</span>
+          </button>
+          <button
+            onClick={() => onToggleLang && onToggleLang('es')}
+            title="Cambiar a Español"
+            className={`px-2 py-1 rounded-md transition-all flex items-center gap-1 text-[11px] ${
+              lang === 'es'
+                ? 'bg-blue-600 text-white shadow'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <span>🇪🇸</span> <span>ES</span>
+          </button>
+        </div>
 
         {/* Pyodide Status */}
         <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono border bg-slate-950 border-slate-800">
           <span className={`w-2 h-2 rounded-full ${pyodideReady ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
           <span className="text-slate-300">
-            {pyodideReady ? 'Python 3.12 Ready' : 'Loading Engine...'}
+            {pyodideReady ? (t ? t('pythonEngineReady') : 'Python 3.12 Ready') : (t ? t('loadingEngine') : 'Loading Engine...')}
           </span>
         </div>
 
         {/* ── Voice Controls Group ── */}
         <div className="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded-lg px-1 py-1">
-
           {/* Mute / Unmute toggle */}
           <button
             onClick={onToggleMute}
-            title={isMuted ? 'Voice narration muted — click to unmute' : 'Voice narration on — click to mute'}
+            title={isMuted ? (t ? t('voiceNarrationMuted') : 'Voice muted') : (t ? t('voiceNarrationActive') : 'Voice active')}
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs transition-all font-medium ${
               isMuted
                 ? 'text-slate-500 hover:text-slate-300'
@@ -82,7 +112,7 @@ export function Header({
           >
             <span>{isMuted ? '🔇' : isSpeaking ? '🔊' : '🔊'}</span>
             <span className="hidden md:inline text-[11px]">
-              {isMuted ? 'Muted' : isSpeaking ? 'Speaking...' : 'Voice'}
+              {isMuted ? (t ? t('muted') : 'Muted') : isSpeaking ? (t ? t('speaking') : 'Speaking...') : (t ? t('voice') : 'Voice')}
             </span>
           </button>
 
@@ -91,7 +121,7 @@ export function Header({
             <div className="relative" ref={pickerRef}>
               <button
                 onClick={() => setVoicePickerOpen(prev => !prev)}
-                title="Change voice"
+                title={t ? t('selectVoice') : 'Change voice'}
                 className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] text-slate-300 hover:text-white hover:bg-slate-800 transition-all font-mono max-w-[130px] truncate"
               >
                 <span className="text-amber-400">▾</span>
@@ -103,9 +133,11 @@ export function Header({
                 <div className="absolute right-0 top-full mt-2 w-80 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl shadow-black/50 z-50 overflow-hidden">
                   <div className="p-2 border-b border-slate-800 flex items-center justify-between">
                     <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wide">
-                      🎙️ Select Narration Voice
+                      🎙️ {t ? t('selectVoice') : 'Select Narration Voice'}
                     </span>
-                    <span className="text-[10px] text-slate-500 font-mono">{voices.length} available</span>
+                    <span className="text-[10px] text-slate-500 font-mono">
+                      {voices.length} {t ? t('availableVoices') : 'available'}
+                    </span>
                   </div>
 
                   <div className="max-h-72 overflow-y-auto custom-scroll p-1.5 space-y-0.5">
@@ -126,6 +158,9 @@ export function Header({
                         .replace(' Desktop - English (United Kingdom)', '')
                         .replace(' - English (United States)', '')
                         .replace(' - English (United Kingdom)', '')
+                        .replace(' - Spanish (Spain)', ' (ES)')
+                        .replace(' - Spanish (Mexico)', ' (MX)')
+                        .replace(' - Spanish (United States)', ' (US)')
                         .replace('Online (Natural)', '(Neural)')
                         .trim();
 
@@ -160,7 +195,9 @@ export function Header({
                   </div>
 
                   <div className="p-2 border-t border-slate-800 text-[10px] text-slate-500 text-center">
-                    Google voices sound best in Chrome. Neural ★ voices are best in Edge.
+                    {lang === 'es' 
+                      ? 'Las voces Neural ★ de Edge y Google ofrecen la pronunciación más natural.' 
+                      : 'Google voices sound best in Chrome. Neural ★ voices are best in Edge.'}
                   </div>
                 </div>
               )}
@@ -174,7 +211,7 @@ export function Header({
           className="flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors"
         >
           <span>📜</span>
-          <span className="hidden sm:inline text-[11px] font-medium">Citations</span>
+          <span className="hidden sm:inline text-[11px] font-medium">{t ? t('citations') : 'Citations'}</span>
         </button>
       </div>
     </header>

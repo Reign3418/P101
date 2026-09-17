@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export function QuizBox({ sectionId, quizData, onAnswer, onTakeMeToReview }) {
+export function QuizBox({ sectionId, quizData, onAnswer, onTakeMeToReview, t, lang = 'en' }) {
   const [chosenIdx, setChosenIdx] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
@@ -28,12 +28,14 @@ export function QuizBox({ sectionId, quizData, onAnswer, onTakeMeToReview }) {
     <div className="bg-slate-950 border border-blue-500/30 rounded-xl p-4 md:p-5 space-y-3">
       <div className="flex items-center justify-between">
         <span className="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
-          <span>❓</span> Interactive Checkpoint Quiz:
+          <span>❓</span> {t ? t('interactiveQuiz') : 'Interactive Checkpoint Quiz:'}
         </span>
         <span className={`text-[11px] font-mono font-bold ${
           !submitted ? 'text-slate-500' : (chosenIdx === quizData.answer ? 'text-emerald-400' : 'text-rose-400')
         }`}>
-          {!submitted ? 'Unanswered' : (chosenIdx === quizData.answer ? 'Correct! ✓' : 'Review Needed')}
+          {!submitted 
+            ? (t ? t('unanswered') : 'Unanswered') 
+            : (chosenIdx === quizData.answer ? (t ? t('correct') : 'Correct! ✓') : (t ? t('reviewNeeded') : 'Review Needed'))}
         </span>
       </div>
 
@@ -77,7 +79,11 @@ export function QuizBox({ sectionId, quizData, onAnswer, onTakeMeToReview }) {
             : 'bg-rose-500/15 border border-rose-500/30 text-rose-200'
         }`}>
           <div>
-            <strong>{chosenIdx === quizData.answer ? '🎉 Spot on!' : 'Not quite.'}</strong>{' '}
+            <strong>
+              {chosenIdx === quizData.answer 
+                ? (lang === 'es' ? '🎉 ¡Excelente!' : '🎉 Spot on!') 
+                : (lang === 'es' ? 'No del todo.' : 'Not quite.')}
+            </strong>{' '}
             {quizData.explanation}
           </div>
 
@@ -88,14 +94,14 @@ export function QuizBox({ sectionId, quizData, onAnswer, onTakeMeToReview }) {
                 className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow flex items-center gap-1"
               >
                 <span>🔁</span>
-                <span>Take Me to Review</span>
+                <span>{t ? t('takeMeToReview') : 'Take Me to Review'}</span>
               </button>
               <button
                 onClick={handleRetake}
                 className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs border border-slate-700 flex items-center gap-1"
               >
                 <span>🔄</span>
-                <span>Retake Quiz</span>
+                <span>{t ? t('retakeQuiz') : 'Retake Quiz'}</span>
               </button>
             </div>
           )}
