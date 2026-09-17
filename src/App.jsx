@@ -9,9 +9,19 @@ import { TrapBox } from './components/TrapBox.jsx';
 import { CodingRepLab } from './components/CodingRepLab.jsx';
 import { QuizBox } from './components/QuizBox.jsx';
 import { CitationModal } from './components/CitationModal.jsx';
+import { NotebookViewer } from './components/NotebookViewer.jsx';
 
 export default function App() {
+  const [activeView, setActiveView] = useState('chapters'); // 'chapters' or 'notebook'
   const [activeChapterNum, setActiveChapterNum] = useState(1);
+  const [importedNotebooks, setImportedNotebooks] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('p101_user_notebooks') || '[]');
+    } catch {
+      return [];
+    }
+  });
+  const [activeNotebookId, setActiveNotebookId] = useState(null);
   const [completedSections, setCompletedSections] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('py_completed_sections') || '{}');
@@ -39,6 +49,43 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('py_review_queue', JSON.stringify(reviewQueue));
   }, [reviewQueue]);
+
+  useEffect(() => {
+    localStorage.setItem('p101_user_notebooks', JSON.stringify(importedNotebooks));
+  }, [importedNotebooks]);
+
+  const handleSelectChapter = (chapterNum) => {
+    setActiveChapterNum(chapterNum);
+    setActiveView('chapters');
+  };
+
+  const handleAddNotebook = (newNb) => {
+    setImportedNotebooks(prev => {
+      const exists = prev.find(n => n.name === newNb.name);
+      if (exists) {
+        return prev.map(n => n.name === newNb.name ? newNb : n);
+      }
+      return [newNb, ...prev];
+    });
+    setActiveNotebookId(newNb.id);
+    setActiveView('notebook');
+  };
+
+  const handleDeleteNotebook = (nbId) => {
+    setImportedNotebooks(prev => prev.filter(n => n.id !== nbId));
+    if (activeNotebookId === nbId) {
+      setActiveNotebookId(null);
+    }
+  };
+
+  const handleSelectNotebook = (nbId) => {
+    setActiveNotebookId(nbId);
+    setActiveView('notebook');
+  };
+
+  const handleOpenNotebookLab = () => {
+    setActiveView('notebook');
+  };
 
   const activeChapter = CHAPTERS_DATA.find(c => c.num === activeChapterNum) || CHAPTERS_DATA[0];
 
@@ -116,18 +163,35 @@ export default function App() {
       <Sidebar
         chapters={CHAPTERS_DATA}
         activeChapterNum={activeChapterNum}
-        onSelectChapter={setActiveChapterNum}
+        onSelectChapter={handleSelectChapter}
         completedSections={completedSections}
         reviewQueue={reviewQueue}
         onFilterReviewQueue={handleFilterReviewQueue}
         onResetProgress={handleResetProgress}
         onOpenCitation={() => setIsCitationOpen(true)}
+        activeView={activeView}
+        notebooks={importedNotebooks}
+        activeNotebookId={activeNotebookId}
+        onSelectNotebook={handleSelectNotebook}
+        onOpenNotebookLab={handleOpenNotebookLab}
       />
 
-      {/* Main Study Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950">
-        <Header
-          activeChapter={activeChapter}
+      {/* Main View: Either Notebook Viewer or Standard Chapters */}
+      {activeView === 'notebook' ? (
+        <NotebookViewer
+          notebooks={importedNotebooks}
+          activeNotebookId={activeNotebookId}
+          onSelectNotebook={handleSelectNotebook}
+          onAddNotebook={handleAddNotebook}
+          onDeleteNotebook={handleDeleteNotebook}
+          onExecuteCode={executeCode}
+          pyodideReady={pyodideReady}
+        />
+      ) : (
+        /* Main Study Area */
+        <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950">
+          <Header
+            activeChapter={activeChapter}
           totalChapters={CHAPTERS_DATA.length}
           sections={activeChapter.sections}
           onOpenCitation={() => setIsCitationOpen(true)}
@@ -235,6 +299,7 @@ export default function App() {
           </div>
         </main>
       </div>
+      )}
 
       {/* Academic Citation Modal */}
       <CitationModal

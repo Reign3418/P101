@@ -12,8 +12,10 @@ Access the live interactive portal from any device (phone, tablet, laptop, or de
 👉 **[https://reign3418.github.io/P101/](https://reign3418.github.io/P101/)**
 
 ### What's Inside the Portal:
-- **14 Comprehensive Chapters**: Covering everything from IPO models and basic data types to OOP, inheritance, recursion, and GUI programming.
-- **The "Why" Under the Hood**: Pedagogical breakdowns explaining *why* the CPU, memory, and Python interpreter behave the way they do.
+- **📓 Bring Your Own Notebook (BYOD) Lab**: Drag-and-drop any Jupyter Notebook (`.ipynb`) from your college portal. Parses cells client-side and runs Python code in your browser via WebAssembly (Pyodide).
+- **🛡️ 100% Client-Side Privacy & Compliance**: Zero files or student data are ever uploaded to a remote server. Fully compliant with Community College intellectual property policies and academic honor codes.
+- **10 Core Curriculum Modules**: Synchronized with Prof. Jade Cao's lecture progression (Variables, Lists, Dictionaries, While Loops, Functions) and Tony Gaddis's advanced chapters.
+- **The "Why" Under the Hood**: Deep architectural breakdowns explaining *why* the CPU, memory, and Python interpreter behave the way they do.
 - **Interactive Checkpoints & Quizzes**: Quick concept checks with a **"Take Me to Review"** spotlight feature that auto-scrolls to the underlying concept and reads it aloud with text-to-speech.
 - **Common Traps & Pitfalls**: Warning callouts for classic beginner bugs (e.g. string concatenation vs addition, floating-point rounding, accumulator reset bugs).
 - **In-Browser Coding Reps**: Hands-on coding exercises right on the page.

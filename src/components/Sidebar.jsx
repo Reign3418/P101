@@ -8,7 +8,12 @@ export function Sidebar({
   reviewQueue, 
   onFilterReviewQueue,
   onResetProgress,
-  onOpenCitation 
+  onOpenCitation,
+  activeView = 'chapters',
+  notebooks = [],
+  activeNotebookId = null,
+  onSelectNotebook,
+  onOpenNotebookLab
 }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -80,10 +85,58 @@ export function Sidebar({
         </div>
       </div>
 
+      {/* BYOD Notebook Lab Quick Access */}
+      <div className="p-2 border-b border-slate-800/80 bg-slate-950/40">
+        <button
+          onClick={onOpenNotebookLab}
+          className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all border ${
+            activeView === 'notebook'
+              ? 'bg-purple-600 text-white font-bold shadow-lg shadow-purple-600/20 border-purple-400/40'
+              : 'bg-purple-950/30 text-purple-200 hover:bg-purple-900/40 border-purple-500/30'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-base">📓</span>
+            <div>
+              <div className="font-bold">Notebook Lab (BYOD)</div>
+              <div className="text-[10px] text-purple-300/80">Import &amp; Run .ipynb Locally</div>
+            </div>
+          </div>
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-200 border border-purple-400/30 font-bold">
+            {notebooks.length}
+          </span>
+        </button>
+
+        {/* List of imported notebooks if any */}
+        {notebooks.length > 0 && (
+          <div className="mt-1.5 space-y-1 pl-2">
+            {notebooks.map(nb => {
+              const isSelected = activeView === 'notebook' && activeNotebookId === nb.id;
+              return (
+                <button
+                  key={nb.id}
+                  onClick={() => onSelectNotebook(nb.id)}
+                  className={`w-full text-left px-2 py-1 rounded text-[11px] truncate block transition-colors ${
+                    isSelected 
+                      ? 'text-purple-300 font-bold bg-purple-500/20' 
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                  }`}
+                >
+                  • {nb.name}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
       {/* Chapters Navigation List */}
+      <div className="px-3 pt-2 pb-1 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold">
+        Course Modules
+      </div>
       <nav className="flex-1 overflow-y-auto custom-scroll p-2 space-y-1">
         {filteredChapters.map(ch => {
-          const isActive = ch.num === activeChapterNum;
+          const isActive = activeView === 'chapters' && ch.num === activeChapterNum;
           const chSecIds = ch.sections.map(s => s.id);
           const chDoneCount = chSecIds.filter(id => completedSections[id]).length;
           const isComplete = chDoneCount === chSecIds.length && chSecIds.length > 0;

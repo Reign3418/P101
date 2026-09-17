@@ -13,3 +13,5 @@ __pycache__
 .gemini
 temp_node
 .github
+ipynb/
+*.ipynb
