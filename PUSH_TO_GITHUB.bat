@@ -19,8 +19,8 @@ if %ERRORLEVEL% EQU 0 (
     echo ========================================================================
     echo  SUCCESS! Code pushed to https://github.com/Reign3418/P101.git
     echo.
-    echo  GitHub Actions is now building and deploying your React/Vite site to:
-    echo  https://reign3418.github.io/P101/
+    echo  To update the live website on GitHub Pages, run DEPLOY_PAGES.bat:
+    echo  Live URL: https://reign3418.github.io/P101/
     echo ========================================================================
 ) else (
     echo [ERROR] Push did not complete. Check your token or repository permissions.
