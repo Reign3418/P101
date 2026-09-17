@@ -100,7 +100,7 @@ export function Sidebar({
             >
               <div className="flex items-center gap-2.5 truncate">
                 <span className="text-base">{ch.icon}</span>
-                <span className="truncate">Ch {ch.num}: {ch.title}</span>
+                <span className="truncate">{ch.code_module ? `${ch.code_module}: ${ch.title}` : `Ch ${ch.num}: ${ch.title}`}</span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0 ml-2">
                 {isComplete && <span className="text-emerald-300 font-bold">✓</span>}

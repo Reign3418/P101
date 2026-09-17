@@ -11,9 +11,9 @@ export function CitationModal({ isOpen, onClose }) {
     setTimeout(() => setCopiedType(null), 1800);
   };
 
-  const simpleCitation = "Based on concepts from Starting Out with Python (6th Edition) by Tony Gaddis (Pearson).";
-  const apaCitation = "Gaddis, T. (2024). Starting Out with Python (6th ed.). Pearson.";
-  const mlaCitation = "Gaddis, Tony. Starting Out with Python. 6th ed., Pearson, 2024.";
+  const simpleCitation = "Based on CCCC Python curriculum by Prof. Jade Cao & Starting Out with Python (6th Ed.) by Tony Gaddis.";
+  const ccccCitation = "Cao, Jade. Python Programming Lecture Notebooks (Modules 1.0–5.2). Central Carolina Community College (CCCC).";
+  const gaddisCitation = "Gaddis, Tony. Starting Out with Python. 6th ed., Pearson, 2024.";
 
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
@@ -36,16 +36,33 @@ export function CitationModal({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Plain-English Book Card */}
-        <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/25 flex items-start gap-3">
-          <span className="text-2xl mt-0.5">📖</span>
-          <div className="space-y-0.5">
-            <span className="text-xs font-bold text-white">Primary Textbook:</span>
-            <div className="text-blue-300 font-semibold text-xs">
-              Starting Out with Python <span className="text-slate-400 font-normal">(6th Edition)</span>
+        {/* Plain-English Curriculum & Book Cards */}
+        <div className="space-y-2">
+          {/* Professor Jade Cao Card */}
+          <div className="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-start gap-3">
+            <span className="text-2xl mt-0.5">👩‍🏫</span>
+            <div className="space-y-0.5">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-purple-400">Course Instructor &amp; Curriculum:</span>
+              <div className="text-purple-200 font-bold text-xs">
+                Prof. Jade Cao &bull; Central Carolina Community College (CCCC)
+              </div>
+              <p className="text-[11px] text-slate-300">
+                Lecture Notebook Modules 1.0 – 5.2 (Variables, Lists, Dicts, While Loops, Functions)
+              </p>
             </div>
-            <div className="text-[11px] text-slate-300">
-              Author: <strong className="text-white">Tony Gaddis</strong> &bull; Publisher: Pearson
+          </div>
+
+          {/* Textbook Reference Card */}
+          <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/25 flex items-start gap-3">
+            <span className="text-2xl mt-0.5">📖</span>
+            <div className="space-y-0.5">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-blue-400">Syllabus Companion Textbook:</span>
+              <div className="text-blue-300 font-semibold text-xs">
+                Starting Out with Python <span className="text-slate-400 font-normal">(6th Edition)</span>
+              </div>
+              <div className="text-[11px] text-slate-300">
+                Author: <strong className="text-white">Tony Gaddis</strong> &bull; Publisher: Pearson
+              </div>
             </div>
           </div>
         </div>
@@ -53,11 +70,10 @@ export function CitationModal({ isOpen, onClose }) {
         {/* When do you need this? Plain English */}
         <div className="space-y-1.5 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
           <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">
-            💡 Do you need to cite this for your class?
+            💡 For Class Assignments &amp; Homework Comments:
           </span>
           <p className="text-[11px] text-slate-300 leading-relaxed">
-            All code drills, quizzes, and "Why" analogies in this app are <strong>original practice exercises</strong>. 
-            If your professor asks where your learning framework comes from, or if you need to credit the book in homework comments, copy one of the formats below:
+            All code drills, practice sandboxes, and "Why" breakdowns in this portal are <strong>original interactive exercises</strong> aligned with Prof. Jade Cao's lecture notebooks at CCCC and Tony Gaddis's textbook. Click below to copy citations:
           </p>
         </div>
 
@@ -85,45 +101,45 @@ export function CitationModal({ isOpen, onClose }) {
             </p>
           </div>
 
-          {/* 2. Formal College Formats (APA & MLA) */}
+          {/* 2. Formal College Formats (Prof. Jade Cao / CCCC & Tony Gaddis) */}
           <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
             <span className="text-[11px] font-bold text-slate-400 block">
-              2. For Formal Papers / Bibliography (if required):
+              2. Formal Course &amp; Textbook Attributions:
             </span>
             
-            {/* APA */}
+            {/* Prof Jade Cao CCCC */}
             <div className="flex items-start justify-between gap-2 border-t border-slate-800/60 pt-2">
               <div className="text-[11px]">
-                <span className="text-amber-400 font-bold font-mono">APA 7th: </span>
-                <span className="text-slate-300">{apaCitation}</span>
+                <span className="text-purple-400 font-bold font-mono">CCCC Lecture Series: </span>
+                <span className="text-slate-300">{ccccCitation}</span>
               </div>
               <button
-                onClick={() => copyText(apaCitation, 'apa')}
+                onClick={() => copyText(ccccCitation, 'cccc')}
                 className={`px-2 py-0.5 rounded text-[11px] font-mono border transition-all shrink-0 ${
-                  copiedType === 'apa' 
+                  copiedType === 'cccc' 
                     ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-bold' 
                     : 'bg-slate-800 text-slate-300 hover:text-white border-slate-700'
                 }`}
               >
-                {copiedType === 'apa' ? 'Copied! ✓' : 'Copy'}
+                {copiedType === 'cccc' ? 'Copied! ✓' : 'Copy'}
               </button>
             </div>
 
-            {/* MLA */}
+            {/* Tony Gaddis */}
             <div className="flex items-start justify-between gap-2 border-t border-slate-800/60 pt-2">
               <div className="text-[11px]">
-                <span className="text-blue-400 font-bold font-mono">MLA 9th: </span>
-                <span className="text-slate-300">{mlaCitation}</span>
+                <span className="text-blue-400 font-bold font-mono">Textbook Reference: </span>
+                <span className="text-slate-300">{gaddisCitation}</span>
               </div>
               <button
-                onClick={() => copyText(mlaCitation, 'mla')}
+                onClick={() => copyText(gaddisCitation, 'gaddis')}
                 className={`px-2 py-0.5 rounded text-[11px] font-mono border transition-all shrink-0 ${
-                  copiedType === 'mla' 
+                  copiedType === 'gaddis' 
                     ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-bold' 
                     : 'bg-slate-800 text-slate-300 hover:text-white border-slate-700'
                 }`}
               >
-                {copiedType === 'mla' ? 'Copied! ✓' : 'Copy'}
+                {copiedType === 'gaddis' ? 'Copied! ✓' : 'Copy'}
               </button>
             </div>
           </div>

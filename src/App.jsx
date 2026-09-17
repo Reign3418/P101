@@ -143,9 +143,16 @@ export default function App() {
             <div className="flex items-center gap-4">
               <span className="text-4xl">{activeChapter.icon}</span>
               <div>
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400">
-                  Chapter {activeChapter.num}
-                </span>
+                <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded">
+                    {activeChapter.code_module || `Chapter ${activeChapter.num}`}
+                  </span>
+                  {activeChapter.prof_source && (
+                    <span className="text-[10px] font-mono text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2 py-0.5 rounded">
+                      {activeChapter.prof_source}
+                    </span>
+                  )}
+                </div>
                 <h2 className="text-2xl font-bold text-white">{activeChapter.title}</h2>
                 <p className="text-xs text-slate-300 mt-1 max-w-2xl">{activeChapter.desc}</p>
               </div>

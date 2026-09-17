@@ -41,13 +41,14 @@ python python_reps.py
 
 ---
 
-## 📜 Academic Attribution & Citations
+## 📜 Academic Attribution & Course Citations
 
-This educational repository is designed as an independent learning companion structured to align with:
+This educational repository and study portal is an independent learning companion structured around and aligned with:
 
-- **APA (7th ed.)**:  
-  Gaddis, T. (2024). *Starting Out with Python* (6th ed.). Pearson.
-- **MLA (9th ed.)**:  
-  Gaddis, Tony. *Starting Out with Python*. 6th ed., Pearson, 2024.
+- **Course Curriculum & Lecture Series**:  
+  **Prof. Jade Cao**, Central Carolina Community College (CCCC).  
+  *Python Programming Lecture Series (Modules 1.0 – 5.2: Variables, Lists, Dictionaries, While Loops, Functions)*.
+- **Companion Textbook Reference**:  
+  Gaddis, Tony. *Starting Out with Python* (6th ed.). Pearson, 2024.
 
-*All explanations, analogies, exercises, and interactive tools are original instructional synthesis created for student practice and mastery.*
+*All explanations, interactive sandboxes, randomized coding reps, and "Why" breakdowns are original instructional synthesis created for deliberate student practice and mastery.*
