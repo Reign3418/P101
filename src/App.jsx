@@ -1,0 +1,239 @@
+import React, { useState, useEffect } from 'react';
+import { CHAPTERS_DATA } from './data/chaptersData.js';
+import { usePyodide } from './hooks/usePyodide.js';
+import { Sidebar } from './components/Sidebar.jsx';
+import { Header } from './components/Header.jsx';
+import { WhyBox } from './components/WhyBox.jsx';
+import { ConceptBox } from './components/ConceptBox.jsx';
+import { TrapBox } from './components/TrapBox.jsx';
+import { CodingRepLab } from './components/CodingRepLab.jsx';
+import { QuizBox } from './components/QuizBox.jsx';
+import { CitationModal } from './components/CitationModal.jsx';
+
+export default function App() {
+  const [activeChapterNum, setActiveChapterNum] = useState(1);
+  const [completedSections, setCompletedSections] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('py_completed_sections') || '{}');
+    } catch {
+      return {};
+    }
+  });
+  const [reviewQueue, setReviewQueue] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('py_review_queue') || '{}');
+    } catch {
+      return {};
+    }
+  });
+  const [isVoiceMuted, setIsVoiceMuted] = useState(false);
+  const [isCitationOpen, setIsCitationOpen] = useState(false);
+
+  const { isReady: pyodideReady, executeCode } = usePyodide();
+
+  // Save progress to localStorage
+  useEffect(() => {
+    localStorage.setItem('py_completed_sections', JSON.stringify(completedSections));
+  }, [completedSections]);
+
+  useEffect(() => {
+    localStorage.setItem('py_review_queue', JSON.stringify(reviewQueue));
+  }, [reviewQueue]);
+
+  const activeChapter = CHAPTERS_DATA.find(c => c.num === activeChapterNum) || CHAPTERS_DATA[0];
+
+  const handleToggleComplete = (secId) => {
+    setCompletedSections(prev => {
+      const next = { ...prev };
+      if (next[secId]) {
+        delete next[secId];
+      } else {
+        next[secId] = true;
+      }
+      return next;
+    });
+  };
+
+  const handleQuizAnswer = (secId, isCorrect) => {
+    if (isCorrect) {
+      setReviewQueue(prev => {
+        const next = { ...prev };
+        delete next[secId];
+        return next;
+      });
+      setCompletedSections(prev => ({ ...prev, [secId]: true }));
+    } else {
+      setReviewQueue(prev => ({ ...prev, [secId]: true }));
+    }
+  };
+
+  const handleTakeMeToReview = (secId) => {
+    const el = document.getElementById(`why-box-${secId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('highlight-focus');
+      setTimeout(() => el.classList.remove('highlight-focus'), 4500);
+      
+      const sec = activeChapter.sections.find(s => s.id === secId);
+      if (sec && !isVoiceMuted && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance("Here is the why behind this concept: " + sec.why);
+        window.speechSynthesis.speak(u);
+      }
+    }
+  };
+
+  const handleSpeakWhy = (text) => {
+    if (isVoiceMuted || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 1.0;
+    u.pitch = 1.05;
+    window.speechSynthesis.speak(u);
+  };
+
+  const handleFilterReviewQueue = () => {
+    const queueIds = Object.keys(reviewQueue);
+    if (queueIds.length === 0) return;
+    const targetChapter = CHAPTERS_DATA.find(ch => ch.sections.some(s => queueIds.includes(s.id)));
+    if (targetChapter) {
+      setActiveChapterNum(targetChapter.num);
+    }
+  };
+
+  const handleResetProgress = () => {
+    if (window.confirm("Reset all learning mastery and review queue data?")) {
+      setCompletedSections({});
+      setReviewQueue({});
+      localStorage.removeItem('py_completed_sections');
+      localStorage.removeItem('py_review_queue');
+    }
+  };
+
+  return (
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100">
+      {/* Sidebar Navigation */}
+      <Sidebar
+        chapters={CHAPTERS_DATA}
+        activeChapterNum={activeChapterNum}
+        onSelectChapter={setActiveChapterNum}
+        completedSections={completedSections}
+        reviewQueue={reviewQueue}
+        onFilterReviewQueue={handleFilterReviewQueue}
+        onResetProgress={handleResetProgress}
+        onOpenCitation={() => setIsCitationOpen(true)}
+      />
+
+      {/* Main Study Area */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950">
+        <Header
+          activeChapter={activeChapter}
+          totalChapters={CHAPTERS_DATA.length}
+          sections={activeChapter.sections}
+          onOpenCitation={() => setIsCitationOpen(true)}
+          isVoiceMuted={isVoiceMuted}
+          onToggleVoice={() => setIsVoiceMuted(!isVoiceMuted)}
+          pyodideReady={pyodideReady}
+        />
+
+        {/* Scrollable Content */}
+        <main className="flex-1 overflow-y-auto custom-scroll p-4 md:p-8 space-y-8">
+          {/* Chapter Banner */}
+          <div className="bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-purple-900/20 border border-blue-500/20 rounded-2xl p-6 shadow-xl">
+            <div className="flex items-center gap-4">
+              <span className="text-4xl">{activeChapter.icon}</span>
+              <div>
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400">
+                  Chapter {activeChapter.num}
+                </span>
+                <h2 className="text-2xl font-bold text-white">{activeChapter.title}</h2>
+                <p className="text-xs text-slate-300 mt-1 max-w-2xl">{activeChapter.desc}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Sections List */}
+          <div className="space-y-6">
+            {activeChapter.sections.map(sec => {
+              const isDone = completedSections[sec.id] || false;
+
+              return (
+                <div 
+                  key={sec.id}
+                  id={`sec-${sec.id}`}
+                  className="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-6 shadow-md space-y-5 transition-all"
+                >
+                  {/* Section Title Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div>
+                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 font-bold">
+                        Section {sec.num}
+                      </span>
+                      <h3 className="text-lg font-bold text-white mt-1">{sec.title}</h3>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleToggleComplete(sec.id)}
+                        className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs transition-colors border shadow-sm ${
+                          isDone 
+                            ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold' 
+                            : 'bg-slate-800 text-slate-400 hover:text-slate-200 border-slate-700'
+                        }`}
+                      >
+                        <span>{isDone ? '✓' : '○'}</span>
+                        <span>{isDone ? 'Mastered' : 'Mark Learned'}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 1. The Why Box */}
+                  <WhyBox
+                    sectionId={sec.id}
+                    whyText={sec.why}
+                    onSpeak={handleSpeakWhy}
+                  />
+
+                  {/* 2. Mechanics & Code Snippet */}
+                  <ConceptBox
+                    section={sec}
+                    onRunCode={executeCode}
+                  />
+
+                  {/* 3. Coding Reps Lab (Randomized Pyodide Workouts) */}
+                  <CodingRepLab
+                    repData={sec.rep}
+                    onExecuteCode={executeCode}
+                    onCompleteRep={() => {
+                      if (!completedSections[sec.id]) {
+                        handleToggleComplete(sec.id);
+                      }
+                    }}
+                    pyodideReady={pyodideReady}
+                  />
+
+                  {/* 4. Common Trap / Pitfall */}
+                  <TrapBox pitfall={sec.pitfall} />
+
+                  {/* 5. Checkpoint Quiz */}
+                  <QuizBox
+                    sectionId={sec.id}
+                    quizData={sec.quiz}
+                    onAnswer={handleQuizAnswer}
+                    onTakeMeToReview={handleTakeMeToReview}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </main>
+      </div>
+
+      {/* Academic Citation Modal */}
+      <CitationModal
+        isOpen={isCitationOpen}
+        onClose={() => setIsCitationOpen(false)}
+      />
+    </div>
+  );
+}

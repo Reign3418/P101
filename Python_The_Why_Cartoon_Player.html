@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Cartoon Theater: Explaining The WHY!</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes bob {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(1deg); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.3; transform: scale(0.98); }
+      50% { opacity: 0.8; transform: scale(1.02); }
+    }
+    @keyframes belt-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(30px); }
+    }
+    .animate-bob { animation: bob 2.5s ease-in-out infinite; }
+    .animate-glow { animation: pulse-glow 2s ease-in-out infinite; }
+    .custom-scrollbar::-webkit-scrollbar { height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.3); border-radius: 9999px; }
+  </style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2 md:p-4">
+
+  <div class="max-w-4xl mx-auto bg-[var(--card)] border border-[var(--border)] rounded-2xl shadow-2xl overflow-hidden">
+    
+    <!-- Player Top Bar -->
+    <div class="px-4 py-3 bg-[var(--content)] border-b border-[var(--border)] flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-amber-500/20 text-amber-500 font-black text-sm">🎬</span>
+        <div>
+          <h1 class="text-sm md:text-base font-bold text-[var(--foreground)] leading-tight">Python Cartoon Theater: "The WHY Show!"</h1>
+          <p class="text-[10px] md:text-xs text-[var(--muted-foreground)]">Cartoon analogies for Modules 1 through 5 (Tony Gaddis)</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="voice-toggle-btn" onclick="toggleVoice()" class="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all">
+          <span id="voice-icon">🔊</span>
+          <span id="voice-status" class="hidden sm:inline">Voice: ON</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Video Stage (16:9 aspect container) -->
+    <div class="relative w-full aspect-video bg-slate-950 overflow-hidden flex flex-col justify-between select-none">
+      
+      <!-- Stage Background Grid & Lighting -->
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black opacity-90"></div>
+      <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+      <!-- Episode Title Badge on Screen -->
+      <div class="relative z-10 p-3 md:p-4 flex items-center justify-between">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 shadow-lg">
+          <span id="ep-badge" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="ep-tag" class="text-xs font-mono font-bold text-amber-400">EPISODE 1</span>
+          <span class="text-xs text-slate-400">|</span>
+          <span id="ep-title" class="text-xs font-semibold text-slate-200">The Tape Roll vs The Coin Jar</span>
+        </div>
+        <div class="text-[11px] font-mono text-slate-400 bg-black/50 px-2 py-0.5 rounded border border-white/5">
+          <span id="screen-timer">00:00</span> / <span id="screen-total">01:40</span>
+        </div>
+      </div>
+
+      <!-- ANIMATION CANVAS / SCENE CONTAINER -->
+      <div id="stage-viewport" class="relative z-10 flex-1 flex items-center justify-center p-4">
+        <!-- SVG Animated Characters & Props injected here by JavaScript -->
+      </div>
+
+      <!-- Dialogue Subtitles Box -->
+      <div class="relative z-10 px-4 pb-3">
+        <div class="max-w-2xl mx-auto bg-black/80 backdrop-blur-md border border-amber-500/30 rounded-xl p-3 shadow-xl flex items-start gap-3">
+          <div id="speaker-avatar" class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-base shrink-0 animate-bounce">
+            🤖
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <span id="speaker-name" class="text-[11px] font-bold uppercase tracking-wider text-amber-400">Byte the Robot</span>
+              <span id="scene-progress-dots" class="text-[10px] text-slate-500 font-mono">Scene 1 of 5</span>
+            </div>
+            <p id="caption-text" class="text-xs md:text-sm text-slate-100 font-medium leading-relaxed mt-0.5 min-h-[36px]">
+              Loading the cartoon studio...
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Big Center Play Button Overlay when paused -->
+      <div id="pause-overlay" onclick="togglePlay()" class="absolute inset-0 z-20 bg-black/40 backdrop-blur-[2px] flex items-center justify-center cursor-pointer transition-opacity">
+        <div class="w-16 h-16 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all">
+          <svg class="w-8 h-8 fill-current translate-x-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Video Controls & Timeline Bar -->
+    <div class="p-3 bg-[var(--content)] border-t border-[var(--border)] space-y-2">
+      <!-- Scrubber Bar -->
+      <div class="relative flex items-center group cursor-pointer" id="scrubber-track" onclick="seekClick(event)">
+        <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+          <div id="scrubber-fill" class="h-full bg-gradient-to-r from-amber-500 to-emerald-400 w-0 transition-all duration-100"></div>
+        </div>
+        <!-- Chapter markers -->
+        <div class="absolute inset-0 flex justify-between px-1 pointer-events-none">
+          <span class="w-1 h-2 bg-white/30 rounded-full"></span>
+          <span class="w-1 h-2 bg-white/30 rounded-full"></span>
+          <span class="w-1 h-2 bg-white/30 rounded-full"></span>
+          <span class="w-1 h-2 bg-white/30 rounded-full"></span>
+          <span class="w-1 h-2 bg-white/30 rounded-full"></span>
+        </div>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="flex items-center justify-between pt-1">
+        <div class="flex items-center gap-2">
+          <!-- Play/Pause -->
+          <button id="play-btn" onclick="togglePlay()" class="w-8 h-8 rounded-lg bg-[var(--card)] hover:bg-[var(--border)] border border-[var(--border)] flex items-center justify-center text-[var(--foreground)] transition-colors">
+            <span id="play-btn-icon">▶</span>
+          </button>
+          <!-- Prev Scene -->
+          <button onclick="prevScene()" class="w-8 h-8 rounded-lg bg-[var(--card)] hover:bg-[var(--border)] border border-[var(--border)] flex items-center justify-center text-[var(--foreground)] text-xs transition-colors" title="Previous Episode">
+            ⏮
+          </button>
+          <!-- Next Scene -->
+          <button onclick="nextScene()" class="w-8 h-8 rounded-lg bg-[var(--card)] hover:bg-[var(--border)] border border-[var(--border)] flex items-center justify-center text-[var(--foreground)] text-xs transition-colors" title="Next Episode">
+            ⏭
+          </button>
+          <!-- Speed -->
+          <button onclick="cycleSpeed()" id="speed-btn" class="px-2 py-1 rounded bg-[var(--card)] border border-[var(--border)] text-[11px] font-mono text-[var(--foreground)] hover:bg-[var(--border)]">
+            1.0x
+          </button>
+        </div>
+
+        <!-- Quick Scene Selector Pills -->
+        <div class="hidden md:flex items-center gap-1.5 custom-scrollbar overflow-x-auto">
+          <button onclick="jumpToScene(0)" class="scene-tab text-[10px] px-2 py-1 rounded-md bg-amber-500 text-slate-950 font-bold border border-amber-500">1. Types</button>
+          <button onclick="jumpToScene(1)" class="scene-tab text-[10px] px-2 py-1 rounded-md bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] border border-[var(--border)]">2. // & %</button>
+          <button onclick="jumpToScene(2)" class="scene-tab text-[10px] px-2 py-1 rounded-md bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] border border-[var(--border)]">3. = vs ==</button>
+          <button onclick="jumpToScene(3)" class="scene-tab text-[10px] px-2 py-1 rounded-md bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] border border-[var(--border)]">4. Loops</button>
+          <button onclick="jumpToScene(4)" class="scene-tab text-[10px] px-2 py-1 rounded-md bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] border border-[var(--border)]">5. Functions</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartoon Analogy Story Cards Summary -->
+    <div class="p-4 bg-[var(--card)] border-t border-[var(--border)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+      <div class="p-2.5 rounded-xl bg-[var(--content)] border border-[var(--border)] space-y-1">
+        <div class="font-bold text-amber-500 flex items-center gap-1">
+          <span>📜</span> Ep 1: The Word Tape
+        </div>
+        <p class="text-[var(--muted-foreground)] text-[11px]">
+          <code class="font-mono">input()</code> gives you printed label tape. Gluing <code class="font-mono">"5" + "5"</code> makes <code class="font-mono">"55"</code>! You must peel the tape into coins with <code class="font-mono">int()</code> to do math.
+        </p>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-[var(--content)] border border-[var(--border)] space-y-1">
+        <div class="font-bold text-emerald-400 flex items-center gap-1">
+          <span>🍕</span> Ep 2: The Pizza Box & Dog
+        </div>
+        <p class="text-[var(--muted-foreground)] text-[11px]">
+          <code class="font-mono">//</code> gives whole full slices to people. The puppy waiting under the table gets <code class="font-mono">%</code> (the leftover crusts!).
+        </p>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-[var(--content)] border border-[var(--border)] space-y-1">
+        <div class="font-bold text-cyan-400 flex items-center gap-1">
+          <span>🏷️</span> Ep 3: Tag vs Security Guard
+        </div>
+        <p class="text-[var(--muted-foreground)] text-[11px]">
+          <code class="font-mono">=</code> slaps a label on a storage box. <code class="font-mono">==</code> is a guard with a magnifying glass asking: "Do these match? True or False?"
+        </p>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-[var(--content)] border border-[var(--border)] space-y-1">
+        <div class="font-bold text-purple-400 flex items-center gap-1">
+          <span>🚂</span> Ep 4: Switch Tracks & Loop
+        </div>
+        <p class="text-[var(--muted-foreground)] text-[11px]">
+          <code class="font-mono">if-else</code> flips the railroad switch left or right. <code class="font-mono">while</code> and <code class="font-mono">for</code> run around the track until the counter runs out!
+        </p>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-[var(--content)] border border-[var(--border)] space-y-1 sm:col-span-2 lg:col-span-2">
+        <div class="font-bold text-rose-400 flex items-center gap-1">
+          <span>🍳</span> Ep 5: The Soundproof Chef Kitchen
+        </div>
+        <p class="text-[var(--muted-foreground)] text-[11px]">
+          A function is a private kitchen. You pass ingredients through a hatch (arguments $\rightarrow$ parameters). The chef cooks with private pots (local scope), then slides the finished pie out (<code class="font-mono">return</code>)!
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Cartoon Animation Script & State Machine
+    const EPISODES = [
+      {
+        id: 1,
+        title: "The Tape Roll vs The Coin Jar",
+        tag: "WHY DATA TYPES & input() MATTER",
+        speaker: "Byte the Robot",
+        avatar: "🤖",
+        duration: 20,
+        text: "Imagine input() gives you sticky word tape! If you ask for '5' and '5', Python glues them together into '55'. To do math, you must use int() to convert the tape into shiny gold coins!",
+        svg: `
+          <div class="w-full flex items-center justify-around max-w-lg">
+            <!-- Tape dispenser -->
+            <div class="flex flex-col items-center space-y-2 animate-bob">
+              <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-red-500 flex flex-col items-center justify-center shadow-lg border-2 border-amber-300">
+                <span class="text-2xl">🏷️</span>
+                <span class="text-[10px] font-mono font-bold text-white uppercase">input()</span>
+              </div>
+              <div class="px-2 py-1 bg-amber-400 text-slate-950 font-mono font-bold text-xs rounded shadow">"5" + "5" = "55"</div>
+              <span class="text-[10px] text-slate-400">String Tape</span>
+            </div>
+
+            <div class="text-2xl text-amber-400 font-bold animate-pulse">&rarr; int() &rarr;</div>
+
+            <!-- Coin Jar -->
+            <div class="flex flex-col items-center space-y-2 animate-bob" style="animation-delay: 0.5s">
+              <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex flex-col items-center justify-center shadow-lg border-2 border-emerald-300">
+                <span class="text-3xl">🪙</span>
+                <span class="text-[10px] font-mono font-bold text-white uppercase">Math ALU</span>
+              </div>
+              <div class="px-2 py-1 bg-emerald-400 text-slate-950 font-mono font-bold text-xs rounded shadow">5 + 5 = 10</div>
+              <span class="text-[10px] text-slate-400">Real Numbers</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 2,
+        title: "The Pizza Party & The Puppy",
+        tag: "WHY // (INTEGER DIV) & % (REMAINDER) EXIST",
+        speaker: "Chef Slicer",
+        avatar: "🍕",
+        duration: 20,
+        text: "You have 14 pizza slices for 4 hungry friends. The pizza slicer // gives 3 whole slices to each person. The happy puppy % waiting under the table gets the 2 leftover crusts!",
+        svg: `
+          <div class="w-full flex items-center justify-around max-w-lg">
+            <!-- 14 slices -->
+            <div class="flex flex-col items-center space-y-1">
+              <div class="text-3xl animate-bounce">🍕</div>
+              <span class="text-xs font-mono text-amber-400 font-bold">14 Slices</span>
+              <span class="text-[10px] text-slate-400">&divide; 4 friends</span>
+            </div>
+
+            <!-- // Operator box -->
+            <div class="flex flex-col items-center p-3 rounded-xl bg-slate-900 border border-emerald-500/40 shadow-lg animate-bob">
+              <span class="text-xs font-bold text-emerald-400 font-mono">14 // 4 = 3</span>
+              <span class="text-[10px] text-slate-300">3 whole slices each!</span>
+              <div class="flex gap-1 mt-1 text-sm">👦👦👦👦</div>
+            </div>
+
+            <!-- % Operator dog -->
+            <div class="flex flex-col items-center p-3 rounded-xl bg-slate-900 border border-purple-500/40 shadow-lg animate-bob" style="animation-delay: 0.4s">
+              <div class="text-2xl animate-pulse">🐶</div>
+              <span class="text-xs font-bold text-purple-400 font-mono">14 % 4 = 2</span>
+              <span class="text-[10px] text-slate-300">2 leftover crusts!</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 3,
+        title: "The Label Maker vs Inspector Equal",
+        tag: "WHY '=' IS ACTION & '==' IS A QUESTION",
+        speaker: "Inspector Equal",
+        avatar: "🕵️",
+        duration: 20,
+        text: "Single '=' is a label maker slapping a sticker onto a locker: 'x = 95'. Double '==' is Inspector Equal holding up a magnifying glass, asking: 'Are these equal?' He never touches the locker, he just says True or False!",
+        svg: `
+          <div class="w-full flex items-center justify-around max-w-lg">
+            <!-- Assignment Box -->
+            <div class="flex flex-col items-center space-y-2 p-3 rounded-xl bg-slate-900 border border-amber-500/40 shadow-lg animate-bob">
+              <div class="text-2xl">📦</div>
+              <div class="text-xs font-mono font-bold text-amber-400">score = 95</div>
+              <span class="text-[10px] text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded">Action: Store into RAM</span>
+            </div>
+
+            <div class="h-16 w-px bg-slate-700"></div>
+
+            <!-- Inspector Equality -->
+            <div class="flex flex-col items-center space-y-2 p-3 rounded-xl bg-slate-900 border border-cyan-500/40 shadow-lg animate-bob" style="animation-delay: 0.6s">
+              <div class="text-2xl animate-pulse">🕵️🔍</div>
+              <div class="text-xs font-mono font-bold text-cyan-400">score == 100 ?</div>
+              <span class="text-[10px] text-rose-400 bg-rose-500/20 px-2 py-0.5 rounded font-bold">Question: False!</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 4,
+        title: "The Railroad Fork & The Track Loop",
+        tag: "WHY if-else & LOOPS KEEP YOU FROM REPEATING CODE",
+        speaker: "Conductor Casey",
+        avatar: "🚂",
+        duration: 20,
+        text: "Without decisions, your train can only go straight off a cliff! 'if-else' switches the tracks safely. And instead of laying 100 miles of duplicate track, 'for' and 'while' loops let you run on an efficient circular rail!",
+        svg: `
+          <div class="w-full flex flex-col items-center space-y-3 max-w-lg">
+            <!-- Train Track Animation -->
+            <div class="relative w-full h-24 bg-slate-900 rounded-xl border border-slate-700 p-2 flex items-center justify-between overflow-hidden">
+              <div class="text-3xl animate-bob">🚂</div>
+              
+              <!-- Forking arrows -->
+              <div class="flex flex-col gap-3 font-mono text-[11px]">
+                <div class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                  <span>&rarr; True Track (Overtime)</span>
+                </div>
+                <div class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center gap-1">
+                  <span>&rarr; False Track (Standard)</span>
+                </div>
+              </div>
+
+              <!-- Loop ring -->
+              <div class="w-16 h-16 rounded-full border-2 border-dashed border-purple-400 flex items-center justify-center animate-spin text-[10px] text-purple-300 font-bold" style="animation-duration: 8s">
+                LOOP
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 5,
+        title: "The Magic Soundproof Kitchen",
+        tag: "WHY FUNCTIONS & LOCAL SCOPE PREVENT DISASTER",
+        speaker: "Chef Function",
+        avatar: "👨‍🍳",
+        duration: 20,
+        text: "A function is like a soundproof kitchen! You slide ingredients through the window as arguments. The chef cooks with private pots that no one outside can mess up, then slides back the delicious return pie!",
+        svg: `
+          <div class="w-full flex items-center justify-around max-w-lg">
+            <!-- Outside Caller -->
+            <div class="flex flex-col items-center space-y-1">
+              <div class="text-2xl">🏰</div>
+              <span class="text-xs font-mono text-blue-400 font-bold">main()</span>
+              <span class="text-[10px] text-slate-400">Pass: (width, height)</span>
+            </div>
+
+            <div class="text-xl text-amber-400 font-bold">&rarr;</div>
+
+            <!-- Soundproof Kitchen -->
+            <div class="flex flex-col items-center p-3 rounded-xl bg-slate-900 border-2 border-purple-500/50 shadow-2xl animate-bob">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">👨‍🍳</span>
+                <span class="text-xs font-mono font-bold text-purple-300">calc_area()</span>
+              </div>
+              <div class="text-[10px] text-purple-200 mt-1 bg-purple-500/20 px-2 py-0.5 rounded">
+                Local Pot: area = w * h
+              </div>
+              <div class="mt-2 text-xs font-bold text-emerald-400 animate-pulse">
+                return area 🥧
+              </div>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    let currentSceneIdx = 0;
+    let isPlaying = false;
+    let playbackSpeed = 1.0;
+    let sceneTimer = 0;
+    let globalTimer = 0;
+    let totalDuration = EPISODES.reduce((acc, ep) => acc + ep.duration, 0);
+    let intervalId = null;
+    let voiceEnabled = true;
+    let synth = window.speechSynthesis;
+    let currentUtterance = null;
+
+    function initPlayer() {
+      loadScene(0);
+      updateTimerDisplay();
+    }
+
+    function loadScene(idx) {
+      currentSceneIdx = idx;
+      const ep = EPISODES[idx];
+      sceneTimer = 0;
+
+      // Recalculate global timer based on previous scenes
+      globalTimer = 0;
+      for (let i = 0; i < idx; i++) {
+        globalTimer += EPISODES[i].duration;
+      }
+
+      // Update UI elements
+      document.getElementById('ep-tag').textContent = `EPISODE ${ep.id}`;
+      document.getElementById('ep-title').textContent = ep.title;
+      document.getElementById('speaker-avatar').textContent = ep.avatar;
+      document.getElementById('speaker-name').textContent = ep.speaker;
+      document.getElementById('caption-text').textContent = ep.text;
+      document.getElementById('scene-progress-dots').textContent = `Scene ${idx + 1} of ${EPISODES.length}`;
+      document.getElementById('stage-viewport').innerHTML = ep.svg;
+
+      // Update scene tabs
+      document.querySelectorAll('.scene-tab').forEach((tab, i) => {
+        if (i === idx) {
+          tab.className = 'scene-tab text-[10px] px-2 py-1 rounded-md bg-amber-500 text-slate-950 font-bold border border-amber-500';
+        } else {
+          tab.className = 'scene-tab text-[10px] px-2 py-1 rounded-md bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] border border-[var(--border)]';
+        }
+      });
+
+      updateProgress();
+
+      if (isPlaying && voiceEnabled) {
+        speakNarration(ep.text);
+      }
+    }
+
+    function speakNarration(text) {
+      if (!synth) return;
+      synth.cancel();
+      currentUtterance = new SpeechSynthesisUtterance(text);
+      currentUtterance.rate = playbackSpeed;
+      currentUtterance.pitch = 1.1; // Friendly cartoonish voice tone
+      synth.speak(currentUtterance);
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      const overlay = document.getElementById('pause-overlay');
+      const icon = document.getElementById('play-btn-icon');
+
+      if (isPlaying) {
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        icon.textContent = '⏸';
+        if (voiceEnabled) speakNarration(EPISODES[currentSceneIdx].text);
+        startLoop();
+      } else {
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        icon.textContent = '▶';
+        if (synth) synth.cancel();
+        stopLoop();
+      }
+    }
+
+    function startLoop() {
+      if (intervalId) clearInterval(intervalId);
+      intervalId = setInterval(() => {
+        sceneTimer += 0.2 * playbackSpeed;
+        globalTimer += 0.2 * playbackSpeed;
+
+        if (sceneTimer >= EPISODES[currentSceneIdx].duration) {
+          if (currentSceneIdx < EPISODES.length - 1) {
+            loadScene(currentSceneIdx + 1);
+          } else {
+            // Finished all episodes
+            togglePlay();
+            loadScene(0);
+          }
+        }
+        updateProgress();
+      }, 200);
+    }
+
+    function stopLoop() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    function updateProgress() {
+      const pct = (globalTimer / totalDuration) * 100;
+      document.getElementById('scrubber-fill').style.width = `${Math.min(pct, 100)}%`;
+      updateTimerDisplay();
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function updateTimerDisplay() {
+      document.getElementById('screen-timer').textContent = formatTime(globalTimer);
+      document.getElementById('screen-total').textContent = formatTime(totalDuration);
+    }
+
+    function seekClick(e) {
+      const rect = document.getElementById('scrubber-track').getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      const targetTime = pct * totalDuration;
+
+      // Find corresponding scene
+      let acc = 0;
+      for (let i = 0; i < EPISODES.length; i++) {
+        if (targetTime <= acc + EPISODES[i].duration || i === EPISODES.length - 1) {
+          loadScene(i);
+          sceneTimer = targetTime - acc;
+          globalTimer = targetTime;
+          break;
+        }
+        acc += EPISODES[i].duration;
+      }
+      updateProgress();
+    }
+
+    function jumpToScene(idx) {
+      loadScene(idx);
+      if (isPlaying && voiceEnabled) speakNarration(EPISODES[idx].text);
+    }
+
+    function nextScene() {
+      if (currentSceneIdx < EPISODES.length - 1) {
+        loadScene(currentSceneIdx + 1);
+      }
+    }
+
+    function prevScene() {
+      if (currentSceneIdx > 0) {
+        loadScene(currentSceneIdx - 1);
+      }
+    }
+
+    function cycleSpeed() {
+      const speeds = [1.0, 1.25, 1.5, 0.75];
+      const currIdx = speeds.indexOf(playbackSpeed);
+      playbackSpeed = speeds[(currIdx + 1) % speeds.length];
+      document.getElementById('speed-btn').textContent = `${playbackSpeed}x`;
+      if (isPlaying && voiceEnabled) {
+        speakNarration(EPISODES[currentSceneIdx].text);
+      }
+    }
+
+    function toggleVoice() {
+      voiceEnabled = !voiceEnabled;
+      const btn = document.getElementById('voice-toggle-btn');
+      const icon = document.getElementById('voice-icon');
+      const status = document.getElementById('voice-status');
+
+      if (voiceEnabled) {
+        icon.textContent = '🔊';
+        status.textContent = 'Voice: ON';
+        btn.className = 'flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all';
+        if (isPlaying) speakNarration(EPISODES[currentSceneIdx].text);
+      } else {
+        icon.textContent = '🔇';
+        status.textContent = 'Voice: OFF';
+        btn.className = 'flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700 hover:bg-slate-700 transition-all';
+        if (synth) synth.cancel();
+      }
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', initPlayer);
+  </script>
+</body>
+</html>
