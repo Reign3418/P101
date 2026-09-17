@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CHAPTERS_DATA } from './data/chaptersData.js';
 import { usePyodide } from './hooks/usePyodide.js';
+import { useVoice } from './hooks/useVoice.js';
 import { Sidebar } from './components/Sidebar.jsx';
 import { Header } from './components/Header.jsx';
 import { WhyBox } from './components/WhyBox.jsx';
@@ -36,10 +37,10 @@ export default function App() {
       return {};
     }
   });
-  const [isVoiceMuted, setIsVoiceMuted] = useState(false);
   const [isCitationOpen, setIsCitationOpen] = useState(false);
 
   const { isReady: pyodideReady, executeCode } = usePyodide();
+  const { speak, stop, isMuted, toggleMute, isSpeaking, voices, selectedVoiceName, selectVoice, activeVoice } = useVoice();
 
   // Save progress to localStorage
   useEffect(() => {
@@ -120,23 +121,13 @@ export default function App() {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       el.classList.add('highlight-focus');
       setTimeout(() => el.classList.remove('highlight-focus'), 4500);
-      
       const sec = activeChapter.sections.find(s => s.id === secId);
-      if (sec && !isVoiceMuted && window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance("Here is the why behind this concept: " + sec.why);
-        window.speechSynthesis.speak(u);
-      }
+      if (sec) speak("Here is the why behind this concept: " + sec.why, { rate: 0.92 });
     }
   };
 
   const handleSpeakWhy = (text) => {
-    if (isVoiceMuted || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.0;
-    u.pitch = 1.05;
-    window.speechSynthesis.speak(u);
+    speak(text, { rate: 0.95, pitch: 1.02 });
   };
 
   const handleFilterReviewQueue = () => {
@@ -192,13 +183,18 @@ export default function App() {
         <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950">
           <Header
             activeChapter={activeChapter}
-          totalChapters={CHAPTERS_DATA.length}
-          sections={activeChapter.sections}
-          onOpenCitation={() => setIsCitationOpen(true)}
-          isVoiceMuted={isVoiceMuted}
-          onToggleVoice={() => setIsVoiceMuted(!isVoiceMuted)}
-          pyodideReady={pyodideReady}
-        />
+            totalChapters={CHAPTERS_DATA.length}
+            sections={activeChapter.sections}
+            onOpenCitation={() => setIsCitationOpen(true)}
+            isMuted={isMuted}
+            onToggleMute={toggleMute}
+            isSpeaking={isSpeaking}
+            voices={voices}
+            selectedVoiceName={selectedVoiceName}
+            onSelectVoice={selectVoice}
+            activeVoice={activeVoice}
+            pyodideReady={pyodideReady}
+          />
 
         {/* Scrollable Content */}
         <main className="flex-1 overflow-y-auto custom-scroll p-4 md:p-8 space-y-8">
