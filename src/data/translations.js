@@ -157,9 +157,7 @@ export const TRANSLATIONS = {
     clearStats: "Reset Session Analytics",
     clearStatsConfirm: "Are you sure you want to reset all learning session statistics and rep logs? (Curriculum checkmarks will remain intact).",
     viewStats: "View Learning Stats",
-    backToChapters: "← Back to Curriculum",
-    loadModule61: "Load Module 6.1 (Prof. Cao)",
-    loadModule61Short: "Module 6.1 (Prof. Cao)"
+    backToChapters: "← Back to Curriculum"
   },
   es: {
     // Header & Meta
@@ -319,8 +317,6 @@ export const TRANSLATIONS = {
     clearStats: "Restablecer Analíticas de Sesión",
     clearStatsConfirm: "¿Estás seguro de que deseas restablecer las analíticas de sesión y registros de repetición? (Las casillas del currículo permanecerán intactas).",
     viewStats: "Ver Estadísticas de Aprendizaje",
-    backToChapters: "← Volver al Currículo",
-    loadModule61: "Cargar Módulo 6.1 (Prof. Cao)",
-    loadModule61Short: "Módulo 6.1 (Prof. Cao)"
+    backToChapters: "← Volver al Currículo"
   }
 };
