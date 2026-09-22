@@ -76,6 +76,12 @@ export const TRANSLATIONS = {
     executableCells: "Executable Code Cells",
     runCell: "Run Cell",
     complianceNote: "Compliant with Community College policies: No files uploaded to servers.",
+    scaffoldExercise: "Scaffolded Exercise",
+    scaffoldStarter: "Starter Template",
+    scaffoldInProgress: "In Progress",
+    scaffoldCompleted: "Completed ✓",
+    scaffoldGoals: "Learning Goals Detected",
+    scaffoldExercisesCount: "Scaffolded Exercises",
 
     // Citations Modal
     citationsTitle: "Textbook Reference & Citations",
@@ -217,6 +223,12 @@ export const TRANSLATIONS = {
     executableCells: "Celdas de Código Ejecutables",
     runCell: "Ejecutar Celda",
     complianceNote: "Cumple con las normas universitarias: Ningún archivo se sube a internet.",
+    scaffoldExercise: "Ejercicio Guiado (Scaffold)",
+    scaffoldStarter: "Plantilla Inicial",
+    scaffoldInProgress: "En Progreso",
+    scaffoldCompleted: "¡Completado! ✓",
+    scaffoldGoals: "Objetivos de Aprendizaje",
+    scaffoldExercisesCount: "Ejercicios Guiados",
 
     // Citations Modal
     citationsTitle: "Referencias Bibliográficas y Citas",

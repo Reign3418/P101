@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { 
   Play, 
   Copy, 
@@ -12,7 +12,11 @@ import {
   RotateCcw,
   Plus,
   PlayCircle,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Target,
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
 const SAMPLE_NOTEBOOK_EN = {
@@ -149,6 +153,68 @@ const SAMPLE_NOTEBOOK_ES = {
   ]
 };
 
+// Heuristic engine to identify, extract, and monitor Scaffolded Learning exercises
+function analyzeCellScaffolding(originalCode = '', currentCode = '', output = null) {
+  const origLines = originalCode.split('\n');
+
+  // Extract TODO / Practice / Exercise prompts
+  const taskRegex = /#\s*(TODO|Exercise|Practice|Challenge|Task|Your Turn|Try It|Completa|Ejercicio|Práctica|Desafío)[:\s-]*(.+)/i;
+  const tasks = [];
+  
+  origLines.forEach((line, lineIdx) => {
+    const match = line.match(taskRegex);
+    if (match) {
+      tasks.push({
+        id: lineIdx,
+        text: match[2].trim(),
+        type: match[1].toUpperCase()
+      });
+    }
+  });
+
+  const hasNotImplemented = /raise\s+NotImplementedError|#\s*your code here/i.test(originalCode);
+  const isScaffolded = tasks.length > 0 || hasNotImplemented;
+
+  if (!isScaffolded) {
+    return { isScaffolded: false, tasks: [], state: null };
+  }
+
+  // Check for presence of uncompleted starter placeholders in current code
+  // 1. Empty string assignments: var = "" or var = ''
+  const hasEmptyStrings = /^\s*[\w_]+\s*=\s*["']\s*["']\s*$/m.test(currentCode);
+  // 2. Uncalculated zeroes / None when calculation was requested in original
+  const hasZeroOrNonePlaceholders = /^\s*[\w_]+\s*=\s*(0|None)\s*$/m.test(currentCode) && /calculate|compute|sum|promedio|total|cuenta|año|year|goal/i.test(originalCode);
+  // 3. Standalone empty print calls: print()
+  const hasEmptyPrints = /^\s*print\s*\(\s*\)\s*$/m.test(currentCode);
+  // 4. pass or ellipsis or NotImplementedError in currentCode
+  const hasPassOrEllipsis = /^\s*(pass|\.\.\.)\s*$/m.test(currentCode) || /raise\s+NotImplementedError/.test(currentCode);
+
+  const hasRemainingPlaceholders = hasEmptyStrings || hasZeroOrNonePlaceholders || hasEmptyPrints || hasPassOrEllipsis;
+  const isModified = currentCode.trim() !== originalCode.trim();
+  const hasRun = output !== null && output !== undefined;
+  const runSuccess = hasRun && output.success === true;
+
+  // Determine pedagogical progress state
+  let state = 'starter'; // 'starter' | 'in_progress' | 'completed'
+  if (!isModified) {
+    state = 'starter';
+  } else if (hasRun && runSuccess && !hasRemainingPlaceholders) {
+    state = 'completed';
+  } else {
+    state = 'in_progress';
+  }
+
+  return {
+    isScaffolded: true,
+    tasks,
+    state,
+    hasRemainingPlaceholders,
+    isModified,
+    hasRun,
+    runSuccess
+  };
+}
+
 export function NotebookViewer({ 
   notebooks = [], 
   activeNotebookId, 
@@ -165,6 +231,7 @@ export function NotebookViewer({
   const [cellRunning, setCellRunning] = useState({});
   const [copiedCell, setCopiedCell] = useState(null);
   const [dragOver, setDragOver] = useState(false);
+  const [openAccordions, setOpenAccordions] = useState({});
   const fileInputRef = useRef(null);
 
   const isEs = lang === 'es';
@@ -280,6 +347,36 @@ export function NotebookViewer({
       [newCellIndex]: '# Write your Python code here...\n'
     }));
   };
+
+  const toggleScaffoldAccordion = (cellIdx) => {
+    setOpenAccordions(prev => ({
+      ...prev,
+      [cellIdx]: !prev[cellIdx]
+    }));
+  };
+
+  const scaffoldStats = useMemo(() => {
+    if (!activeNotebook?.cells) return { total: 0, completed: 0, inProgress: 0 };
+    let total = 0;
+    let completed = 0;
+    let inProgress = 0;
+
+    activeNotebook.cells.forEach((cell, idx) => {
+      if (cell.cell_type === 'code') {
+        const orig = formatSource(cell.source);
+        const curr = cellCodes[idx] !== undefined ? cellCodes[idx] : orig;
+        const out = cellOutputs[idx];
+        const sc = analyzeCellScaffolding(orig, curr, out);
+        if (sc.isScaffolded) {
+          total++;
+          if (sc.state === 'completed') completed++;
+          else if (sc.state === 'in_progress') inProgress++;
+        }
+      }
+    });
+
+    return { total, completed, inProgress };
+  }, [activeNotebook, cellCodes, cellOutputs]);
 
   const isModifiedCount = activeNotebook?.cells
     ? Object.keys(cellCodes).filter(idx => {
@@ -438,12 +535,24 @@ export function NotebookViewer({
                   )}
                 </div>
                 <h2 className="text-xl font-bold text-white mt-0.5">{activeNotebook.title}</h2>
-                <div className="flex items-center gap-3 text-xs text-slate-400 font-mono">
+                <div className="flex items-center gap-3 text-xs text-slate-400 font-mono flex-wrap">
                   <span>{activeNotebook.cells.length} {t ? t('totalCells') : 'Total Cells'}</span>
                   <span>•</span>
                   <span className="text-emerald-400 font-bold">
                     {activeNotebook.cells.filter(c => c.cell_type === 'code').length} {t ? t('executableCells') : 'Executable Code Cells'}
                   </span>
+                  {scaffoldStats.total > 0 && (
+                    <>
+                      <span>•</span>
+                      <span className="text-purple-300 font-bold flex items-center gap-1.5 bg-purple-500/15 border border-purple-500/30 px-2 py-0.5 rounded-lg">
+                        <Target className="w-3.5 h-3.5 text-purple-400" />
+                        <span>{scaffoldStats.total} {t ? t('scaffoldExercisesCount') : 'Scaffolded Exercises'}</span>
+                        <span className="text-slate-400 font-normal">
+                          ({scaffoldStats.completed} {isEs ? 'completados' : 'completed'})
+                        </span>
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -500,6 +609,7 @@ export function NotebookViewer({
                   const originalCode = formatSource(cell.source);
                   const currentCode = cellCodes[idx] !== undefined ? cellCodes[idx] : originalCode;
                   const isModified = currentCode !== originalCode;
+                  const scaffold = analyzeCellScaffolding(originalCode, currentCode, output);
 
                   return (
                     <div 
@@ -507,15 +617,50 @@ export function NotebookViewer({
                       className="rounded-2xl border border-slate-800 bg-slate-900 shadow-md overflow-hidden space-y-0 transition-all focus-within:border-blue-500/50"
                     >
                       {/* Code Cell Header */}
-                      <div className="bg-slate-950/90 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs">
-                        <div className="flex items-center gap-2">
+                      <div className="bg-slate-950/90 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs flex-wrap gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-[11px] font-mono text-blue-400 font-bold">
                             In [{idx + 1}]:
                           </span>
                           {isModified && (
-                            <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
                               {isEs ? '● Modificado' : '● Edited'}
                             </span>
+                          )}
+
+                          {scaffold.isScaffolded && (
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              {scaffold.state === 'starter' && (
+                                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30 flex items-center gap-1.5">
+                                  <Target className="w-3 h-3 text-purple-400" />
+                                  <span>{t ? t('scaffoldExercise') : 'Scaffolded Exercise'}</span>
+                                  <span className="text-[9px] bg-purple-900/60 px-1.5 py-0.2 rounded-full text-purple-200">
+                                    {t ? t('scaffoldStarter') : 'Starter'}
+                                  </span>
+                                </span>
+                              )}
+                              {scaffold.state === 'in_progress' && (
+                                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5 shadow-sm shadow-amber-950">
+                                  <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                                  </span>
+                                  <span>{t ? t('scaffoldExercise') : 'Scaffolded Exercise'}</span>
+                                  <span className="text-[9px] bg-amber-900/60 px-1.5 py-0.2 rounded-full text-amber-200">
+                                    {t ? t('scaffoldInProgress') : 'In Progress'}
+                                  </span>
+                                </span>
+                              )}
+                              {scaffold.state === 'completed' && (
+                                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5 shadow-sm shadow-emerald-950">
+                                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                                  <span>{t ? t('scaffoldExercise') : 'Scaffolded Exercise'}</span>
+                                  <span className="text-[9px] bg-emerald-900/60 px-1.5 py-0.2 rounded-full text-emerald-200">
+                                    {t ? t('scaffoldCompleted') : 'Completed ✓'}
+                                  </span>
+                                </span>
+                              )}
+                            </div>
                           )}
                         </div>
 
@@ -551,6 +696,63 @@ export function NotebookViewer({
                           </button>
                         </div>
                       </div>
+
+                      {/* Scaffold Learning Goals Checklist Accordion */}
+                      {scaffold.isScaffolded && scaffold.tasks.length > 0 && (
+                        <div className="bg-slate-950/70 border-b border-slate-800/80 px-4 py-2 text-xs">
+                          <div className="flex items-center justify-between gap-2 flex-wrap">
+                            <button
+                              type="button"
+                              onClick={() => toggleScaffoldAccordion(idx)}
+                              className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-white font-medium transition-colors"
+                            >
+                              <Target className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                              <span className="font-bold text-purple-300">
+                                {t ? t('scaffoldGoals') : 'Learning Goals Detected'}
+                              </span>
+                              <span className="text-[10px] text-slate-400 font-mono">
+                                ({scaffold.tasks.length} {isEs ? 'metas' : 'goals'})
+                              </span>
+                              {openAccordions[idx] ? (
+                                <ChevronUp className="w-3 h-3 text-slate-400" />
+                              ) : (
+                                <ChevronDown className="w-3 h-3 text-slate-400" />
+                              )}
+                            </button>
+
+                            <span className="text-[10px] font-mono">
+                              {scaffold.state === 'completed' ? (
+                                <span className="text-emerald-400 font-bold flex items-center gap-1">
+                                  <CheckCircle2 className="w-3 h-3 inline" /> {isEs ? '¡Metas resueltas y probadas!' : 'Goals solved & verified!'}
+                                </span>
+                              ) : scaffold.state === 'in_progress' ? (
+                                <span className="text-amber-300 font-semibold flex items-center gap-1">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block"></span>
+                                  {isEs ? 'Práctica en progreso...' : 'Practice in progress...'}
+                                </span>
+                              ) : (
+                                <span className="text-purple-300/80">
+                                  {isEs ? 'Listo para personalizar' : 'Ready to personalize & solve'}
+                                </span>
+                              )}
+                            </span>
+                          </div>
+
+                          {/* Expanded Checklist */}
+                          {openAccordions[idx] && (
+                            <div className="mt-2 pt-2 border-t border-slate-800/60 space-y-1.5">
+                              {scaffold.tasks.map((taskItem, tIdx) => (
+                                <div key={tIdx} className="flex items-start gap-2 text-[11px] text-slate-300">
+                                  <span className="text-purple-400 font-mono text-[10px] shrink-0 mt-0.5 font-bold">
+                                    #{tIdx + 1}
+                                  </span>
+                                  <span className="leading-snug text-slate-200">{taskItem.text}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                       {/* Interactive Editable Code Textarea */}
                       <div className="relative group">
