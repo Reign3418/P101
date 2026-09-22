@@ -336,8 +336,12 @@ export default function App() {
                     <WhyBox
                       sectionId={sec.id}
                       whyText={sec.why}
+                      bookRef={sec.book_ref}
+                      breakdown={sec.breakdown}
+                      deepDive={sec.deep_dive}
                       onSpeak={handleSpeakWhy}
                       t={t}
+                      lang={lang}
                     />
 
                     {/* 2. Mechanics & Code Snippet */}
