@@ -84,10 +84,8 @@ const LECTURE_NOTEBOOK_RULES = [
     matcher: (name) => /5\.1|5\.2|function/i.test(name || ''),
     chapterNum: 7,
     sectionRules: [
-      { sectionNum: '7.1', sectionId: '7-1', triggers: [/def\s+\w+/, /parameters?\s*vs\s*arguments?/i, /void\s*function/i] },
-      { sectionNum: '7.2', sectionId: '7-2', triggers: [/return\b/, /return\s*vs\s*print/i, /value-returning/i] },
-      { sectionNum: '7.3', sectionId: '7-3', triggers: [/scope/i, /local\s*variable/i, /stack\s*frame/i] },
-      { sectionNum: '7.4', sectionId: '7-4', triggers: [/\*args/, /\*\*kwargs/, /default\s*argument/i] }
+      { sectionNum: '7.1', sectionId: '7-1', triggers: [/def\s+\w+/, /parameters?\s*vs\s*arguments?/i, /void\s*function/i, /return\b/, /return\s*vs\s*print/i, /value-returning/i] },
+      { sectionNum: '7.2', sectionId: '7-2', triggers: [/scope/i, /local\s*variable/i, /stack\s*frame/i, /\*args/, /\*\*kwargs/, /default\s*argument/i, /optional/i] }
     ]
   },
   // Module 4.1 & 4.2: While Loops & Workshops
@@ -95,10 +93,8 @@ const LECTURE_NOTEBOOK_RULES = [
     matcher: (name) => /4\.1|4\.2|while/i.test(name || ''),
     chapterNum: 6,
     sectionRules: [
-      { sectionNum: '6.1', sectionId: '6-1', triggers: [/while\s+/, /condition-controlled/i, /sentinel/i] },
-      { sectionNum: '6.2', sectionId: '6-2', triggers: [/infinite\s*loop/i, /flag\b/i] },
-      { sectionNum: '6.3', sectionId: '6-3', triggers: [/modulo/i, /%/] },
-      { sectionNum: '6.4', sectionId: '6-4', triggers: [/nested/i, /workshop/i] }
+      { sectionNum: '6.1', sectionId: '6-1', triggers: [/while\s+/, /condition-controlled/i, /sentinel/i, /infinite\s*loop/i, /flag\b/i] },
+      { sectionNum: '6.2', sectionId: '6-2', triggers: [/modulo/i, /%/, /nested/i, /workshop/i, /integrated/i] }
     ]
   },
   // Module 3.2: Dictionaries
@@ -106,10 +102,8 @@ const LECTURE_NOTEBOOK_RULES = [
     matcher: (name) => /3\.2|dictionar/i.test(name || ''),
     chapterNum: 5,
     sectionRules: [
-      { sectionNum: '5.1', sectionId: '5-1', triggers: [/\{.*:.*\}/, /key-value/i, /hash\s*table/i] },
-      { sectionNum: '5.2', sectionId: '5-2', triggers: [/\.get\(/, /safe\s*lookup/i] },
-      { sectionNum: '5.3', sectionId: '5-3', triggers: [/\.items\(\)/, /\.keys\(\)/, /\.values\(\)/] },
-      { sectionNum: '5.4', sectionId: '5-4', triggers: [/nested\s*dict/i, /inventory/i] }
+      { sectionNum: '5.1', sectionId: '5-1', triggers: [/\{.*:.*\}/, /key-value/i, /hash\s*table/i, /\.get\(/, /safe\s*lookup/i] },
+      { sectionNum: '5.2', sectionId: '5-2', triggers: [/\.items\(\)/, /\.keys\(\)/, /\.values\(\)/, /nested\s*dict/i, /inventory/i] }
     ]
   },
   // Module 3.1: If Statements
@@ -117,10 +111,8 @@ const LECTURE_NOTEBOOK_RULES = [
     matcher: (name) => /3\.1|if_statement/i.test(name || ''),
     chapterNum: 4,
     sectionRules: [
-      { sectionNum: '4.1', sectionId: '4-1', triggers: [/\bif\s+/, /decision\s*structure/i] },
-      { sectionNum: '4.2', sectionId: '4-2', triggers: [/\belif\s+/, /\belse:/, /nested\s*if/i] },
-      { sectionNum: '4.3', sectionId: '4-3', triggers: [/and\b/, /or\b/, /not\b/, /boolean\s*logic/i] },
-      { sectionNum: '4.4', sectionId: '4-4', triggers: [/membership/i, /\bin\s+/] }
+      { sectionNum: '4.1', sectionId: '4-1', triggers: [/\bif\s+/, /decision\s*structure/i, /and\b/, /or\b/, /not\b/, /boolean\s*logic/i, /membership/i, /\bin\s+/] },
+      { sectionNum: '4.2', sectionId: '4-2', triggers: [/\belif\s+/, /\belse:/, /nested\s*if/i, /decision\s*chain/i] }
     ]
   },
   // Module 2.2: Working with Lists & For Loops
@@ -128,10 +120,8 @@ const LECTURE_NOTEBOOK_RULES = [
     matcher: (name) => /2\.2|working_with_lists/i.test(name || ''),
     chapterNum: 3,
     sectionRules: [
-      { sectionNum: '3.1', sectionId: '3-1', triggers: [/for\s+\w+\s+in\s+/, /iteration/i] },
-      { sectionNum: '3.2', sectionId: '3-2', triggers: [/range\(/, /count-controlled/i] },
-      { sectionNum: '3.3', sectionId: '3-3', triggers: [/accumulator/i, /total\s*\+=/] },
-      { sectionNum: '3.4', sectionId: '3-4', triggers: [/slice/i, /\[\d*:\d*\]/, /tuple/i] }
+      { sectionNum: '3.1', sectionId: '3-1', triggers: [/for\s+\w+\s+in\s+/, /iteration/i, /range\(/, /count-controlled/i, /accumulator/i, /total\s*\+=/] },
+      { sectionNum: '3.2', sectionId: '3-2', triggers: [/slice/i, /\[\d*:\d*\]/, /tuple/i, /\.copy\(\)/, /copy/i] }
     ]
   },
   // Module 2.1: Intro to Lists
@@ -139,10 +129,8 @@ const LECTURE_NOTEBOOK_RULES = [
     matcher: (name) => /2\.1|intro_to_lists/i.test(name || ''),
     chapterNum: 2,
     sectionRules: [
-      { sectionNum: '2.1', sectionId: '2-1', triggers: [/\[.*\]/, /list\s*creation/i] },
-      { sectionNum: '2.2', sectionId: '2-2', triggers: [/\[\s*-?\d+\s*\]/, /0-based\s*index/i, /negative\s*index/i] },
-      { sectionNum: '2.3', sectionId: '2-3', triggers: [/\.append\(/, /\.insert\(/, /mutability/i] },
-      { sectionNum: '2.4', sectionId: '2-4', triggers: [/\.pop\(/, /\.remove\(/, /del\s+/] }
+      { sectionNum: '2.1', sectionId: '2-1', triggers: [/\[.*\]/, /list\s*creation/i, /\[\s*-?\d+\s*\]/, /0-based\s*index/i, /negative\s*index/i, /\.append\(/, /\.insert\(/, /mutability/i] },
+      { sectionNum: '2.2', sectionId: '2-2', triggers: [/\.pop\(/, /\.remove\(/, /del\s+/, /\.sort\(/, /\.reverse\(/, /reverse\s*=/i] }
     ]
   },
   // Module 1: Variables & Data Types
@@ -150,10 +138,8 @@ const LECTURE_NOTEBOOK_RULES = [
     matcher: (name) => /01_|variables/i.test(name || ''),
     chapterNum: 1,
     sectionRules: [
-      { sectionNum: '1.1', sectionId: '1-1', triggers: [/variable/i, /memory\s*slot/i, /name\s*error/i] },
-      { sectionNum: '1.2', sectionId: '1-2', triggers: [/f["'].*\{.*\}["']/, /f-string/i, /format/i] },
-      { sectionNum: '1.3', sectionId: '1-3', triggers: [/int\(/, /float\(/, /str\(/, /type\(/, /conversion/i] },
-      { sectionNum: '1.4', sectionId: '1-4', triggers: [/strip\(/, /lower\(/, /upper\(/, /transformation/i] }
+      { sectionNum: '1.1', sectionId: '1-1', triggers: [/variable/i, /memory\s*slot/i, /name\s*error/i, /int\(/, /float\(/, /str\(/, /type\(/, /conversion/i] },
+      { sectionNum: '1.2', sectionId: '1-2', triggers: [/f["'].*\{.*\}["']/, /f-string/i, /format/i, /strip\(/, /lower\(/, /upper\(/, /transformation/i, /immutable/i] }
     ]
   }
 ];

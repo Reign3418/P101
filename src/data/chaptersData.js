@@ -20,7 +20,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Student Profile Card Rep",
           "prompt": "Create student='Alex', course='Intro to Python', and room=204. Combine into card = f'{student} is in {course} (Room {room})'.",
-          "starter": "student = 'Alex'\ncourse = 'Intro to Python'\nroom = 204\ncard = f'{student} is in {course} (Room {room})'\nprint(card)",
+          "starter": "student = 'Alex'\ncourse = 'Intro to Python'\nroom = 204\n# TODO: create card using an f-string combining student, course, and room\ncard = \nprint(card)",
           "test_var": "card",
           "expected_val": "Alex is in Intro to Python (Room 204)",
           "title_es": "Repetición: Tarjeta de Perfil Estudiantil",
@@ -88,7 +88,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Clean and Format Name Rep",
           "prompt": "Given raw = '  ada lovelace  ', clean whitespace and title-case into 'clean_name'.",
-          "starter": "raw = '  ada lovelace  '\nclean_name = raw.strip().title()\nprint(clean_name)",
+          "starter": "raw = '  ada lovelace  '\n# TODO: strip whitespace and title-case raw, store in clean_name\nclean_name = \nprint(clean_name)",
           "test_var": "clean_name",
           "expected_val": "Ada Lovelace",
           "title_es": "Repetición: Limpieza y Formato de Nombre",
@@ -168,7 +168,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Coffee Order Queue Rep",
           "prompt": "Start with orders = ['latte', 'drip']. Append 'mocha' and insert 'espresso' at index 0. Store first item in 'next_order'.",
-          "starter": "orders = ['latte', 'drip']\norders.append('mocha')\norders.insert(0, 'espresso')\nnext_order = orders[0]\nprint(next_order)",
+          "starter": "orders = ['latte', 'drip']\n# TODO: append 'mocha' to orders, then insert 'espresso' at index 0\n\n\nnext_order = \nprint(next_order)",
           "test_var": "next_order",
           "expected_val": "espresso",
           "title_es": "Repetición: Cola de Pedidos de Café",
@@ -236,7 +236,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Streaming Watchlist Cleanup Rep",
           "prompt": "Given watchlist = ['Dune', 'Shrek', 'Arrival'], pop the last movie into 'watched'.",
-          "starter": "watchlist = ['Dune', 'Shrek', 'Arrival']\nwatched = watchlist.pop()\nprint(watched)",
+          "starter": "watchlist = ['Dune', 'Shrek', 'Arrival']\n# TODO: pop the last movie from watchlist and store it in watched\nwatched = \nprint(watched)",
           "test_var": "watched",
           "expected_val": "Arrival",
           "title_es": "Repetición: Limpieza de Lista de Películas",
@@ -316,7 +316,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Road Trip Daily Miles Rep",
           "prompt": "Given miles = [150, 220, 85], calculate total = sum(miles) and average = round(total / len(miles), 1). Store average in 'avg_miles'.",
-          "starter": "miles = [150, 220, 85]\ntotal = sum(miles)\navg_miles = round(total / len(miles), 1)\nprint(avg_miles)",
+          "starter": "miles = [150, 220, 85]\n# TODO: calculate total = sum(miles), then avg_miles = round(total / len(miles), 1)\ntotal = \navg_miles = \nprint(avg_miles)",
           "test_var": "avg_miles",
           "expected_val": "151.7",
           "title_es": "Repetición: Millas Diarias de Viaje",
@@ -384,7 +384,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Route Preview Slice Rep",
           "prompt": "Given stops = ['Raleigh', 'Richmond', 'DC', 'Philly', 'NYC'], slice the first 3 stops into 'preview'.",
-          "starter": "stops = ['Raleigh', 'Richmond', 'DC', 'Philly', 'NYC']\npreview = stops[:3]\nprint(preview)",
+          "starter": "stops = ['Raleigh', 'Richmond', 'DC', 'Philly', 'NYC']\n# TODO: slice the first 3 stops into preview\npreview = \nprint(preview)",
           "test_var": "preview",
           "expected_val": "['Raleigh', 'Richmond', 'DC']",
           "title_es": "Repetición: Vista Previa de Paradas de Ruta",
@@ -464,7 +464,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Café Order Availability Rep",
           "prompt": "Given menu = ['muffin', 'bagel', 'scone'] and item = 'bagel', check if item in menu and set available=True.",
-          "starter": "menu = ['muffin', 'bagel', 'scone']\nitem = 'bagel'\navailable = item in menu\nprint(available)",
+          "starter": "menu = ['muffin', 'bagel', 'scone']\nitem = 'bagel'\n# TODO: check if item is in menu and assign the result to available\navailable = \nprint(available)",
           "test_var": "available",
           "expected_val": "True",
           "title_es": "Repetición: Disponibilidad de Menú de Café",
@@ -532,7 +532,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Drink Size Pricing Rep",
           "prompt": "Given size='medium', set price=3.00 for small, 4.00 for medium, 5.00 for large. Store price in 'drink_price'.",
-          "starter": "size = 'medium'\nif size == 'small': drink_price = 3.00\nelif size == 'medium': drink_price = 4.00\nelse: drink_price = 5.00\nprint(drink_price)",
+          "starter": "size = 'medium'\n# TODO: use if/elif/else to assign drink_price: 3.00 for small, 4.00 for medium, 5.00 for large\n\n\n\nprint(drink_price)",
           "test_var": "drink_price",
           "expected_val": "4.0",
           "title_es": "Repetición: Precios por Tamaño de Bebida",
@@ -612,7 +612,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Campus Course Record Rep",
           "prompt": "Create course = {'name': 'Python', 'seats': 24}. Add key 'instructor' = 'Jade Cao'. Store instructor in 'prof'.",
-          "starter": "course = {'name': 'Python', 'seats': 24}\ncourse['instructor'] = 'Jade Cao'\nprof = course['instructor']\nprint(prof)",
+          "starter": "course = {'name': 'Python', 'seats': 24}\n# TODO: add key 'instructor' = 'Jade Cao' to course, then store course['instructor'] in prof\n\nprof = \nprint(prof)",
           "test_var": "prof",
           "expected_val": "Jade Cao",
           "title_es": "Repetición: Registro de Curso Universitario",
@@ -680,7 +680,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Inventory Total Calculation Rep",
           "prompt": "Given stock = {'apples': 10, 'bananas': 15, 'oranges': 8}, sum all quantities into 'total_fruit'.",
-          "starter": "stock = {'apples': 10, 'bananas': 15, 'oranges': 8}\ntotal_fruit = sum(stock.values())\nprint(total_fruit)",
+          "starter": "stock = {'apples': 10, 'bananas': 15, 'oranges': 8}\n# TODO: sum all values in stock into total_fruit\ntotal_fruit = \nprint(total_fruit)",
           "test_var": "total_fruit",
           "expected_val": "33",
           "title_es": "Repetición: Cálculo Total de Inventario",
@@ -760,7 +760,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Grocery Cart Accumulator Rep",
           "prompt": "Sum prices = [4.50, 12.00, 3.25] using a while loop into 'cart_total' rounded to 2 decimals.",
-          "starter": "prices = [4.50, 12.00, 3.25]\ncart_total = 0.0\nidx = 0\nwhile idx < len(prices):\n    cart_total += prices[idx]\n    idx += 1\ncart_total = round(cart_total, 2)\nprint(cart_total)",
+          "starter": "prices = [4.50, 12.00, 3.25]\ncart_total = 0.0\nidx = 0\n# TODO: write a while loop that adds each price to cart_total and increments idx\n\n\n\ncart_total = round(cart_total, 2)\nprint(cart_total)",
           "test_var": "cart_total",
           "expected_val": "19.75",
           "title_es": "Repetición: Acumulador de Carrito de Compras",
@@ -828,7 +828,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Road Trip Stops Accumulator Rep",
           "prompt": "Given stops = [{'city': 'Raleigh', 'miles': 120}, {'city': 'Richmond', 'miles': 140}], calculate total_miles = sum(s['miles'] for s in stops).",
-          "starter": "stops = [{'city': 'Raleigh', 'miles': 120}, {'city': 'Richmond', 'miles': 140}]\ntotal_miles = sum(s['miles'] for s in stops)\nprint(total_miles)",
+          "starter": "stops = [{'city': 'Raleigh', 'miles': 120}, {'city': 'Richmond', 'miles': 140}]\n# TODO: sum all 'miles' values from stops into total_miles\ntotal_miles = \nprint(total_miles)",
           "test_var": "total_miles",
           "expected_val": "260",
           "title_es": "Repetición: Acumulador de Paradas de Viaje",
@@ -908,7 +908,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Café Discount Function Rep",
           "prompt": "Write calc_bill(price, tip_pct=0.15) that returns round(price * (1 + tip_pct), 2). Store calc_bill(40.0) in 'bill'.",
-          "starter": "def calc_bill(price, tip_pct=0.15):\n    return round(price * (1 + tip_pct), 2)\nbill = calc_bill(40.0)\nprint(bill)",
+          "starter": "def calc_bill(price, tip_pct=0.15):\n    # TODO: return round(price * (1 + tip_pct), 2)\n    pass\n\nbill = \nprint(bill)",
           "test_var": "bill",
           "expected_val": "46.0",
           "title_es": "Repetición: Función de Descuento de Café",
@@ -976,7 +976,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Character Profile Function Rep",
           "prompt": "Write format_title(name, rank=None). If rank, return f'{name} ({rank})', else return name. Store format_title('Chris', 'Captain') in 'title'.",
-          "starter": "def format_title(name, rank=None):\n    if rank:\n        return f'{name} ({rank})'\n    return name\ntitle = format_title('Chris', 'Captain')\nprint(title)",
+          "starter": "def format_title(name, rank=None):\n    # TODO: if rank is given, return f'{name} ({rank})'; otherwise return name\n    pass\n\ntitle = \nprint(title)",
           "test_var": "title",
           "expected_val": "Chris (Captain)",
           "title_es": "Repetición: Función de Perfil de Personaje",
@@ -1054,13 +1054,13 @@ export const CHAPTERS_DATA = [
         "expected_output": "Disk record: Python Programming\nDisk record: Central Carolina Community College",
         "pitfall": "Opening an existing file in 'w' mode by mistake. Mode 'w' instantly truncates (erases) the file! Use 'a' to append.",
         "rep": {
-          "title": "File Line Stripper Rep",
-          "prompt": "Strip trailing newline from raw = 'data_record\\\\n' and store in 'clean_record'.",
-          "starter": "raw = 'data_record\\n'\nclean_record = raw.rstrip('\\n')\nprint(clean_record)",
+          "title": "File I/O Line Reader Rep",
+          "prompt": "Use io.BytesIO to simulate reading a binary file. Open raw_bytes = b'data_record\\\\n' with io.BytesIO, read the line, decode it, and strip the newline — store result in 'clean_record'.",
+          "starter": "import io\nraw_bytes = b'data_record\\n'\n# TODO: open raw_bytes with io.BytesIO and read the line, then decode and strip the newline into clean_record\nwith io.BytesIO(raw_bytes) as f:\n    clean_record = \nprint(clean_record)",
           "test_var": "clean_record",
           "expected_val": "data_record",
-          "title_es": "Repetición: Limpieza de Línea de Archivo",
-          "prompt_es": "Elimina el salto de línea final de raw = 'data_record\\\\n' y guarda en 'clean_record'."
+          "title_es": "Repetición: Lector de Línea de Archivo",
+          "prompt_es": "Usa io.BytesIO para simular la lectura de un archivo binario. Abre raw_bytes = b'data_record\\\\n', lee la línea, decodifícala y elimina el salto de línea — guarda en 'clean_record'."
         },
         "quiz": {
           "question": "Which file mode adds new content to the end of a file without erasing its existing data?",
@@ -1124,7 +1124,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Safe Integer Converter Rep",
           "prompt": "Try int('invalid'). On ValueError, set status='recovered'.",
-          "starter": "try:\n    val = int('invalid')\nexcept ValueError:\n    status = 'recovered'\nprint(status)",
+          "starter": "try:\n    val = int('invalid')\nexcept ValueError:\n    # TODO: assign status = 'recovered'\n    status = \nprint(status)",
           "test_var": "status",
           "expected_val": "recovered",
           "title_es": "Repetición: Convertidor Seguro de Enteros",
@@ -1206,7 +1206,7 @@ export const CHAPTERS_DATA = [
               "rep": {
                   "title": "Movie Class Rep",
                   "prompt": "Create class Movie with __init__(self, title, genre, rating) and method describe() that returns f'{self.title} ({self.genre}) - {self.rating}/10'. Instantiate fav = Movie('Inception', 'Sci-Fi', 9). Store fav.describe() in 'summary'.",
-                  "starter": "class Movie:\n    def __init__(self, title, genre, rating):\n        self.title = title\n        self.genre = genre\n        self.rating = rating\n\n    def describe(self):\n        return f\"{self.title} ({self.genre}) - {self.rating}/10\"\n\nfav = Movie(\"Inception\", \"Sci-Fi\", 9)\nsummary = fav.describe()\nprint(summary)",
+                  "starter": "class Movie:\n    def __init__(self, title, genre, rating):\n        # TODO: assign self.title, self.genre, and self.rating\n        pass\n\n    def describe(self):\n        # TODO: return f-string: '{title} ({genre}) - {rating}/10'\n        pass\n\nfav = Movie(\"Inception\", \"Sci-Fi\", 9)\nsummary = \nprint(summary)",
                   "test_var": "summary",
                   "expected_val": "Inception (Sci-Fi) - 9/10",
                   "title_es": "Repetición: Clase Movie",
@@ -1276,7 +1276,7 @@ export const CHAPTERS_DATA = [
               "rep": {
                   "title": "Player Health Independence Rep",
                   "prompt": "Create class Player with __init__(self, name, health=100) and take_damage(self, amount) that subtracts amount from self.health. Create p1 = Player('Nova') and p2 = Player('Orion'). Call p1.take_damage(25). Store f'{p1.name}:{p1.health}|{p2.name}:{p2.health}' in 'status'.",
-                  "starter": "class Player:\n    def __init__(self, name, health=100):\n        self.name = name\n        self.health = health\n\n    def take_damage(self, amount):\n        self.health -= amount\n\np1 = Player(\"Nova\")\np2 = Player(\"Orion\")\np1.take_damage(25)\nstatus = f\"{p1.name}:{p1.health}|{p2.name}:{p2.health}\"\nprint(status)",
+                  "starter": "class Player:\n    def __init__(self, name, health=100):\n        # TODO: store name and health as instance attributes\n        pass\n\n    def take_damage(self, amount):\n        # TODO: subtract amount from self.health\n        pass\n\np1 = Player(\"Nova\")\np2 = Player(\"Orion\")\np1.take_damage(25)\nstatus = \nprint(status)",
                   "test_var": "status",
                   "expected_val": "Nova:75|Orion:100",
                   "title_es": "Repetición: Independencia de Estado en Jugadores",
@@ -1346,7 +1346,7 @@ export const CHAPTERS_DATA = [
               "rep": {
                   "title": "Bank Account Validation Rep",
                   "prompt": "Create class BankAccount with __init__(self, owner, balance=0). Add deposit(amount) that only adds if amount > 0, and withdraw(amount) that only subtracts if 0 < amount <= self.balance. Create acct = BankAccount('Jordan', 100). deposit(50), withdraw(30), withdraw(500). Store acct.balance in 'final_bal'.",
-                  "starter": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount > 0:\n            self.balance += amount\n\n    def withdraw(self, amount):\n        if 0 < amount <= self.balance:\n            self.balance -= amount\n\nacct = BankAccount(\"Jordan\", 100)\nacct.deposit(50)\nacct.withdraw(30)\nacct.withdraw(500) # Rejected!\nfinal_bal = acct.balance\nprint(final_bal)",
+                  "starter": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        # TODO: store owner and balance as instance attributes\n        pass\n\n    def deposit(self, amount):\n        # TODO: only add amount to self.balance if amount > 0\n        pass\n\n    def withdraw(self, amount):\n        # TODO: only subtract if 0 < amount <= self.balance\n        pass\n\nacct = BankAccount(\"Jordan\", 100)\nacct.deposit(50)\nacct.withdraw(30)\nacct.withdraw(500)  # Should be rejected!\nfinal_bal = \nprint(final_bal)",
                   "test_var": "final_bal",
                   "expected_val": 120,
                   "title_es": "Repetición: Validación en Cuenta Bancaria",
@@ -1416,7 +1416,7 @@ export const CHAPTERS_DATA = [
               "rep": {
                   "title": "Pet Energy State Rep",
                   "prompt": "Create class Pet with __init__(self, name, age) setting self.energy = 100. Add play(mins) reducing energy by mins*2 (clamped floor 0 with max(0, ...)), and rest(amt) adding amt (clamped ceiling 100 with min(100, ...)). Create luna = Pet('Luna', 2). luna.play(30), luna.rest(10), luna.play(50). Store luna.energy in 'final_energy'.",
-                  "starter": "class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n        self.energy = 100\n\n    def play(self, mins):\n        self.energy = max(0, self.energy - (mins * 2))\n\n    def rest(self, amt):\n        self.energy = min(100, self.energy + amt)\n\nluna = Pet(\"Luna\", 2)\nluna.play(30) # 100 - 60 = 40\nluna.rest(10) # 40 + 10 = 50\nluna.play(50) # 50 - 100 -> clamped to 0!\nfinal_energy = luna.energy\nprint(final_energy)",
+                  "starter": "class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n        self.energy = 100\n\n    def play(self, mins):\n        # TODO: reduce self.energy by mins*2, floor at 0 using max(0, ...)\n        pass\n\n    def rest(self, amt):\n        # TODO: increase self.energy by amt, cap at 100 using min(100, ...)\n        pass\n\nluna = Pet(\"Luna\", 2)\nluna.play(30)  # 100 - 60 = 40\nluna.rest(10)  # 40 + 10 = 50\nluna.play(50)  # 50 - 100 -> clamped to 0!\nfinal_energy = \nprint(final_energy)",
                   "test_var": "final_energy",
                   "expected_val": 0,
                   "title_es": "Repetición: Estado de Energía de Mascota",
@@ -1495,12 +1495,12 @@ export const CHAPTERS_DATA = [
         "pitfall": "Using f-strings (f'INSERT INTO ... {val}') to construct SQL queries, which leaves your application wide open to SQL injection attacks!",
         "rep": {
           "title": "Parameterized SQL Query Rep",
-          "prompt": "Create query string with ? placeholder: sql = 'SELECT * FROM Students WHERE major = ?'. Store in 'query'.",
-          "starter": "query = 'SELECT * FROM Students WHERE major = ?'\nprint(query)",
-          "test_var": "query",
-          "expected_val": "SELECT * FROM Students WHERE major = ?",
-          "title_es": "Repetición: Consulta SQL Parametrizada",
-          "prompt_es": "Crea una cadena de consulta con marcador ?: sql = 'SELECT * FROM Students WHERE major = ?'. Guarda en 'query'."
+          "prompt": "Use sqlite3 to create an in-memory DB with a Students table (name TEXT, major TEXT). Insert ('Maya', 'CS'). Then execute a parameterized SELECT WHERE major = ? with parameter ('CS',). Fetch all rows and store in 'rows'.",
+          "starter": "import sqlite3\nconn = sqlite3.connect(':memory:')\ncur = conn.cursor()\ncur.execute('CREATE TABLE Students (name TEXT, major TEXT)')\ncur.execute('INSERT INTO Students VALUES (?, ?)', ('Maya', 'CS'))\n# TODO: execute SELECT * FROM Students WHERE major = ? with parameter ('CS',)\n# then fetch all results into rows\n\nrows = \nprint(rows)\nconn.close()",
+          "test_var": "rows",
+          "expected_val": "[('Maya', 'CS')]",
+          "title_es": "Repetición: Consulta SQL Parametrizada Real",
+          "prompt_es": "Usa sqlite3 para crear una base de datos en memoria con la tabla Students (name TEXT, major TEXT). Inserta ('Maya', 'CS'). Luego ejecuta un SELECT parametrizado WHERE major = ? con parámetro ('CS',). Obtén todas las filas en 'rows'."
         },
         "quiz": {
           "question": "Why should you always use '?' placeholders instead of string formatting in SQL queries?",

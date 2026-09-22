@@ -56,7 +56,7 @@ Cognitive Load Theory posits that human working memory is strictly limited (typi
 
 1. **Intrinsic Load (The Concept Itself)**:
    - The inherent difficulty of understanding algorithmic logic (e.g., list mutation vs pointer aliasing, or `return` vs `print`).
-   - *P101 Solution*: Isolates concepts into atomic micro-units (14 focused curriculum sections across Modules 1–5).
+   - *P101 Solution*: Isolates concepts into atomic micro-units (**21 curriculum sections across 10 chapters**, Modules 1–6.2).
 2. **Extraneous Load (Mental Waste from Tooling)**:
    - Friction caused by IDE crashes, broken terminal paths, lost network connections, or confusing UI layouts.
    - *P101 Solution*: Reduced to **zero**. The entire platform runs statically on GitHub Pages with client-side WebAssembly execution. No login, no install, no terminal setup.
@@ -197,6 +197,12 @@ Voice narration enhances comprehension for auditory learners and students with r
 - Uses voices already installed on the student's operating system (e.g., Microsoft Natural Neural voices in Edge, Google Cloud voices built into Chrome).
 - Zero audio files are downloaded from third-party paid voice servers (no ElevenLabs, no AWS Polly), ensuring zero cloud bills, zero latency, and zero voice-data scraping.
 - Full bilingual language detection: switches seamlessly between English (`en-US`) and Spanish (`es-ES`, `es-MX`, `es-US`).
+
+> [!IMPORTANT]
+> **Web Speech API Cloud Voice Disclosure**: When a student's browser is configured to use a **cloud-based premium voice** (e.g., Chrome's "Google US English" or Edge's "Microsoft Aria Online"), the text spoken by P101 is transmitted to Google's or Microsoft's synthesis servers to generate audio. This is standard browser behavior controlled by the operating system voice settings — P101 does not initiate or control this transmission. Students who require full local-only processing should switch to an **Offline Voice** in their browser's language/speech settings. Local OS neural voices (e.g., "Microsoft David Desktop" on Windows, "Samantha" on macOS) process text entirely on-device with no network requests.
+
+> [!NOTE]
+> **"Zero Telemetry" Scope Clarification**: P101's zero-telemetry guarantee applies specifically to **no LMS uploads, no tracking pixels, no analytics beacons, no student identity or performance data transmitted to any server**. Like any website, P101 loads static assets (JavaScript, WASM, fonts) from CDN endpoints (`jsdelivr.net`, `fonts.googleapis.com`). These are standard HTTP GET requests containing no student data and are no different from loading any public website.
 
 ### 4.6 Peer Collaboration, Data Science Reference Toolkit & Legal Compliance Framework
 In collaborative academic environments, peer sharing accelerates collective mastery. During the course, classmate **Sarah Cox** shared a curated set of Data Science reference cheat sheets covering **NumPy Basics**, **Matplotlib 3.10 Figure Anatomy & APIs**, and **SciPy Linear Algebra**, which **Prof. Jade Cao** distributed to the class:

@@ -18,16 +18,18 @@ P101 is a bilingual (English / Spanish) Python learning portal that runs 100% in
 ### 📚 Curriculum Modules 1–6
 Structured learning modules aligned to Prof. Cao's lectures and the Gaddis textbook:
 
-| Module | Topic |
-|--------|-------|
-| 1 | Variables, Data Types & F-Strings |
-| 2.1 | Intro to Lists |
-| 2.2 | For Loops & Tuples |
-| 3.1 | If / Elif / Else Decision Structures |
-| 3.2 | Boolean Logic & While Loops |
-| 4 | Functions & Scope |
-| 5 | Dictionaries & File I/O |
-| 6.1 | Classes & Object-Oriented Design (Part 1) |
+| Module Code | Portal Ch | Topic |
+|-------------|-----------|-------|
+| Module 1 | 1 | Variables, Data Types & F-Strings |
+| Module 2.1 | 2 | Intro to Lists |
+| Module 2.2 | 3 | For Loops & Tuples |
+| Module 3.1 | 4 | If / Elif / Else Decision Structures |
+| Module 3.2 | 5 | Dictionaries |
+| Module 4.1/4.2 | 6 | While Loops & Workshops |
+| Module 5.1/5.2 | 7 | Functions & Scope |
+| Extended Ch 6 | 8 | File I/O & Exceptions |
+| Module 6.1 | 9 | Classes & Object-Oriented Design (Part 1) |
+| Module 6.2 | 10 | SQLite & Parameterized Queries |
 
 Each section includes:
 - **💡 The Why** — pedagogical explanation with real-world analogies, RAM trace, and CPython internals

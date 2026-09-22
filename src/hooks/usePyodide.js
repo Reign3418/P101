@@ -49,16 +49,16 @@ export function usePyodide() {
     const startTime = performance.now();
 
     if (!pyodideRef.current) {
-      // Fast fallback while Pyodide initializes
-      const hasVar = testVar ? code.includes(testVar) : true;
+      // Engine not ready — block grading entirely to prevent false-pass
       return {
-        success: true,
-        passed: hasVar,
-        stdout: "Evaluated in static mode (Pyodide engine is initializing in background).",
-        actualVal: hasVar ? expectedVal : null,
+        success: false,
+        passed: false,
+        stdout: '',
+        actualVal: null,
         expectedVal,
         elapsed: Math.round(performance.now() - startTime),
-        engine: 'static'
+        engine: 'pending',
+        pendingMessage: 'Python engine is still loading. Please wait a moment and try again.'
       };
     }
 
@@ -73,20 +73,21 @@ export function usePyodide() {
         }
       }
 
-      // Capture stdout
-      const wrapped = `
-import sys, io
-_out_stream = io.StringIO()
-_old_stdout = sys.stdout
-sys.stdout = _out_stream
+      // Run user code in an isolated namespace to prevent global bleed between reps/cells
+      const sandboxSetup = `
+import sys, io, builtins
+_p101_sandbox = {}
+_p101_out = io.StringIO()
+_p101_old_stdout = sys.stdout
+sys.stdout = _p101_out
 try:
-${code.split('\n').map(l => '    ' + l).join('\n')}
+    exec(compile(${JSON.stringify(code)}, '<rep>', 'exec'), {'__builtins__': builtins, **_p101_sandbox}, _p101_sandbox)
 finally:
-    captured_stdout = _out_stream.getvalue()
-    sys.stdout = _old_stdout
+    _p101_captured = _p101_out.getvalue()
+    sys.stdout = _p101_old_stdout
 `;
-      await pyodide.runPythonAsync(wrapped);
-      const stdout = pyodide.globals.get('captured_stdout') || '';
+      await pyodide.runPythonAsync(sandboxSetup);
+      const stdout = pyodide.globals.get('_p101_captured') || '';
       const elapsed = Math.round(performance.now() - startTime);
 
       let passed = true;
@@ -94,7 +95,9 @@ finally:
 
       if (testVar) {
         try {
-          actualVal = pyodide.globals.get(testVar);
+          // Read from the sandbox dict, not global namespace
+          const sandbox = pyodide.globals.get('_p101_sandbox');
+          actualVal = sandbox && sandbox.get ? sandbox.get(testVar) : pyodide.globals.get(testVar);
           if (expectedVal !== null && actualVal !== undefined) {
             const actStr = String(actualVal).trim();
             const expStr = String(expectedVal).trim();
@@ -103,9 +106,9 @@ finally:
             if (actStr.toLowerCase() === expStr.toLowerCase()) {
               passed = true;
             } else {
-              // 2. Numeric equality (handles float/int conversions like 4 vs 4.0 or 46 vs 46.0)
-              const actNum = Number(actualVal);
-              const expNum = Number(expectedVal);
+              // 2. Numeric equality (handles float/int like 4 vs 4.0, 60.0 vs 60.00)
+              const actNum = parseFloat(actStr);
+              const expNum = parseFloat(expStr);
               if (!isNaN(actNum) && !isNaN(expNum) && Math.abs(actNum - expNum) < 0.0001) {
                 passed = true;
               } else {
@@ -120,7 +123,7 @@ finally:
               }
             }
           } else {
-            passed = actualVal !== undefined;
+            passed = actualVal !== undefined && actualVal !== null;
           }
         } catch (e) {
           passed = false;
@@ -131,7 +134,7 @@ finally:
         success: true,
         passed,
         stdout: String(stdout),
-        actualVal: actualVal !== undefined ? String(actualVal) : null,
+        actualVal: actualVal !== undefined && actualVal !== null ? String(actualVal) : null,
         expectedVal: expectedVal ? String(expectedVal) : null,
         elapsed,
         engine: 'pyodide'

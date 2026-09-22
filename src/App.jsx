@@ -75,9 +75,10 @@ export default function App() {
   const { speak, stop, isMuted, toggleMute, isSpeaking, voices, selectedVoiceName, selectVoice, activeVoice } = useVoice(lang);
   const { stats, repLog, sessionSeconds, logRep, logQuiz, resetStats } = useLearningStats(activeChapterNum);
 
-  // Save state to localStorage
+  // Save state to localStorage + keep <html lang> in sync for accessibility
   useEffect(() => {
     localStorage.setItem('p101_lang', lang);
+    document.documentElement.lang = lang;
   }, [lang]);
 
   useEffect(() => {
@@ -93,7 +94,17 @@ export default function App() {
   }, [reviewQueue]);
 
   useEffect(() => {
-    localStorage.setItem('p101_user_notebooks', JSON.stringify(importedNotebooks));
+    try {
+      localStorage.setItem('p101_user_notebooks', JSON.stringify(importedNotebooks));
+    } catch (e) {
+      if (e.name === 'QuotaExceededError') {
+        alert(
+          '⚠️ Browser Storage Full\n\n' +
+          'Your notebooks could not be saved — browser storage is at capacity.\n\n' +
+          'To free space: open the Notebook Lab and delete notebooks you no longer need.'
+        );
+      }
+    }
   }, [importedNotebooks]);
 
   const localizedChapters = getLocalizedChapters(lang);
@@ -108,6 +119,10 @@ export default function App() {
     setImportedNotebooks(prev => {
       const exists = prev.find(n => n.name === newNb.name);
       if (exists) {
+        const confirmed = window.confirm(
+          `A notebook named "${newNb.name}" already exists.\n\nReplace it with the newly imported version?`
+        );
+        if (!confirmed) return prev;
         return prev.map(n => n.name === newNb.name ? newNb : n);
       }
       return [newNb, ...prev];

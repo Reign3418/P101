@@ -68,13 +68,17 @@ src/
 ├── App.jsx                    # Primary application controller & view switcher
 ├── index.css                  # Global styles, fonts, and dark mode base
 ├── data/
-│   ├── chaptersData.js        # 10 bilingual chapters, 18 sections, quizzes, and reps
+│   ├── chaptersData.js        # 10 bilingual chapters, 21 sections, quizzes, and reps
+│   ├── cheatSheetsData.js     # Data Science reference toolkit (NumPy, Matplotlib, SciPy)
 │   └── translations.js        # English & Spanish UI dictionary
 ├── hooks/
-│   ├── usePyodide.js          # Pyodide WebAssembly lifecycle and stdout capture
-│   └── useVoice.js            # Multilingual voice engine with priority ladders
+│   ├── usePyodide.js          # Pyodide WebAssembly sandbox, autoloader & namespace isolation
+│   ├── useVoice.js            # Multilingual voice engine with priority ladders
+│   └── useLearningStats.js    # Local session telemetry, rep logging & curriculum balance
+├── utils/
+│   └── notebookCurriculumMatcher.js # Bridges notebook cells to curriculum & Gaddis refs
 └── components/
-    ├── Header.jsx             # Top navigation, language toggle, voice picker, citations
+    ├── Header.jsx             # Top navigation, language toggle, voice picker, citations, cheat sheets
     ├── Sidebar.jsx            # Course progress bar, review queue, module list, BYOD launcher
     ├── WhyBox.jsx             # "The Why Under the Hood" conceptual breakdown with audio
     ├── ConceptBox.jsx         # Syntax rules, runnable reference code, and console output
@@ -82,7 +86,12 @@ src/
     ├── TrapBox.jsx            # Common pitfalls and beginner bugs
     ├── QuizBox.jsx            # Checkpoint quiz with "Take Me to Review" auto-navigation
     ├── CitationModal.jsx      # Academic citations and 1-click homework comment copy
-    └── NotebookViewer.jsx     # Bring Your Own Notebook (BYOD) parser and runner
+    ├── CheatSheetModal.jsx    # Dual-mode data science cheat sheets & PDF viewer
+    ├── StatsDashboard.jsx     # Learning velocity, session timer & curriculum matrix
+    ├── ReviewModal.jsx        # Spaced repetition review queue for flagged questions
+    ├── WhitePaperModal.jsx    # Pedagogical theory & zero-telemetry white paper viewer
+    ├── NotebookViewer.jsx     # Bring Your Own Notebook (BYOD) parser and runner
+    └── NotebookTextbookBridge.jsx # Companion card connecting notebook cells to Gaddis text
 ```
 
 ---
@@ -122,7 +131,7 @@ To ensure complete compliance with university intellectual property policies, P1
 
 ### 4.4 Bilingual Internationalization (i18n) System
 - **Centralized Dictionary (`translations.js`)**: Provides comprehensive English and Spanish strings for all UI buttons, labels, tooltips, and modal dialogues.
-- **Curriculum Localization (`chaptersData.js`)**: All 10 chapters and 18 sections include complete Spanish translations for titles, descriptions, "Why" breakdowns, pitfalls, and quizzes.
+- **Curriculum Localization (`chaptersData.js`)**: All 10 chapters and 21 sections include complete Spanish translations for titles, descriptions, "Why" breakdowns, pitfalls, and quizzes.
 - **Dynamic Getter (`getLocalizedChapters(lang)`)**: Returns the localized curriculum tree seamlessly based on the selected language, preserving code logic and test cases.
 - **Zero-Reload Toggle**: Header switch `[ 🇺🇸 EN | 🇪🇸 ES ]` updates the entire DOM and speech engine instantaneously.
 
