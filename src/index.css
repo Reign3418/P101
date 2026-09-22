@@ -25,6 +25,14 @@ code, pre, .code-font {
   background: #334155;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @keyframes highlight-glow {
   0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
   50% { box-shadow: 0 0 24px 6px rgba(245, 158, 11, 0.45); border-color: #f59e0b; }

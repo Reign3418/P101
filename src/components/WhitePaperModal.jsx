@@ -216,8 +216,8 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-4xl w-full h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 animate-in fade-in duration-200">
+      <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-6xl xl:max-w-7xl 2xl:max-w-[1440px] h-[92vh] flex flex-col shadow-2xl overflow-hidden">
         
         {/* Modal Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-950/80 flex flex-col gap-3 shrink-0">
@@ -309,7 +309,7 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
         </div>
 
         {/* Quick-Jump Section Navigation */}
-        <div className="px-4 py-2 border-b border-slate-800/80 bg-slate-950/40 flex items-center gap-1.5 overflow-x-auto custom-scroll text-xs shrink-0">
+        <div className="px-4 py-2.5 border-b border-slate-800/80 bg-slate-950/40 flex items-center gap-2 overflow-x-auto no-scrollbar text-xs shrink-0 flex-wrap sm:flex-nowrap">
           <button
             onClick={() => setActiveTab('all')}
             className={`px-3 py-1 rounded-lg transition-all font-medium whitespace-nowrap ${
