@@ -13,7 +13,7 @@ export const CHAPTERS_DATA = [
         "num": "1.1",
         "title": "Variables: Names for Values in Memory",
         "why": "Computers need human-friendly labels to track data stored in RAM. Assigning `score = 95` puts 95 into a memory slot and labels that slot `score`.",
-        "concept": "Variables can change over time. Naming rules: must start with letter or underscore; no spaces; case-sensitive; snake_case is standard in Python.",
+        "concept": "Variables reference objects in RAM. Python is dynamically typed with primitives: int, float, str, bool (inspect with `type(x)`). Explicit conversion (`int()`, `float()`, `str()`) casts data types. Naming: must start with a letter or underscore, no spaces, snake_case standard.",
         "code": "student_name = 'Maya'\nquiz_score = 9\nfavorite_snack = 'popcorn'\nprint(f'{student_name} scored {quiz_score}/10 and loves {favorite_snack}.')",
         "expected_output": "Maya scored 9/10 and loves popcorn.",
         "pitfall": "Forgetting that Python variable names are case-sensitive: `Score` and `score` are two completely different memory slots!",
@@ -47,7 +47,7 @@ export const CHAPTERS_DATA = [
         },
         "title_es": "Variables: Nombres para Valores en Memoria",
         "why_es": "Las computadoras necesitan etiquetas comprensibles para rastrear datos almacenados en la RAM. Asignar `score = 95` almacena 95 en una ranura de memoria y nombra esa ranura `score`.",
-        "concept_es": "Las variables pueden cambiar con el tiempo. Reglas de nomenclatura: deben iniciar con letra o guion bajo; sin espacios; distinguen mayúsculas; snake_case es el estándar de Python.",
+        "concept_es": "Las variables referencian objetos en RAM. Python tiene tipado dinámico con tipos primitivos: int, float, str, bool (inspeccionar con `type(x)`). La conversión explícita (`int()`, `float()`, `str()`) adapta datos. Nomenclatura: iniciar con letra o guion bajo, sin espacios, snake_case estándar.",
         "pitfall_es": "¡Olvidar que las variables en Python distinguen mayúsculas y minúsculas: `Score` y `score` son dos ranuras de memoria completamente diferentes!",
         "book_ref": {
           "gaddis_chapter": 2,
@@ -81,7 +81,7 @@ export const CHAPTERS_DATA = [
         "num": "1.2",
         "title": "Strings: Transformations, Whitespace & f-Strings",
         "why": "User text is messy (extra spaces, inconsistent capitalization). String methods sanitize inputs so 'yes ' and 'YES' both match 'yes'.",
-        "concept": ".strip() removes invisible spaces. .title() capitalizes words. f-strings (f'Hello, {name}') inject live variables into text cleanly.",
+        "concept": "Strings are immutable sequences. Cleaning methods: `.strip()`, `.rstrip()`, `.lstrip()` remove whitespace; `.lower()`, `.upper()`, `.title()` sanitize case. Modern f-strings inject variables cleanly. Traceback clues: `SyntaxError` (grammar broken), `NameError` (variable missing from memory table), `TypeError` (invalid operation on types).",
         "code": "raw_name = '   jordan smith   '\nclean_name = raw_name.strip().title()\nprint(f'Formatted: |{clean_name}|')",
         "expected_output": "Formatted: |Jordan Smith|",
         "pitfall": "Strings in Python are immutable! Calling `name.strip()` does NOT change `name` unless you reassign it: `name = name.strip()`.",
@@ -115,7 +115,7 @@ export const CHAPTERS_DATA = [
         },
         "title_es": "Cadenas: Transformaciones, Espacios y f-Strings",
         "why_es": "El texto introducido por el usuario suele ser desordenado (espacios adicionales, mayúsculas inconsistentes). Los métodos de cadenas limpian entradas para que 'si ' y 'SI' coincidan con 'si'.",
-        "concept_es": ".strip() elimina espacios invisibles. .title() capitaliza cada palabra. Las f-strings (f'Hola, {name}') inyectan variables en vivo en el texto de forma limpia.",
+        "concept_es": "Las cadenas son secuencias inmutables. Métodos de limpieza: `.strip()`, `.rstrip()`, `.lstrip()` eliminan espacios; `.lower()`, `.upper()`, `.title()` corrigen mayúsculas/minúsculas. Las f-strings inyectan variables. Pistas de errores: `SyntaxError` (gramática rota), `NameError` (variable no encontrada en memoria), `TypeError` (operación ilegal entre tipos).",
         "pitfall_es": "¡Las cadenas en Python son inmutables! Llamar a `name.strip()` NO modifica `name` a menos que lo reasignes: `name = name.strip()`.",
         "book_ref": {
           "gaddis_chapter": 2,
@@ -309,9 +309,9 @@ export const CHAPTERS_DATA = [
         "num": "3.1",
         "title": "for Loops, range(), and Numerical Lists",
         "why": "Doing things by hand one item at a time is impossible with 10,000 items. A `for` loop automates repetitive tasks over every item in a sequence.",
-        "concept": "`for item in collection:` executes indented block once per item. `range(start, stop, step)` generates numbers up to (non-inclusive) stop. Built-ins: `min()`, `max()`, `sum()`.",
-        "code": "daily_miles = [120, 245, 80, 310]\ntotal_miles = sum(daily_miles)\nlongest_day = max(daily_miles)\nprint(f'Total: {total_miles} mi, Longest: {longest_day} mi')",
-        "expected_output": "Total: 755 mi, Longest: 310 mi",
+        "concept": "`for item in collection:` executes the indented block once per item. The iteration variable automatically updates each cycle. `range(start, stop, step)` generates integers up to (non-inclusive) stop. Built-in accumulators: `min()`, `max()`, `sum()`.",
+        "code": "daily_miles = [120, 245, 80, 310]\ntotal_miles = 0\nfor miles in daily_miles:\n    total_miles += miles\n    print(f'Logged leg: {miles} mi (Running total: {total_miles} mi)')\nprint(f'Final: {total_miles} mi total across {len(daily_miles)} legs. Longest: {max(daily_miles)} mi')",
+        "expected_output": "Logged leg: 120 mi (Running total: 120 mi)\nLogged leg: 245 mi (Running total: 365 mi)\nLogged leg: 80 mi (Running total: 445 mi)\nLogged leg: 310 mi (Running total: 755 mi)\nFinal: 755 mi total across 4 legs. Longest: 310 mi",
         "pitfall": "Indentation errors: Python uses whitespace to know which lines are inside the loop and which line executes after the loop is finished.",
         "rep": {
           "title": "Road Trip Daily Miles Rep",
@@ -343,7 +343,7 @@ export const CHAPTERS_DATA = [
         },
         "title_es": "Bucles for, range() y Listas Numéricas",
         "why_es": "Hacer cosas manualmente elemento por elemento es inviable con 10,000 datos. Un bucle `for` automatiza tareas repetitivas sobre cada elemento de una secuencia.",
-        "concept_es": "`for item in coleccion:` ejecuta el bloque indentado una vez por elemento. `range(inicio, fin, paso)` genera números hasta (sin incluir) fin. Funciones integradas: `min()`, `max()`, `sum()`.",
+        "concept_es": "`for item in coleccion:` ejecuta el bloque indentado una vez por elemento. La variable de iteración se actualiza automáticamente en cada ciclo. `range(inicio, fin, paso)` genera enteros hasta (sin incluir) fin. Funciones integradas: `min()`, `max()`, `sum()`.",
         "pitfall_es": "Errores de indentación: Python utiliza los espacios en blanco para saber qué líneas están dentro del bucle y cuál se ejecuta al terminar.",
         "book_ref": {
           "gaddis_chapter": 4,
@@ -457,7 +457,7 @@ export const CHAPTERS_DATA = [
         "num": "4.1",
         "title": "Comparisons, Boolean Logic & Membership (in)",
         "why": "Programs must branch based on live data. Relational operators compare values; logical operators combine rules; `in` checks if an item exists in a list.",
-        "concept": "`==` checks equality; `=` assigns. `in` checks membership in lists/strings. Case handling: `answer.lower() == 'yes'`. Multiple: `and` (both), `or` (either).",
+        "concept": "`==` checks equality; `!=` checks inequality; `=` assigns. Membership: `in` and `not in`. Logic: `and` (both True), `or` (either True), `not` (inverts). Case handling: `answer.strip().lower() == 'yes'`.",
         "code": "available = ['espresso', 'latte', 'cold brew']\nrequested = 'latte'\nif requested in available:\n    print(f'Serving your {requested}!')\nelse:\n    print(f'Sorry, we are out of {requested}.')",
         "expected_output": "Serving your latte!",
         "pitfall": "Accidentally using single `=` inside an `if` header instead of `==`.",
@@ -491,7 +491,7 @@ export const CHAPTERS_DATA = [
         },
         "title_es": "Comparaciones, Lógica Booleana y Pertenencia (in)",
         "why_es": "Los programas deben ramificarse según datos en tiempo real. Los operadores relacionales comparan valores; los lógicos combinan reglas; `in` comprueba si un elemento está en una lista.",
-        "concept_es": "`==` comprueba igualdad; `=` asigna. `in` comprueba pertenencia en listas/cadenas. Mayúsculas/minúsculas: `resp.lower() == 'si'`. Múltiples: `and` (ambas), `or` (cualquiera).",
+        "concept_es": "`==` comprueba igualdad; `!=` comprueba desigualdad; `=` asigna. Pertenencia: `in` y `not in`. Lógica: `and` (ambas True), `or` (cualquiera True), `not` (invierte). Mayúsculas: `resp.strip().lower() == 'si'`.",
         "pitfall_es": "Usar por accidente un solo `=` dentro del encabezado de un `if` en lugar del comparador `==`.",
         "book_ref": {
           "gaddis_chapter": 3,
@@ -605,7 +605,7 @@ export const CHAPTERS_DATA = [
         "num": "5.1",
         "title": "Creating, Accessing & Safe Lookups (.get())",
         "why": "Lists index by number (`items[0]`). But real-world data has labels: name, price, credits. Dictionaries map meaningful keys directly to values.",
-        "concept": "`dict = {'key': value}`. Access with `dict['key']`. If key might not exist, `dict.get(key, default)` returns the default instead of crashing with KeyError.",
+        "concept": "`dict = {'key': value}`. Access via `dict['key']`. Safe lookup: `dict.get(key, default)` prevents KeyError. Add/update: `dict['new_key'] = val`. Remove: `del dict['key']` or `dict.pop('key')`. Test existence: `'key' in dict`.",
         "code": "course = {'code': 'CSC121', 'title': 'Python Programming', 'credits': 3}\nprint(f\"{course['code']}: {course['title']}\")\nprereq = course.get('prereq', 'None required')\nprint(f'Prerequisite: {prereq}')",
         "expected_output": "CSC121: Python Programming\nPrerequisite: None required",
         "pitfall": "Directly accessing `course['prereq']` when the key doesn't exist raises a fatal KeyError. Always use `.get()` for optional fields!",
@@ -639,7 +639,7 @@ export const CHAPTERS_DATA = [
         },
         "title_es": "Creación, Acceso y Búsquedas Seguras (.get())",
         "why_es": "Las listas se indexan por número (`items[0]`). Pero los datos reales tienen etiquetas: nombre, precio, créditos. Los diccionarios asocian claves significativas directamente a valores.",
-        "concept_es": "`dict = {'clave': valor}`. Acceso con `dict['clave']`. Si la clave podría no existir, `dict.get(clave, por_defecto)` retorna el valor por defecto sin fallar con KeyError.",
+        "concept_es": "`dict = {'clave': valor}`. Acceso con `dict['clave']`. Búsqueda segura: `dict.get(clave, por_defecto)` previene KeyError. Agregar/actualizar: `dict['nueva'] = val`. Eliminar: `del dict['clave']` o `dict.pop('clave')`. Comprobar existencia: `'clave' in dict`.",
         "pitfall_es": "Acceder directamente a `curso['prereq']` cuando la clave no existe genera un error fatal KeyError. ¡Usa siempre `.get()` para campos opcionales!",
         "book_ref": {
           "gaddis_chapter": 9,
@@ -753,9 +753,9 @@ export const CHAPTERS_DATA = [
         "num": "6.1",
         "title": "while Loops with Sentinels and Flags",
         "why": "A `for` loop runs a fixed number of times. A `while` loop keeps running until a specific condition or sentinel (e.g. user types 'quit') tells it to stop.",
-        "concept": "Sentinel: a value that signals stop (e.g. `while answer != 'quit':`). Flags: boolean variable (`active = True`) controlling execution. `break` exits immediately.",
-        "code": "tasks = ['lab 1', 'quiz 2', 'reading']\ncompleted = []\nwhile tasks:\n    current = tasks.pop(0)\n    completed.append(current)\nprint(f'Finished all {len(completed)} tasks!')",
-        "expected_output": "Finished all 3 tasks!",
+        "concept": "Condition-controlled pretest loop. Sentinel: a predefined value (e.g. 'quit' or -1) signaling data entry completion. Flag: a boolean (`active = True`) managing complex exit states. Modulo `%`: computes division remainder for even/odd testing (`n % 2 == 0`) and cyclical limits. `break` exits loop immediately; `continue` skips to the next cycle.",
+        "code": "inputs = ['latte', 'muffin', 'quit', 'bagel']\ncart = []\nidx = 0\nactive = True\n\nwhile active and idx < len(inputs):\n    item = inputs[idx]\n    idx += 1\n    if item == 'quit':\n        print(\"Sentinel 'quit' reached — closing order loop!\")\n        active = False\n    else:\n        cart.append(item)\n        print(f\"Added '{item}' to cart. Count: {len(cart)}\")\n\nprint(f'Final order: {cart}')",
+        "expected_output": "Added 'latte' to cart. Count: 1\nAdded 'muffin' to cart. Count: 2\nSentinel 'quit' reached — closing order loop!\nFinal order: ['latte', 'muffin']",
         "pitfall": "Forgetting to update the loop condition, creating an infinite loop that freezes your CPU.",
         "rep": {
           "title": "Grocery Cart Accumulator Rep",
@@ -787,7 +787,7 @@ export const CHAPTERS_DATA = [
         },
         "title_es": "Bucles while con Centinelas y Banderas",
         "why_es": "Un bucle `for` se ejecuta un número fijo de veces. Un bucle `while` sigue ejecutándose hasta que una condición específica o centinela (ej. usuario escribe 'quit') indica que debe detenerse.",
-        "concept_es": "Centinela: un valor que señala el fin (ej. `while respuesta != 'quit':`). Bandera: variable booleana (`activa = True`) que controla el bucle. `break` sale inmediatamente.",
+        "concept_es": "Bucle de prueba previa controlado por condición. Centinela: valor predeterminado (ej. 'quit' o -1) que señala el fin de datos. Bandera: variable booleana (`activa = True`) que controla estados complejos. Operador módulo `%`: calcula el residuo para pruebas de paridad (`n % 2 == 0`) y secuencias cíclicas. `break` sale inmediatamente; `continue` pasa al siguiente ciclo.",
         "pitfall_es": "Olvidar actualizar la condición del bucle, creando un bucle infinito que congela el procesador.",
         "book_ref": {
           "gaddis_chapter": 4,
@@ -967,11 +967,11 @@ export const CHAPTERS_DATA = [
       {
         "id": "7-2",
         "num": "7.2",
-        "title": "Optional Parameters with None & Passing Lists",
-        "why": "Functions should handle both complete and partial data. Using `None` allows optional parameters. Passing lists allows functions to process batches.",
-        "concept": "Optional param: `def build_user(name, nickname=None):`. Passing lists: modifying a list inside a function changes the caller's list unless you pass a copy `my_list[:]`.",
-        "code": "def build_player(name, title=None):\n    if title:\n        return f'{name} the {title}'\n    return name\nprint(build_player('Jordan'))\nprint(build_player('Maya', 'Dragon Slayer'))",
-        "expected_output": "Jordan\nMaya the Dragon Slayer",
+        "title": "Optional Parameters (None), Passing Lists, & *args/**kwargs",
+        "why": "Functions should handle both complete and partial data without crashing. Using `None` allows optional parameters safely, passing `list[:]` protects caller data from unintended mutation, and `*args`/`**kwargs` allow flexible variable argument counts.",
+        "concept": "Optional param: `def build_user(name, title=None):`. List protection: pass slice `my_list[:]` to prevent in-place mutation of caller data. Arbitrary arguments: `*args` packs variable positional arguments into a tuple; `**kwargs` packs variable keyword arguments into a dictionary.",
+        "code": "def process_order(customer, *items, discount=0.0, **meta):\n    subtotal = sum(items)\n    total = round(subtotal * (1 - discount), 2)\n    tag = meta.get('tag', 'Standard')\n    return f\"{customer}: ${total:.2f} ({len(items)} items | {tag})\"\n\nprint(process_order('Maya', 15.00, 25.50, discount=0.10, tag='VIP Expedited'))\nprint(process_order('Alex', 12.00, 8.00))",
+        "expected_output": "Maya: $36.45 (2 items | VIP Expedited)\nAlex: $20.00 (2 items | Standard)",
         "pitfall": "Modifying a passed list inside a function unintentionally alters the caller's data. Pass `list[:]` if you need to protect the original.",
         "rep": {
           "title": "Character Profile Function Rep",
@@ -1001,9 +1001,9 @@ export const CHAPTERS_DATA = [
           ],
           "explanation_es": "Pasar `todo[:]` genera una copia de la lista. La función puede modificar su copia libremente sin alterar la lista original en la memoria."
         },
-        "title_es": "Parámetros Opcionales con None y Paso de Listas",
-        "why_es": "Las funciones deben manejar datos completos y parciales. Usar `None` permite parámetros opcionales. Pasar listas permite procesar lotes de datos.",
-        "concept_es": "Parámetro opcional: `def crear_usuario(nombre, apodo=None):`. Paso de listas: modificar una lista dentro de una función altera la lista original a menos que pases una copia `mi_lista[:]`.",
+        "title_es": "Parámetros Opcionales (None), Paso de Listas y *args/**kwargs",
+        "why_es": "Las funciones deben manejar datos completos y parciales sin fallar. Usar `None` permite parámetros opcionales seguros, pasar `lista[:]` protege los datos del llamador contra alteraciones y `*args`/`**kwargs` permiten recibir cantidades variables de argumentos.",
+        "concept_es": "Parámetro opcional: `def crear_usuario(nombre, apodo=None):`. Protección de listas: pasa `mi_lista[:]` para evitar mutación in-situ. Argumentos arbitrarios: `*args` empaqueta argumentos posicionales en una tupla; `**kwargs` empaqueta argumentos por palabra clave en un diccionario.",
         "pitfall_es": "Modificar una lista recibida dentro de una función altera involuntariamente los datos originales. Pasa `lista[:]` si necesitas protegerla.",
         "book_ref": {
           "gaddis_chapter": 5,
@@ -1027,9 +1027,9 @@ export const CHAPTERS_DATA = [
           ]
         },
         "deep_dive": {
-          "concept": "The Mutable Default Argument Trap",
-          "detail": "Never write 'def append_to(item, target=[])'! In Python, default arguments are evaluated ONCE when the function definition is executed, not each time it is called. That empty list [] is shared across every subsequent invocation of the function! Always use 'target=None' and initialize 'if target is None: target = []'.",
-          "detail_es": "¡Nunca escribas 'def agregar(item, lista=[])'! En Python, los argumentos por defecto se evalúan UNA SOLA VEZ al compilar la función, no en cada llamada. ¡Esa lista [] se compartirá entre todas las llamadas futuras! La regla profesional es usar 'lista=None' e inicializarla adentro: 'if lista is None: lista = []'."
+          "concept": "The Mutable Default Trap & *args/**kwargs Unpacking",
+          "detail": "Never write 'def append_to(item, target=[])'! In Python, default arguments are evaluated ONCE when the function definition is executed, not each time it is called. That empty list [] is shared across every subsequent invocation of the function! Always use 'target=None'. When using '*args' and '**kwargs', Python packs extra positional arguments into an immutable tuple and extra keywords into a dictionary.",
+          "detail_es": "¡Nunca escribas 'def agregar(item, lista=[])'! En Python, los argumentos por defecto se evalúan UNA SOLA VEZ al compilar la función, no en cada llamada. ¡Esa lista [] se compartirá entre todas las llamadas futuras! La regla profesional es usar 'lista=None'. Con '*args' y '**kwargs', Python empaqueta los argumentos posicionales extra en una tupla inmutable y los de clave en un diccionario."
         }
       }
     ],

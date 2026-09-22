@@ -349,6 +349,7 @@ export default function App() {
                       section={sec}
                       onRunCode={executeCode}
                       t={t}
+                      lang={lang}
                     />
 
                     {/* 3. Coding Reps Lab (Randomized Pyodide Workouts) */}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export function ConceptBox({ section, onRunCode, t }) {
+export function ConceptBox({ section, onRunCode, t, lang = 'en' }) {
   const [copied, setCopied] = useState(false);
   const [terminalOutput, setTerminalOutput] = useState(null);
 
@@ -10,8 +10,28 @@ export function ConceptBox({ section, onRunCode, t }) {
     setTimeout(() => setCopied(false), 1500);
   };
 
-  const handleRun = () => {
+  const [isRunning, setIsRunning] = useState(false);
+
+  const handleRun = async () => {
+    setIsRunning(true);
+    if (onRunCode) {
+      try {
+        const res = await onRunCode(section.code);
+        if (res && res.stdout && res.stdout.trim().length > 0) {
+          setTerminalOutput(res.stdout.trim());
+          setIsRunning(false);
+          return;
+        } else if (res && res.error) {
+          setTerminalOutput(`Error: ${res.error}`);
+          setIsRunning(false);
+          return;
+        }
+      } catch (err) {
+        console.warn("Live execution notice:", err);
+      }
+    }
     setTerminalOutput(section.expected_output || "Executed successfully.");
+    setIsRunning(false);
   };
 
   return (
@@ -35,9 +55,10 @@ export function ConceptBox({ section, onRunCode, t }) {
           <div className="flex items-center gap-2">
             <button
               onClick={handleRun}
-              className="text-[11px] text-white font-bold bg-emerald-600 hover:bg-emerald-500 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1"
+              disabled={isRunning}
+              className="text-[11px] text-white font-bold bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1"
             >
-              <span>▶</span> {t ? t('runSampleCode') : 'Run Snippet'}
+              <span>{isRunning ? '⏳' : '▶'}</span> {isRunning ? (lang === 'es' ? 'Ejecutando...' : 'Running...') : (t ? t('runSampleCode') : 'Run Snippet')}
             </button>
             <button
               onClick={handleCopy}
