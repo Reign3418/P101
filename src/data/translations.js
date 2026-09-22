@@ -82,6 +82,15 @@ export const TRANSLATIONS = {
     scaffoldCompleted: "Completed ✓",
     scaffoldGoals: "Learning Goals Detected",
     scaffoldExercisesCount: "Scaffolded Exercises",
+    textbookBridgeTitle: "Gaddis Textbook Reference & The Why",
+    viewWhyAndTextbook: "The Why & Book Reference",
+    hideWhyAndTextbook: "Hide Reference",
+    openInCurriculum: "Open in Interactive Curriculum →",
+    ramTrace: "RAM Trace & Execution Steps",
+    analogy: "Real-World Mental Model",
+    underTheHood: "Under the Hood (CPython)",
+    textbookEdition: "Tony Gaddis (6th Ed.)",
+    pedagogicalWhy: "The Why (Pedagogical Rationale)",
 
     // Citations Modal
     citationsTitle: "Textbook Reference & Citations",
@@ -235,6 +244,15 @@ export const TRANSLATIONS = {
     scaffoldCompleted: "¡Completado! ✓",
     scaffoldGoals: "Objetivos de Aprendizaje",
     scaffoldExercisesCount: "Ejercicios Guiados",
+    textbookBridgeTitle: "Referencia del Libro de Gaddis y El Porqué",
+    viewWhyAndTextbook: "El Porqué y Referencia del Libro",
+    hideWhyAndTextbook: "Ocultar Referencia",
+    openInCurriculum: "Abrir en el Plan de Estudios Interactivo →",
+    ramTrace: "Rastro en RAM y Pasos de Ejecución",
+    analogy: "Modelo Mental del Mundo Real",
+    underTheHood: "Bajo el Capó (CPython)",
+    textbookEdition: "Tony Gaddis (6.ª Ed.)",
+    pedagogicalWhy: "El Porqué (Razón Pedagógica)",
 
     // Citations Modal
     citationsTitle: "Referencias Bibliográficas y Citas",

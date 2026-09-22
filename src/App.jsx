@@ -231,6 +231,21 @@ export default function App() {
     }, 300);
   };
 
+  const handleJumpToCurriculum = (chNum, secId) => {
+    setActiveChapterNum(chNum);
+    setActiveView('chapters');
+    if (secId) {
+      setTimeout(() => {
+        const el = document.getElementById(`sec-${secId}`) || document.getElementById(`why-box-${secId}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.classList.add('highlight-focus');
+          setTimeout(() => el.classList.remove('highlight-focus'), 4500);
+        }
+      }, 300);
+    }
+  };
+
   const handleResetProgress = () => {
     if (window.confirm(t('resetConfirm'))) {
       setCompletedSections({});
@@ -303,6 +318,8 @@ export default function App() {
             pyodideReady={pyodideReady}
             t={t}
             lang={lang}
+            chapters={localizedChapters}
+            onJumpToCurriculum={handleJumpToCurriculum}
           />
         ) : activeView === 'stats' ? (
           <StatsDashboard

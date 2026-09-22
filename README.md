@@ -38,6 +38,7 @@ Each section includes:
 
 ### 📓 Notebook Lab (BYOD)
 - **🐾 1-Click Load Module 6.1** — pre-packaged with Prof. Jade Cao's full 41-cell interactive lecture notebook (`Lecture_Module6.1_Class1.ipynb`)
+- **💡 "The Why" & Gaddis Textbook Companion Bridge** — automatically connects notebook lecture questions (e.g. *"What Happens When We Create an Object?"*) directly to Tony Gaddis's *Starting Out with Python* (6th Ed.) textbook chapters, pedagogical rationales, step-by-step RAM execution traces, and 1-click curriculum navigation
 - Import any `.ipynb` Jupyter notebook (drag & drop or file browser)
 - Code cells are fully interactive textareas — edit, run with **Shift+Enter**, reset, or copy
 - **🎯 Scaffolded Learning Detection** — automatically identifies `# TODO`, `raise NotImplementedError`, empty string/zero placeholders and badges each cell as:

@@ -20,6 +20,9 @@ import {
   BookOpen
 } from 'lucide-react';
 import { MODULE_6_1_NOTEBOOK } from '../data/module6_1Notebook';
+import { getLocalizedChapters } from '../data/chaptersData';
+import { resolveTextbookBridgeForCell } from '../utils/notebookCurriculumMatcher';
+import { NotebookTextbookBridge } from './NotebookTextbookBridge';
 
 const SAMPLE_NOTEBOOK_EN = {
   id: 'sample-cafe-workshop',
@@ -226,7 +229,9 @@ export function NotebookViewer({
   onExecuteCode,
   pyodideReady,
   t,
-  lang = 'en'
+  lang = 'en',
+  chapters = [],
+  onJumpToCurriculum
 }) {
   const [cellCodes, setCellCodes] = useState({});
   const [cellOutputs, setCellOutputs] = useState({});
@@ -234,11 +239,24 @@ export function NotebookViewer({
   const [copiedCell, setCopiedCell] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const [openAccordions, setOpenAccordions] = useState({});
+  const [openCodeBridges, setOpenCodeBridges] = useState({});
   const fileInputRef = useRef(null);
 
   const isEs = lang === 'es';
   const sampleNotebook = isEs ? SAMPLE_NOTEBOOK_ES : SAMPLE_NOTEBOOK_EN;
   const activeNotebook = notebooks.find(n => n.id === activeNotebookId) || notebooks[0] || null;
+
+  const effectiveChapters = useMemo(() => {
+    if (chapters && chapters.length > 0) return chapters;
+    return getLocalizedChapters(lang);
+  }, [chapters, lang]);
+
+  const toggleCodeBridge = (cellIdx) => {
+    setOpenCodeBridges(prev => ({
+      ...prev,
+      [cellIdx]: !prev[cellIdx]
+    }));
+  };
 
   const formatSource = (src) => {
     if (Array.isArray(src)) return src.join('');
@@ -626,13 +644,28 @@ export function NotebookViewer({
                 const src = formatSource(cell.source);
                 if (!src.trim()) return null;
 
+                const bridgeData = resolveTextbookBridgeForCell({
+                  cell,
+                  cellIndex: idx,
+                  notebook: activeNotebook,
+                  chapters: effectiveChapters
+                });
+
                 if (cell.cell_type === 'markdown') {
                   return (
                     <div 
                       key={idx}
-                      className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-slate-200 text-xs leading-relaxed space-y-2 prose prose-invert max-w-none shadow-sm"
+                      className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-slate-200 text-xs leading-relaxed space-y-3 prose prose-invert max-w-none shadow-sm"
                     >
                       <MarkdownPreview content={src} attachments={cell.attachments} />
+                      {bridgeData && (
+                        <NotebookTextbookBridge 
+                          bridgeData={bridgeData}
+                          onJumpToCurriculum={onJumpToCurriculum}
+                          t={t}
+                          lang={lang}
+                        />
+                      )}
                     </div>
                   );
                 }
@@ -701,6 +734,22 @@ export function NotebookViewer({
                         </div>
 
                         <div className="flex items-center gap-2">
+                          {bridgeData && (
+                            <button
+                              type="button"
+                              onClick={() => toggleCodeBridge(idx)}
+                              className={`px-2 py-1 rounded text-[11px] font-mono border flex items-center gap-1.5 transition-all ${
+                                openCodeBridges[idx]
+                                  ? 'bg-blue-500/25 text-blue-200 border-blue-500/50 shadow-sm'
+                                  : 'bg-slate-900 hover:bg-slate-800 text-blue-300 border-slate-700/80 hover:border-blue-500/40'
+                              }`}
+                              title={isEs ? 'Ver referencia del libro y el porqué' : "View 'The Why' & Gaddis Textbook Reference"}
+                            >
+                              <BookOpen className="w-3 h-3 text-blue-400" />
+                              <span className="hidden md:inline">Gaddis Ch {bridgeData.bookRef?.gaddis_chapter || bridgeData.chapterNum}</span>
+                            </button>
+                          )}
+
                           {isModified && (
                             <button
                               onClick={() => handleResetCell(idx, originalCode)}
@@ -732,6 +781,19 @@ export function NotebookViewer({
                           </button>
                         </div>
                       </div>
+
+                      {/* Textbook & The Why Companion (when toggled on for this code cell) */}
+                      {openCodeBridges[idx] && bridgeData && (
+                        <div className="px-4 py-2 border-b border-slate-800 bg-slate-950/80">
+                          <NotebookTextbookBridge
+                            bridgeData={bridgeData}
+                            onJumpToCurriculum={onJumpToCurriculum}
+                            t={t}
+                            lang={lang}
+                            defaultExpanded={true}
+                          />
+                        </div>
+                      )}
 
                       {/* Scaffold Learning Goals Checklist Accordion */}
                       {scaffold.isScaffolded && scaffold.tasks.length > 0 && (
