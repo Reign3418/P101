@@ -220,80 +220,87 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
       <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-4xl w-full h-[90vh] flex flex-col shadow-2xl overflow-hidden">
         
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-950/80 flex flex-wrap items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
-              <GraduationCap className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-base sm:text-lg font-extrabold text-white tracking-wide">
-                  {isEs ? 'Documento Blanco: Teoría Académica de P101' : 'P101 Academic & Technical Theory White Paper'}
-                </h2>
-                <span className="hidden md:inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
-                  {isEs ? 'Sin Telemetría • 100% Abierto' : 'Zero Telemetry • 100% Open'}
-                </span>
+        <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-950/80 flex flex-col gap-3 shrink-0">
+          {/* Row 1: Title & Academic Attribution */}
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+                <GraduationCap className="w-5 h-5" />
               </div>
-              <p className="text-xs text-slate-400">
-                {isEs 
-                  ? 'Para la Prof. Jade Cao (CCCC) y comités de evaluación curricular'
-                  : 'Authored for Prof. Jade Cao (CCCC) & Faculty Curriculum Evaluators'}
-              </p>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base sm:text-lg font-extrabold text-white tracking-wide">
+                    {isEs ? 'Documento Blanco: Teoría Académica de P101' : 'P101 Academic & Technical Theory White Paper'}
+                  </h2>
+                  <span className="hidden md:inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
+                    {isEs ? 'Sin Telemetría • 100% Abierto' : 'Zero Telemetry • 100% Open'}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400">
+                  {isEs 
+                    ? 'Para la Prof. Jade Cao (CCCC) y comités de evaluación curricular'
+                    : 'Authored for Prof. Jade Cao (CCCC) & Faculty Curriculum Evaluators'}
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Right Action Controls: Dedicated Language Switcher + Copy + GitHub + Close */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {/* Modal Language Choice Selector */}
-            <div className="flex items-center bg-slate-950 border border-slate-700/80 rounded-lg p-0.5 text-xs font-mono font-bold shadow-inner">
+          {/* Row 2: Action Controls on Left, X Close Button on the Far Right */}
+          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/60 w-full">
+            {/* Left Action Controls: Language Switcher + Copy + GitHub Link */}
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Modal Language Choice Selector */}
+              <div className="flex items-center bg-slate-950 border border-slate-700/80 rounded-lg p-0.5 text-xs font-mono font-bold shadow-inner">
+                <button
+                  onClick={() => handleLangChange('en')}
+                  title="Read White Paper in English"
+                  className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 text-xs ${
+                    !isEs
+                      ? 'bg-blue-600 text-white shadow font-extrabold'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>🇺🇸</span> <span>English</span>
+                </button>
+                <button
+                  onClick={() => handleLangChange('es')}
+                  title="Leer Documento Blanco en Español"
+                  className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 text-xs ${
+                    isEs
+                      ? 'bg-blue-600 text-white shadow font-extrabold'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>🇪🇸</span> <span>Español</span>
+                </button>
+              </div>
+
               <button
-                onClick={() => handleLangChange('en')}
-                title="Read White Paper in English"
-                className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 text-xs ${
-                  !isEs
-                    ? 'bg-blue-600 text-white shadow font-extrabold'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
+                onClick={handleCopySummary}
+                className="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors flex items-center gap-1.5 font-medium"
+                title={isEs ? "Copiar resumen del Documento Blanco al portapapeles" : "Copy White Paper Summary to clipboard"}
               >
-                <span>🇺🇸</span> <span>English</span>
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                <span className="hidden sm:inline">{copied ? (isEs ? '¡Copiado!' : 'Copied!') : (isEs ? 'Copiar Resumen' : 'Copy Summary')}</span>
               </button>
-              <button
-                onClick={() => handleLangChange('es')}
-                title="Leer Documento Blanco en Español"
-                className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 text-xs ${
-                  isEs
-                    ? 'bg-blue-600 text-white shadow font-extrabold'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
+
+              <a
+                href="https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs px-2.5 py-1.5 rounded-lg bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 hover:text-white border border-blue-400/50 hover:border-blue-400 transition-all flex items-center gap-1.5 font-bold shadow-sm"
+                title={isEs ? "Abrir WHITE_PAPER.md original en GitHub" : "Open original WHITE_PAPER.md on GitHub"}
               >
-                <span>🇪🇸</span> <span>Español</span>
-              </button>
+                <FileText className="w-3.5 h-3.5 text-blue-300" />
+                <span className="font-mono text-[11px]">WHITE_PAPER.md</span>
+                <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+              </a>
             </div>
 
-            <button
-              onClick={handleCopySummary}
-              className="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors flex items-center gap-1.5 font-medium"
-              title={isEs ? "Copiar resumen del Documento Blanco al portapapeles" : "Copy White Paper Summary to clipboard"}
-            >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-              <span className="hidden sm:inline">{copied ? (isEs ? '¡Copiado!' : 'Copied!') : (isEs ? 'Copiar Resumen' : 'Copy Summary')}</span>
-            </button>
-
-            <a
-              href="https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs px-2.5 py-1.5 rounded-lg bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 hover:text-white border border-blue-400/50 hover:border-blue-400 transition-all flex items-center gap-1.5 font-bold shadow-sm"
-              title={isEs ? "Abrir WHITE_PAPER.md original en GitHub" : "Open original WHITE_PAPER.md on GitHub"}
-            >
-              <FileText className="w-3.5 h-3.5 text-blue-300" />
-              <span className="font-mono text-[11px]">WHITE_PAPER.md</span>
-              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-            </a>
-
+            {/* Right: X Close Button placed in the top right of the second row */}
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white w-8 h-8 rounded-lg hover:bg-slate-800 flex items-center justify-center transition-colors text-lg ml-1"
+              className="text-slate-400 hover:text-white w-8 h-8 rounded-lg hover:bg-slate-800 border border-transparent hover:border-slate-700 flex items-center justify-center transition-colors text-lg ml-auto shrink-0"
               title={isEs ? "Cerrar" : "Close"}
             >
               <X className="w-5 h-5" />
