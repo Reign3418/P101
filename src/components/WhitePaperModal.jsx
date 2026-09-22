@@ -283,11 +283,12 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
               href="https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs px-2.5 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 transition-colors flex items-center gap-1.5 font-medium"
-              title={isEs ? "Ver código y documento completo en GitHub" : "Open full WHITE_PAPER.md on GitHub"}
+              className="text-xs px-2.5 py-1.5 rounded-lg bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 hover:text-white border border-blue-400/50 hover:border-blue-400 transition-all flex items-center gap-1.5 font-bold shadow-sm"
+              title={isEs ? "Abrir WHITE_PAPER.md original en GitHub" : "Open original WHITE_PAPER.md on GitHub"}
             >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{isEs ? 'Fuente GitHub' : 'GitHub Source'}</span>
+              <FileText className="w-3.5 h-3.5 text-blue-300" />
+              <span className="font-mono text-[11px]">WHITE_PAPER.md</span>
+              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
             </a>
 
             <button
@@ -390,6 +391,39 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                     <span className="text-slate-400 block text-[10px]">{isEs ? 'Idiomas' : 'Language'}</span>
                     <span className="text-purple-400 font-bold">{isEs ? '100% Paridad EN / ES' : '100% EN & ES Parity'}</span>
                   </div>
+                </div>
+
+                {/* Prominent Call-to-Action Card to Canonical WHITE_PAPER.md on GitHub */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-950/80 border border-blue-500/40 shadow-inner mt-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+                      <FileText className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white flex items-center gap-2">
+                        <span>{isEs ? 'Documento Blanco Canónico en GitHub' : 'Canonical White Paper on GitHub'}</span>
+                        <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.5 rounded font-bold">
+                          WHITE_PAPER.md
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400 mt-0.5">
+                        {isEs 
+                          ? 'Acceda directamente al documento Markdown oficial con todas las fuentes y citas curriculares.' 
+                          : 'Access the official open-source Markdown white paper with complete curriculum citations.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <a
+                    href="https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-blue-950/60 border border-blue-400/50 transition-all hover:scale-105 shrink-0"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span>{isEs ? 'Abrir WHITE_PAPER.md' : 'Open WHITE_PAPER.md'}</span>
+                    <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
+                  </a>
                 </div>
               </div>
             </section>
@@ -662,20 +696,30 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <span className="text-teal-300 font-bold">{isEs ? 'Paso 3: Auditoría del Código Fuente Abierto en GitHub' : 'Step 3: Audit Full Open-Source Codebase on GitHub'}</span>
                   <p className="text-slate-400 font-sans text-[11px]">
                     {isEs
-                      ? 'Todo el código fuente de la plataforma, el archivo WHITE_PAPER.md y el historial de cambios se encuentran disponibles de manera 100% pública en: https://github.com/Reign3418/P101'
-                      : 'All platform source code, the WHITE_PAPER.md documentation, and git commit history are 100% publicly auditable at: https://github.com/Reign3418/P101'}
+                      ? 'Todo el código fuente de la plataforma, el documento canónico WHITE_PAPER.md y el historial de cambios se encuentran disponibles de manera 100% pública:'
+                      : 'All platform source code, the canonical WHITE_PAPER.md documentation, and git commit history are 100% publicly auditable on GitHub:'}
                   </p>
+                  <a
+                    href="https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-teal-500/15 hover:bg-teal-500/25 text-teal-300 border border-teal-500/30 transition-colors font-mono font-medium"
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>github.com/Reign3418/P101/blob/main/WHITE_PAPER.md</span>
+                    <ExternalLink className="w-3 h-3 ml-0.5" />
+                  </a>
                 </div>
               </div>
             </section>
           )}
 
           {/* Footer Signoff */}
-          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 text-center space-y-1 pt-4 text-xs text-slate-400">
+          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 text-center space-y-2 pt-4 text-xs text-slate-400">
             <p className="text-slate-200 font-bold">
               {isEs ? 'P101: Plataforma Abierta de Maestría en Programación Python' : 'P101: Open Mastery Platform for Python Programming'}
             </p>
@@ -684,6 +728,19 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 ? 'Proyecto de Estudiante de Central Carolina Community College (CCCC) • Prof. Jade Cao' 
                 : 'Central Carolina Community College (CCCC) Student Project • Prof. Jade Cao'}
             </p>
+            <div className="pt-1">
+              <a
+                href="https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 transition-all font-mono font-semibold hover:text-white"
+              >
+                <FileText className="w-3.5 h-3.5 text-blue-400" />
+                <span>WHITE_PAPER.md</span>
+                <span className="text-[10px] text-slate-400 font-sans font-normal">({isEs ? 'Ver en GitHub' : 'View on GitHub'})</span>
+                <ExternalLink className="w-3 h-3 ml-0.5" />
+              </a>
+            </div>
           </div>
 
         </div>
