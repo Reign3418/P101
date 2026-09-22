@@ -16,8 +16,10 @@ import {
   Target,
   CheckCircle2,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  BookOpen
 } from 'lucide-react';
+import { MODULE_6_1_NOTEBOOK } from '../data/module6_1Notebook';
 
 const SAMPLE_NOTEBOOK_EN = {
   id: 'sample-cafe-workshop',
@@ -447,6 +449,17 @@ export function NotebookViewer({
               <span>{t ? t('loadSampleDemo') : 'Load Sample Demo'}</span>
             </button>
           )}
+
+          {!notebooks.some(n => n.id === 'prof-cao-module-6-1') && (
+            <button
+              onClick={() => onAddNotebook(MODULE_6_1_NOTEBOOK)}
+              className="px-3 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+              title="Load Prof. Jade Cao's Module 6.1 (Classes 1) Lecture Notebook"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+              <span>{t ? t('loadModule61Short') : '🐾 Module 6.1 (Prof. Cao)'}</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -524,6 +537,13 @@ export function NotebookViewer({
               >
                 <Sparkles className="w-4 h-4 text-purple-400" />
                 <span>{t ? t('loadSampleDemo') : 'Load Sample Notebook'}</span>
+              </button>
+              <button
+                onClick={() => onAddNotebook(MODULE_6_1_NOTEBOOK)}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-600/30 to-amber-700/30 hover:from-amber-600/40 hover:to-amber-700/40 text-amber-200 font-bold text-xs border border-amber-500/40 flex items-center gap-2 transition-all shadow-md"
+              >
+                <BookOpen className="w-4 h-4 text-amber-400" />
+                <span>{t ? t('loadModule61') : '🐾 Load Module 6.1 (Prof. Cao)'}</span>
               </button>
             </div>
 

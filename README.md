@@ -1,7 +1,7 @@
 # P101 — Python Mastery Portal
 
 > Built for Prof. Jade Cao's Python course at Central Carolina Community College (CCCC).  
-> Bridges her 9 lecture notebooks with Tony Gaddis's *Starting Out with Python* (6th Ed.).
+> Bridges her lecture notebooks (Modules 1.0–6.1) with Tony Gaddis's *Starting Out with Python* (6th Ed.).
 
 **Live site → https://reign3418.github.io/P101/**
 
@@ -15,8 +15,8 @@ P101 is a bilingual (English / Spanish) Python learning portal that runs 100% in
 
 ## Features
 
-### 📚 Curriculum Modules 1–5
-Five structured learning modules aligned to Prof. Cao's lectures and the Gaddis textbook:
+### 📚 Curriculum Modules 1–6
+Structured learning modules aligned to Prof. Cao's lectures and the Gaddis textbook:
 
 | Module | Topic |
 |--------|-------|
@@ -27,6 +27,7 @@ Five structured learning modules aligned to Prof. Cao's lectures and the Gaddis 
 | 3.2 | Boolean Logic & While Loops |
 | 4 | Functions & Scope |
 | 5 | Dictionaries & File I/O |
+| 6.1 | Classes & Object-Oriented Design (Part 1) |
 
 Each section includes:
 - **💡 The Why** — pedagogical explanation with real-world analogies, RAM trace, and CPython internals
@@ -36,6 +37,7 @@ Each section includes:
 - **❓ Checkpoint Quiz** — multi-choice quiz with automatic review flagging
 
 ### 📓 Notebook Lab (BYOD)
+- **🐾 1-Click Load Module 6.1** — pre-packaged with Prof. Jade Cao's full 41-cell interactive lecture notebook (`Lecture_Module6.1_Class1.ipynb`)
 - Import any `.ipynb` Jupyter notebook (drag & drop or file browser)
 - Code cells are fully interactive textareas — edit, run with **Shift+Enter**, reset, or copy
 - **🎯 Scaffolded Learning Detection** — automatically identifies `# TODO`, `raise NotImplementedError`, empty string/zero placeholders and badges each cell as:
@@ -73,7 +75,7 @@ Each section includes:
 
 ## Citations
 
-**Cao, Jade.** Python Programming Lecture Notebooks (Modules 1.0–5.2). Central Carolina Community College (CCCC).
+**Cao, Jade.** Python Programming Lecture Notebooks (Modules 1.0–6.1). Central Carolina Community College (CCCC).
 
 **Gaddis, Tony.** *Starting Out with Python.* 6th ed., Pearson, 2024.
 

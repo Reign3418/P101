@@ -151,6 +151,25 @@ const CURRICULUM_SYNTHESIS_DATA = [
   },
   {
     module: {
+      en: 'Module 6.1: Classes & Object-Oriented Design',
+      es: 'Módulo 6.1: Clases y Diseño Orientado a Objetos',
+      source: 'Lecture_Module6.1_Class1.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 10 (Sections 10.1, 10.2, 10.3)',
+      es: 'Capítulo 10 (Secciones 10.1, 10.2, 10.3)'
+    },
+    concepts: {
+      en: 'Blueprint vs object, attributes as state, methods as behavior, __init__, self instance pointer, independent heap state, boundary clamping (min/max).',
+      es: 'Plano vs objeto, atributos como estado, métodos como comportamiento, __init__, puntero self, estado independiente en heap, acotamiento de límites (min/max).'
+    },
+    analogy: {
+      en: 'Architectural blueprint vs physical house; factory phone model with independent user settings; vending machine coin validator.',
+      es: 'Plano de arquitecto vs casa construida; modelo de teléfono de fábrica con ajustes independientes; validador de monedas en máquina expendedora.'
+    }
+  },
+  {
+    module: {
       en: 'Extended Track: File I/O, OOP, Exceptions & SQL',
       es: 'Pista Extendida: Archivos, POO, Excepciones y SQL',
       source: 'Extended Engineering Track'

@@ -15,7 +15,7 @@ export function CitationModal({ isOpen, onClose, t, lang = 'en' }) {
     ? "Basado en el plan de estudios de Python de CCCC de la Prof. Jade Cao y Starting Out with Python (6.ª Ed.) por Tony Gaddis."
     : "Based on CCCC Python curriculum by Prof. Jade Cao & Starting Out with Python (6th Ed.) by Tony Gaddis.";
 
-  const ccccCitation = "Cao, Jade. Python Programming Lecture Notebooks (Modules 1.0–5.2). Central Carolina Community College (CCCC).";
+  const ccccCitation = "Cao, Jade. Python Programming Lecture Notebooks (Modules 1.0–6.1). Central Carolina Community College (CCCC).";
   const gaddisCitation = "Gaddis, Tony. Starting Out with Python. 6th ed., Pearson, 2024.";
 
   return (
@@ -56,7 +56,7 @@ export function CitationModal({ isOpen, onClose, t, lang = 'en' }) {
                 {t ? t('instructorAffil') : 'Prof. Jade Cao • Central Carolina Community College (CCCC)'}
               </div>
               <p className="text-[11px] text-slate-300">
-                {t ? t('instructorModules') : 'Lecture Notebook Modules 1.0 – 5.2 (Variables, Lists, Dicts, While Loops, Functions)'}
+                {t ? t('instructorModules') : 'Lecture Notebook Modules 1.0 – 6.1 (Variables, Lists, Dicts, While Loops, Functions, Classes)'}
               </p>
             </div>
           </div>

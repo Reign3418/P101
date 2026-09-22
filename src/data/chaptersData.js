@@ -1185,84 +1185,296 @@ export const CHAPTERS_DATA = [
     "desc_es": "Más allá de la RAM: escribir en disco ('w', 'a'), leer registros ('r'), la sentencia with y recuperación robusta de errores con bloques try-except."
   },
   {
-    "num": 9,
-    "code_module": "Extended Ch 10 & 11",
-    "title": "Classes, OOP & Encapsulation",
-    "icon": "🏗️",
-    "prof_source": "Tony Gaddis (6th Ed.) — Chapters 10 & 11 Companion",
-    "desc": "Object-Oriented Programming: classes as blueprints, instances in memory, __init__, encapsulation with private attributes, and inheritance.",
-    "sections": [
-      {
-        "id": "9-1",
-        "num": "9.1",
-        "title": "Classes, __init__, and Encapsulation",
-        "why": "Procedural code scatters data and functions across a program. OOP binds data (attributes) and behavior (methods) together into a cohesive entity.",
-        "concept": "`class Name:` defines blueprint. `__init__(self, ...)` sets up state. `self` refers to active instance. Private attributes (`__var`) prevent unauthorized modification.",
-        "code": "class BankAccount:\n    def __init__(self, owner, balance=0.0):\n        self.owner = owner\n        self.__balance = balance\n    def deposit(self, amount):\n        if amount > 0: self.__balance += amount\n    def get_balance(self):\n        return self.__balance\nacct = BankAccount('Maria', 150.0)\nacct.deposit(50.0)\nprint(f\"{acct.owner}'s balance: ${acct.get_balance():.2f}\")",
-        "expected_output": "Maria's balance: $200.00",
-        "pitfall": "Forgetting `self` as the first argument in class methods, which causes TypeError when calling `instance.method()`.",
-        "rep": {
-          "title": "Student Class Rep",
-          "prompt": "Create class Student with __init__(self, name, major). Create s = Student('Alex', 'CS'). Store s.name in 'st_name'.",
-          "starter": "class Student:\n    def __init__(self, name, major):\n        self.name = name\n        self.major = major\ns = Student('Alex', 'CS')\nst_name = s.name\nprint(st_name)",
-          "test_var": "st_name",
-          "expected_val": "Alex",
-          "title_es": "Repetición: Clase Student",
-          "prompt_es": "Crea la clase Student con __init__(self, name, major). Crea s = Student('Alex', 'CS'). Guarda s.name en 'st_name'."
-        },
-        "quiz": {
-          "question": "What is the role of the `self` parameter in Python class methods?",
-          "options": [
-            "It is a keyword that imports standard classes",
-            "It represents the specific instance of the object invoking the method",
-            "It hides the method from other files",
-            "It is an optional comment"
-          ],
-          "answer": 1,
-          "explanation": "`self` provides the method access to that particular object's unique attributes in RAM.",
-          "question_es": "¿Cuál es el rol del parámetro `self` en los métodos de clase en Python?",
-          "options_es": [
-            "Es una palabra clave para importar clases estándar",
-            "Representa la instancia específica del objeto que invoca el método",
-            "Oculta el método de otros archivos",
-            "Es un comentario opcional"
-          ],
-          "explanation_es": "`self` brinda al método acceso a los atributos únicos de ese objeto en particular dentro de la memoria RAM."
-        },
-        "title_es": "Clases, __init__ y Encapsulación",
-        "why_es": "El código procedimental dispersa datos y funciones. La POO agrupa datos (atributos) y comportamiento (métodos) en una sola entidad coherente.",
-        "concept_es": "`class Nombre:` define el plano. `__init__(self, ...)` inicializa el estado. `self` refiere a la instancia activa. Atributos privados (`__var`) previenen alteraciones no autorizadas.",
-        "pitfall_es": "Olvidar `self` como primer parámetro en métodos de clase, lo que provoca TypeError al invocar `instancia.metodo()`.",
-        "book_ref": {
-          "gaddis_chapter": 10,
-          "gaddis_section": "Sections 10.1 & 10.2",
-          "title": "Procedural vs Object-Oriented Programming & Classes",
-          "explanation": "Gaddis introduces Object-Oriented Programming (OOP): binding data attributes and procedures (methods) into cohesive objects. He details the class blueprint, __init__ initializer, the self parameter, and data hiding (encapsulation) using double underscores (__).",
-          "explanation_es": "Gaddis presenta la Programación Orientada a Objetos (POO): unir atributos de datos y métodos en objetos coherentes. Detalla el plano de clase, el constructor __init__, el parámetro self y el ocultamiento de datos (encapsulación) con doble guion bajo (__)."
-        },
-        "breakdown": {
-          "analogy": "Think of a blueprint for an automobile. The blueprint defines what a car has (color, engine) and what it does (accelerate, brake). When the factory builds 5 cars from that blueprint, each car is an independent instance with its own paint color and fuel level.",
-          "analogy_es": "Imagina los planos de un automóvil. El plano define qué tiene el auto (color, motor) y qué hace (acelerar, frenar). Cuando la fábrica construye 5 autos a partir de ese plano, cada vehículo es una instancia independiente con su propio color y combustible.",
-          "steps": [
-            "1. Class: The blueprint: class BankAccount:",
-            "2. __init__ & self: The constructor that initializes this specific instance's attributes in RAM.",
-            "3. Encapsulation: Prefixing self.__balance protects attributes from being tampered with directly by outside code."
-          ],
-          "steps_es": [
-            "1. Clase: El plano de diseño: class CuentaBancaria:",
-            "2. __init__ y self: El inicializador que crea los atributos de esta instancia específica en RAM.",
-            "3. Encapsulación: Anteponer self.__saldo protege los atributos para que el código externo no los altere sin autorización."
-          ]
-        },
-        "deep_dive": {
-          "concept": "Instance Dictionaries (__dict__) & Name Mangling",
-          "detail": "How does Python store an object's state? Each instance maintains a hidden internal dictionary called __dict__ mapping attribute names to values! When you prefix an attribute with double underscores (__balance), Python performs 'name mangling', internally renaming it to _BankAccount__balance to prevent accidental collision in subclass hierarchies.",
-          "detail_es": "¿Cómo guarda Python el estado de un objeto? Cada instancia tiene un diccionario interno oculto llamado __dict__ que asocia atributos con valores. Cuando antepones doble guion bajo (__saldo), Python realiza 'name mangling', renombrándolo internamente como _CuentaBancaria__saldo para evitar colisiones en clases hijas."
-        }
-      }
-    ],
-    "title_es": "Clases, Programación Orientada a Objetos y Encapsulación",
-    "desc_es": "Programación Orientada a Objetos: clases como planos de diseño, instancias en memoria, __init__, encapsulación con atributos privados y herencia."
+      "num": 9,
+      "code_module": "Module 6.1",
+      "title": "Classes, Part 1: Building Objects (Data + Behavior)",
+      "icon": "🏗️",
+      "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module6.1_Class1.ipynb",
+      "desc": "Object-Oriented Programming fundamentals: blueprints vs. instances, attributes as state, methods as behavior, __init__, self, independent object state, and business rule protection.",
+      "title_es": "Clases, Parte 1: Creación de Objetos (Datos + Comportamiento)",
+      "desc_es": "Fundamentos de Programación Orientada a Objetos: planos vs. instancias, atributos como estado, métodos como comportamiento, __init__, self, estado independiente y protección de reglas de negocio.",
+      "sections": [
+          {
+              "id": "9-1",
+              "num": "9.1",
+              "title": "Functions to Classes: Blueprint vs. Instance",
+              "why": "A function organizes a single job, and a dictionary organizes loose values. But as programs grow, scattering player data across variables and passing dictionaries into standalone functions creates fragile spaghetti code. A class binds related data (attributes) and related behaviors (methods) together into a single cohesive blueprint.",
+              "concept": "`class Dog:` defines the blueprint. `def __init__(self, name, age):` runs automatically when an instance is born to initialize attributes. `self` refers to this specific instance in RAM. `self.name = name` copies the incoming argument to the object's memory slot. Access attributes with `obj.attr` and invoke methods with `obj.method()`.",
+              "code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def sit(self):\n        return f\"{self.name} is now sitting.\"\n\nmy_dog = Dog(\"Milo\", 3)\nprint(f\"{my_dog.name} is {my_dog.age} years old.\")\nprint(my_dog.sit())",
+              "expected_output": "Milo is 3 years old.\nMilo is now sitting.",
+              "pitfall": "Forgetting `self` as the first parameter in methods! When you call `my_dog.sit()`, Python automatically passes the instance as the first argument. If `def sit():` has no `self`, Python throws `TypeError: sit() takes 0 positional arguments but 1 was given`!",
+              "rep": {
+                  "title": "Movie Class Rep",
+                  "prompt": "Create class Movie with __init__(self, title, genre, rating) and method describe() that returns f'{self.title} ({self.genre}) - {self.rating}/10'. Instantiate fav = Movie('Inception', 'Sci-Fi', 9). Store fav.describe() in 'summary'.",
+                  "starter": "class Movie:\n    def __init__(self, title, genre, rating):\n        self.title = title\n        self.genre = genre\n        self.rating = rating\n\n    def describe(self):\n        return f\"{self.title} ({self.genre}) - {self.rating}/10\"\n\nfav = Movie(\"Inception\", \"Sci-Fi\", 9)\nsummary = fav.describe()\nprint(summary)",
+                  "test_var": "summary",
+                  "expected_val": "Inception (Sci-Fi) - 9/10",
+                  "title_es": "Repetición: Clase Movie",
+                  "prompt_es": "Crea la clase Movie con __init__(self, title, genre, rating) y el método describe() que devuelva f'{self.title} ({self.genre}) - {self.rating}/10'. Instancia fav = Movie('Inception', 'Sci-Fi', 9). Guarda fav.describe() en 'summary'."
+              },
+              "quiz": {
+                  "question": "In the assignment `self.name = name`, what is the difference between the left and right sides?",
+                  "options": [
+                      "Both refer to the parameter passed into __init__",
+                      "The right side is the incoming argument value; the left side stores it as a permanent attribute on this specific object in RAM",
+                      "The left side is a global variable; the right side is local",
+                      "They are identical and one can be omitted without consequence"
+                  ],
+                  "answer": 1,
+                  "explanation": "On the right, `name` is the temporary parameter containing the incoming value. On the left, `self.name` attaches that value as an attribute directly to the active instance in RAM.",
+                  "question_es": "En la asignación `self.name = name`, ¿cuál es la diferencia entre el lado izquierdo y el derecho?",
+                  "options_es": [
+                      "Ambos se refieren al parámetro recibido en __init__",
+                      "El lado derecho es el valor del argumento entrante; el lado izquierdo lo guarda como atributo permanente en este objeto específico en RAM",
+                      "El lado izquierdo es una variable global; el lado derecho es local",
+                      "Son idénticos y uno puede omitirse sin consecuencias"
+                  ],
+                  "explanation_es": "A la derecha, `name` es el parámetro temporal con el valor entrante. A la izquierda, `self.name` almacena ese dato como un atributo permanente en la instancia activa dentro de la memoria RAM."
+              },
+              "title_es": "De Funciones a Clases: Plano vs. Instancia",
+              "why_es": "Una función organiza una sola tarea y un diccionario agrupa valores sueltos. Pero al crecer tu programa, dispersar datos en variables y pasarlos a funciones crea código frágil. Una clase une datos (atributos) y comportamientos (métodos) en un solo plano coherente.",
+              "concept_es": "`class Dog:` define el plano. `def __init__(self, name, age):` se ejecuta al crear la instancia para inicializar atributos. `self` refiere a este objeto específico en RAM. `self.name = name` copia el argumento recibido al espacio de memoria del objeto. Accede a atributos con `obj.attr` y métodos con `obj.metodo()`.",
+              "pitfall_es": "¡Olvidar `self` como primer parámetro en los métodos! Al llamar `my_dog.sit()`, Python pasa automáticamente la instancia como primer argumento. Si `def sit():` no tiene `self`, Python lanza `TypeError: sit() takes 0 positional arguments but 1 was given`.",
+              "book_ref": {
+                  "gaddis_chapter": 10,
+                  "gaddis_section": "Sections 10.1 & 10.2",
+                  "title": "Procedural vs Object-Oriented Programming & Classes",
+                  "explanation": "Gaddis contrasts procedural programming (focused on creating procedures/functions that operate on separate data) with object-oriented programming (centered on creating objects containing both data and procedures). He details how __init__ acts as the constructor and explains that self binds methods to the active object in memory.",
+                  "explanation_es": "Gaddis contrasta la programación procedimental (centrada en crear funciones que operan sobre datos aislados) con la programación orientada a objetos (enfocada en crear objetos que contienen tanto datos como procedimientos). Detalla cómo __init__ actúa como inicializador y explica que self vincula los métodos al objeto activo en memoria."
+              },
+              "breakdown": {
+                  "analogy": "Think of an architect's blueprint for a house vs. an actual house built from brick and mortar. You cannot sleep inside a blueprint; the blueprint defines the dimensions and rooms. An instance is the actual house constructed from that blueprint where real people live and turn on lights.",
+                  "analogy_es": "Imagina los planos de una casa frente a la casa física construida con ladrillos. No puedes dormir dentro de un plano; el plano solo define las medidas y habitaciones. Una instancia es la casa real construida con ese plano, donde vive gente y se encienden luces reales.",
+                  "steps": [
+                      "1. Blueprint Definition: `class Dog:` registers the template in Python's namespace.",
+                      "2. Memory Allocation: `my_dog = Dog('Milo', 3)` allocates a new unique memory block in RAM.",
+                      "3. Setup (__init__): Python automatically invokes `__init__`, binding `self` to the new memory block, setting `self.name = 'Milo'` and `self.age = 3`.",
+                      "4. Method Execution: Calling `my_dog.sit()` translates internally to `Dog.sit(my_dog)`, with Python passing `my_dog` as `self`."
+                  ],
+                  "steps_es": [
+                      "1. Definición del Plano: `class Dog:` registra la plantilla en el espacio de nombres de Python.",
+                      "2. Asignación en RAM: `my_dog = Dog('Milo', 3)` reserva un bloque de memoria único en la RAM.",
+                      "3. Inicialización (__init__): Python ejecuta automáticamente `__init__`, vinculando `self` al nuevo bloque y guardando `self.name = 'Milo'` y `self.age = 3`.",
+                      "4. Ejecución del Método: `my_dog.sit()` se traduce internamente a `Dog.sit(my_dog)`, pasando automáticamente `my_dog` como `self`."
+                  ]
+              },
+              "deep_dive": {
+                  "concept": "The Under-the-Hood Mechanics of `self`",
+                  "detail": "Why does Python require `self` explicitly in method signatures? When you write `my_dog.sit()`, Python's bytecode engine actually translates that syntactic sugar into `Dog.sit(my_dog)`! Python passes the instance reference as the first positional argument under the hood. Guido van Rossum made `self` explicit to follow the Zen of Python: 'Explicit is better than implicit.'",
+                  "detail_es": "¿Por qué Python requiere `self` explícitamente en la firma del método? Cuando escribes `my_dog.sit()`, el motor de Python traduce internamente esa llamada a `Dog.sit(my_dog)`. Python pasa la referencia de la instancia como primer argumento posicional. Guido van Rossum diseñó `self` explícito siguiendo el Zen de Python: 'Explícito es mejor que implícito'."
+              }
+          },
+          {
+              "id": "9-2",
+              "num": "9.2",
+              "title": "Multiple Instances & Independent State",
+              "why": "A single blueprint stamps out dozens of unique objects. Two phones made by the same manufacturer share the exact same hardware design, but changing the wallpaper or contact list on Phone A never touches Phone B. In Python, every instance possesses its own isolated memory address in RAM with independent attribute values.",
+              "concept": "`student1 = Student('Avery', 'IT')` and `student2 = Student('Morgan', 'Cybersecurity')` live at completely separate memory addresses. Modifying `student1.credits = 12` updates only `student1`'s memory slot. Methods can accept additional arguments: `def add_credits(self, amount): self.credits += amount`.",
+              "code": "class Student:\n    def __init__(self, name, major):\n        self.name = name\n        self.major = major\n        self.credits = 0\n\n    def add_credits(self, amount):\n        self.credits += amount\n\navery = Student(\"Avery\", \"IT\")\nmorgan = Student(\"Morgan\", \"Cybersecurity\")\n\navery.add_credits(12)\n\nprint(f\"{avery.name}: {avery.credits} credits\")\nprint(f\"{morgan.name}: {morgan.credits} credits\")",
+              "expected_output": "Avery: 12 credits\nMorgan: 0 credits",
+              "pitfall": "Assuming variables created inside a method without `self.` become object attributes! Writing `credits = credits + amount` creates a temporary local variable that vanishes the instant the method finishes. You must always use `self.credits += amount`.",
+              "rep": {
+                  "title": "Player Health Independence Rep",
+                  "prompt": "Create class Player with __init__(self, name, health=100) and take_damage(self, amount) that subtracts amount from self.health. Create p1 = Player('Nova') and p2 = Player('Orion'). Call p1.take_damage(25). Store f'{p1.name}:{p1.health}|{p2.name}:{p2.health}' in 'status'.",
+                  "starter": "class Player:\n    def __init__(self, name, health=100):\n        self.name = name\n        self.health = health\n\n    def take_damage(self, amount):\n        self.health -= amount\n\np1 = Player(\"Nova\")\np2 = Player(\"Orion\")\np1.take_damage(25)\nstatus = f\"{p1.name}:{p1.health}|{p2.name}:{p2.health}\"\nprint(status)",
+                  "test_var": "status",
+                  "expected_val": "Nova:75|Orion:100",
+                  "title_es": "Repetición: Independencia de Estado en Jugadores",
+                  "prompt_es": "Crea la clase Player con __init__(self, name, health=100) y take_damage(self, amount) que reste amount de self.health. Crea p1 = Player('Nova') y p2 = Player('Orion'). Llama p1.take_damage(25). Guarda f'{p1.name}:{p1.health}|{p2.name}:{p2.health}' en 'status'."
+              },
+              "quiz": {
+                  "question": "If `s1 = Student('A', 'CS')` and `s2 = Student('B', 'Math')` are created from the same class, what happens in RAM when you run `s1.credits = 15`?",
+                  "options": [
+                      "Both s1 and s2 receive 15 credits because they share the class blueprint",
+                      "Only s1's credits attribute in RAM is updated to 15; s2 remains untouched at 0",
+                      "Python throws an AttributeError because instances cannot have different attribute values",
+                      "s2 is automatically deleted to conserve memory"
+                  ],
+                  "answer": 1,
+                  "explanation": "Each instance has its own separate memory address in RAM. Modifying an attribute on `s1` mutates only `s1`'s private attribute store; `s2`'s memory slot is completely unaffected.",
+                  "question_es": "Si se crean `s1 = Student('A', 'CS')` y `s2 = Student('B', 'Math')` desde la misma clase, ¿qué ocurre en RAM al ejecutar `s1.credits = 15`?",
+                  "options_es": [
+                      "Tanto s1 como s2 reciben 15 créditos porque comparten el plano de la clase",
+                      "Solo el atributo credits de s1 en RAM se actualiza a 15; s2 permanece intacto en 0",
+                      "Python lanza un AttributeError porque las instancias no pueden tener valores diferentes",
+                      "s2 se elimina automáticamente para ahorrar memoria"
+                  ],
+                  "explanation_es": "Cada instancia reside en una dirección de memoria RAM independiente. Modificar un atributo en `s1` solo altera su propio espacio; la memoria de `s2` permanece totalmente aislada."
+              },
+              "title_es": "Múltiples Instancias y Estado Independiente",
+              "why_es": "Un solo plano estampa docenas de objetos únicos. Dos teléfonos del mismo modelo comparten hardware, pero cambiar el fondo en el teléfono A nunca altera el teléfono B. En Python, cada instancia posee su propia dirección de memoria en RAM con valores de atributos independientes.",
+              "concept_es": "`student1 = Student('Avery', 'IT')` y `student2 = Student('Morgan', 'Cybersecurity')` viven en direcciones de memoria aisladas. Modificar `student1.credits = 12` solo afecta a `student1`. Los métodos pueden recibir argumentos adicionales: `def add_credits(self, amount): self.credits += amount`.",
+              "pitfall_es": "¡Creer que las variables creadas dentro de un método sin `self.` se convierten en atributos del objeto! Escribir `credits = credits + amount` crea una variable local temporal que desaparece al terminar el método. Siempre debes usar `self.credits += amount`.",
+              "book_ref": {
+                  "gaddis_chapter": 10,
+                  "gaddis_section": "Section 10.3",
+                  "title": "Working with Instances",
+                  "explanation": "Gaddis demonstrates that multiple instances created from the same class each maintain an independent copy of the object's instance attributes in memory. He walks through memory diagrams illustrating how distinct references point to completely separate heap blocks.",
+                  "explanation_es": "Gaddis demuestra que múltiples instancias creadas a partir de la misma clase conservan copias independientes de los atributos en memoria. Muestra diagramas de memoria que ilustran cómo diferentes referencias apuntan a bloques separados en la memoria dinámica."
+              },
+              "breakdown": {
+                  "analogy": "Think of two smart thermostats in different rooms of the same house. Both were manufactured from the same factory model. Setting the Living Room thermostat to 72°F does not turn the Bedroom thermostat to 72°F; each device reads its own sensor and maintains its own temperature state.",
+                  "analogy_es": "Imagina dos termostatos inteligentes en habitaciones diferentes. Ambos salieron de la misma fábrica con el mismo modelo. Ajustar el termostato de la sala a 22°C no cambia el del dormitorio; cada dispositivo lee su propio sensor y mantiene su propio estado de temperatura.",
+                  "steps": [
+                      "1. Instance 1 born: `avery = Student('Avery', 'IT')` -> RAM Address `0x10A` with `{name: 'Avery', credits: 0}`.",
+                      "2. Instance 2 born: `morgan = Student('Morgan', 'Cybersecurity')` -> RAM Address `0x20B` with `{name: 'Morgan', credits: 0}`.",
+                      "3. Mutation: `avery.add_credits(12)` routes to `0x10A`, incrementing its credits to 12.",
+                      "4. Independence Verified: Inspecting `morgan.credits` at `0x20B` confirms it remains 0."
+                  ],
+                  "steps_es": [
+                      "1. Nace Instancia 1: `avery = Student('Avery', 'IT')` -> Dirección RAM `0x10A` con `{name: 'Avery', credits: 0}`.",
+                      "2. Nace Instancia 2: `morgan = Student('Morgan', 'Cybersecurity')` -> Dirección RAM `0x20B` con `{name: 'Morgan', credits: 0}`.",
+                      "3. Modificación: `avery.add_credits(12)` opera sobre `0x10A`, aumentando sus créditos a 12.",
+                      "4. Independencia Confirmada: Consultar `morgan.credits` en `0x20B` confirma que permanece en 0."
+                  ]
+              },
+              "deep_dive": {
+                  "concept": "Heap Memory Allocation & `id()` Inspection",
+                  "detail": "How does CPython distinguish instances? Run `print(hex(id(avery)))` and `print(hex(id(morgan)))`. You will see distinct hexadecimal memory addresses allocated on the operating system's heap! Each object's pointer table directs attribute lookups to its own distinct memory block, guaranteeing zero state collision between instances.",
+                  "detail_es": "¿Cómo distingue CPython las instancias? Si ejecutas `print(hex(id(avery)))` y `print(hex(id(morgan)))`, verás direcciones de memoria hexadecimales distintas en el heap del sistema operativo. La tabla de punteros de cada objeto dirige las búsquedas de atributos a su propio bloque de memoria, garantizando cero colisiones de estado entre instancias."
+              }
+          },
+          {
+              "id": "9-3",
+              "num": "9.3",
+              "title": "Guarding Business Rules with Methods",
+              "why": "Allowing external code to modify attributes directly (`account.balance = -9999` or `book.current_page = 500` in a 200-page book) corrupts application state. Methods act as protective gatekeepers that enforce validation, calculate boundaries, and protect business integrity before any attribute changes.",
+              "concept": "Methods encapsulate business rules using conditional checks and boundary functions: `if amount > 0: self.balance += amount`. Using `min()` and `max()` clamps values safely: `self.current_page = min(self.pages, self.current_page + amount)` guarantees reading never exceeds the book. Always distinguish `print()` (one-time display) from `return` (passes values for reuse).",
+              "code": "class Book:\n    def __init__(self, title, author, pages):\n        self.title = title\n        self.author = author\n        self.pages = pages\n        self.current_page = 0\n\n    def read_pages(self, amount):\n        # Enforce boundary: never read past total pages\n        self.current_page = min(self.pages, self.current_page + amount)\n\n    def progress(self):\n        return round((self.current_page / self.pages) * 100, 1)\n\nbook = Book(\"Python Adventures\", \"Prof. Cao\", 200)\nbook.read_pages(50)\nprint(f\"Progress: {book.progress()}%\")\n\n# Attempt reading 500 pages (rule caps it at 200)\nbook.read_pages(500)\nprint(f\"Current page: {book.current_page}/{book.pages}\")",
+              "expected_output": "Progress: 25.0%\nCurrent page: 200/200",
+              "pitfall": "Forgetting parentheses when calling a method: `if book.progress == 100:` always evaluates to False because `book.progress` is a `<bound method>` function object, not the numerical percentage! You must write `book.progress()`.",
+              "rep": {
+                  "title": "Bank Account Validation Rep",
+                  "prompt": "Create class BankAccount with __init__(self, owner, balance=0). Add deposit(amount) that only adds if amount > 0, and withdraw(amount) that only subtracts if 0 < amount <= self.balance. Create acct = BankAccount('Jordan', 100). deposit(50), withdraw(30), withdraw(500). Store acct.balance in 'final_bal'.",
+                  "starter": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount > 0:\n            self.balance += amount\n\n    def withdraw(self, amount):\n        if 0 < amount <= self.balance:\n            self.balance -= amount\n\nacct = BankAccount(\"Jordan\", 100)\nacct.deposit(50)\nacct.withdraw(30)\nacct.withdraw(500) # Rejected!\nfinal_bal = acct.balance\nprint(final_bal)",
+                  "test_var": "final_bal",
+                  "expected_val": 120,
+                  "title_es": "Repetición: Validación en Cuenta Bancaria",
+                  "prompt_es": "Crea la clase BankAccount con __init__(self, owner, balance=0). Agrega deposit(amount) que solo sume si amount > 0, y withdraw(amount) que solo reste si 0 < amount <= self.balance. Crea acct = BankAccount('Jordan', 100). deposit(50), withdraw(30), withdraw(500). Guarda acct.balance en 'final_bal'."
+              },
+              "quiz": {
+                  "question": "Why is `student.describe` different from `student.describe()` in Python?",
+                  "options": [
+                      "They are completely identical and interchangeable",
+                      "`student.describe` references the method function object in memory, while `student.describe()` actually executes the method and returns its result",
+                      "`student.describe` is faster because it bypasses execution",
+                      "Parentheses are only required if the method takes arguments other than self"
+                  ],
+                  "answer": 1,
+                  "explanation": "Without parentheses, Python evaluates the attribute reference, yielding the bound method object (`<bound method Student.describe of ...>`). With parentheses `()`, Python calls the method and evaluates its return expression.",
+                  "question_es": "¿Por qué `student.describe` es diferente de `student.describe()` en Python?",
+                  "options_es": [
+                      "Son completamente idénticos e intercambiables",
+                      "`student.describe` hace referencia al objeto método en memoria, mientras que `student.describe()` ejecuta el método y devuelve su resultado",
+                      "`student.describe` es más rápido porque omite la ejecución",
+                      "Los paréntesis solo son obligatorios si el método recibe argumentos adicionales a self"
+                  ],
+                  "explanation_es": "Sin paréntesis, Python solo evalúa la referencia al método (`<bound method Student.describe of ...>`). Con los paréntesis `()`, Python invoca el código del método y devuelve el valor resultante."
+              },
+              "title_es": "Protección de Reglas de Negocio con Métodos",
+              "why_es": "Permitir que código externo altere atributos directamente (`account.balance = -9999` o `book.current_page = 500` en un libro de 200 páginas) corrompe el estado. Los métodos actúan como guardianes que aplican validaciones, límites y reglas de negocio antes de modificar el estado.",
+              "concept_es": "Los métodos encapsulan reglas mediante condicionales y funciones límite: `if amount > 0: self.balance += amount`. Usar `min()` y `max()` acota valores con seguridad: `self.current_page = min(self.pages, self.current_page + amount)` asegura no sobrepasar las páginas del libro. Diferencia `print()` (muestra una vez) de `return` (devuelve el dato para reutilizarlo).",
+              "pitfall_es": "¡Olvidar los paréntesis al invocar un método: `if book.progress == 100:` siempre resulta Falso porque `book.progress` es un objeto `<bound method>`, no el número porcentual! Debes escribir `book.progress()`.",
+              "book_ref": {
+                  "gaddis_chapter": 10,
+                  "gaddis_section": "Sections 10.2 & 10.4",
+                  "title": "Encapsulation, Data Hiding & Mutator Methods",
+                  "explanation": "Gaddis introduces mutator methods (setters) and accessor methods (getters). He emphasizes that classes protect data integrity by requiring all state modifications to pass through methods containing boundary verification logic, preventing invalid data from contaminating objects.",
+                  "explanation_es": "Gaddis presenta los métodos mutadores (setters) y de acceso (getters). Enfatiza que las clases protegen la integridad de los datos exigiendo que toda modificación pase por métodos con lógica de verificación, impidiendo que datos inválidos corrompan los objetos."
+              },
+              "breakdown": {
+                  "analogy": "Think of a vending machine with a coin slot. You cannot reach inside the machine to manually alter the soda inventory count. You must deposit money through the designated slot, which mechanically verifies that the coin is genuine and dispenses the drink according to strict physical rules.",
+                  "analogy_es": "Imagina una máquina expendedora con ranura para monedas. No puedes meter la mano para cambiar el contador de refrescos. Debes insertar monedas por la ranura, la cual valida que la moneda sea auténtica y despacha el producto según reglas mecánicas estrictas.",
+                  "steps": [
+                      "1. Direct Mutation (Dangerous): `acct.balance = -500` bypasses validation and corrupts accounting.",
+                      "2. Guarded Mutation (Safe): `acct.deposit(-500)` checks `if amount > 0:`. Since -500 is not > 0, the mutation is rejected.",
+                      "3. Boundary Clamping: `min(self.pages, self.current_page + amount)` mathematically guarantees the state cannot exceed the 200-page ceiling.",
+                      "4. Reusable Reporting: `return round(...)` delivers an exportable numerical result rather than just printing to console."
+                  ],
+                  "steps_es": [
+                      "1. Modificación Directa (Peligrosa): `acct.balance = -500` elude la validación y corrompe los registros contables.",
+                      "2. Modificación Protegida (Segura): `acct.deposit(-500)` evalúa `if amount > 0:`. Al ser negativo, la operación se rechaza.",
+                      "3. Acotamiento de Límites: `min(self.pages, self.current_page + amount)` garantiza matemáticamente no superar el techo de 200 páginas.",
+                      "4. Retorno Reutilizable: `return round(...)` devuelve un valor numérico reusable en lugar de solo imprimirlo en la terminal."
+                  ]
+              },
+              "deep_dive": {
+                  "concept": "Clamping Math: Why `min()` sets Ceilings and `max()` sets Floors",
+                  "detail": "Beginners frequently invert `min()` and `max()`. To set an UPPER ceiling of 100, use `min(100, val)` (if val is 120, min chooses 100). To set a LOWER floor of 0, use `max(0, val)` (if val is -15, max chooses 0). Combining both `max(0, min(100, val))` clamps any number within an airtight range without needing complex nested `if-elif-else` chains!",
+                  "detail_es": "Muchos principiantes confunden `min()` y `max()`. Para establecer un TECHO MÁXIMO de 100, usa `min(100, val)` (si val es 120, min elige 100). Para establecer un PISO MÍNIMO de 0, usa `max(0, val)` (si val es -15, max elige 0). Combinar `max(0, min(100, val))` acota cualquier valor en un rango estricto sin requerir complejos bloques `if-elif-else`."
+              }
+          },
+          {
+              "id": "9-4",
+              "num": "9.4",
+              "title": "In-Class Lab: The Pet Profile (State & Bounds)",
+              "why": "Real-world applications model dynamic entities whose internal energy, score, or status fluctuates based on actions. In Prof. Cao's in-class practice lab, you engineer a Pet class with double-boundary clamping (0 to 100) and state query methods (`is_tired()`).",
+              "concept": "Managing bounded state: `self.energy = max(0, self.energy - (minutes * 2))` for play, and `self.energy = min(100, self.energy + amount)` for rest. Boolean query methods return descriptive conditions: `def is_tired(self): return self.energy < 30`. Multiple pets verify that Luna's energy level is completely separate from Milo's.",
+              "code": "class Pet:\n    def __init__(self, name, animal_type, age):\n        self.name = name\n        self.animal_type = animal_type\n        self.age = age\n        self.energy = 100\n\n    def describe(self):\n        return f\"{self.name} is a {self.age}-year-old {self.animal_type}.\"\n\n    def play(self, minutes):\n        # Energy drops, but never below 0\n        self.energy = max(0, self.energy - (minutes * 2))\n\n    def rest(self, amount):\n        # Energy recovers, but never above 100\n        self.energy = min(100, self.energy + amount)\n\n    def is_tired(self):\n        return self.energy < 30\n\nmilo = Pet(\"Milo\", \"Dog\", 3)\nmilo.play(40)  # 100 - 80 = 20\nprint(f\"{milo.name} energy: {milo.energy}\")\nprint(f\"Is {milo.name} tired? {milo.is_tired()}\")\n\nmilo.rest(50)  # 20 + 50 = 70\nprint(f\"{milo.name} recovered energy: {milo.energy}\")",
+              "expected_output": "Milo energy: 20\nIs Milo tired? True\nMilo recovered energy: 70",
+              "pitfall": "Using `min` when you should use `max` for lower bounds: `self.energy = min(0, self.energy - cost)` would make energy 0 or negative! To clamp a floor at 0, always use `max(0, ...)`. To clamp a ceiling at 100, always use `min(100, ...)`.",
+              "rep": {
+                  "title": "Pet Energy State Rep",
+                  "prompt": "Create class Pet with __init__(self, name, age) setting self.energy = 100. Add play(mins) reducing energy by mins*2 (clamped floor 0 with max(0, ...)), and rest(amt) adding amt (clamped ceiling 100 with min(100, ...)). Create luna = Pet('Luna', 2). luna.play(30), luna.rest(10), luna.play(50). Store luna.energy in 'final_energy'.",
+                  "starter": "class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n        self.energy = 100\n\n    def play(self, mins):\n        self.energy = max(0, self.energy - (mins * 2))\n\n    def rest(self, amt):\n        self.energy = min(100, self.energy + amt)\n\nluna = Pet(\"Luna\", 2)\nluna.play(30) # 100 - 60 = 40\nluna.rest(10) # 40 + 10 = 50\nluna.play(50) # 50 - 100 -> clamped to 0!\nfinal_energy = luna.energy\nprint(final_energy)",
+                  "test_var": "final_energy",
+                  "expected_val": 0,
+                  "title_es": "Repetición: Estado de Energía de Mascota",
+                  "prompt_es": "Crea la clase Pet con __init__(self, name, age) iniciando self.energy = 100. Agrega play(mins) reduciendo energía en mins*2 (piso 0 con max(0, ...)) y rest(amt) sumando amt (techo 100 con min(100, ...)). Crea luna = Pet('Luna', 2). luna.play(30), luna.rest(10), luna.play(50). Guarda luna.energy en 'final_energy'."
+              },
+              "quiz": {
+                  "question": "In the `Pet` class, why is `self.energy = min(100, self.energy + amount)` preferred over `self.energy += amount`?",
+                  "options": [
+                      "It automatically prevents the pet's energy from unrealistically exceeding the 100 maximum ceiling",
+                      "`min()` makes Python execute faster in RAM",
+                      "`+=` is forbidden on object attributes in Python",
+                      "It automatically casts the amount to a floating point number"
+                  ],
+                  "answer": 0,
+                  "explanation": "If a pet rests for 200 units, `min(100, self.energy + 200)` mathematically evaluates to 100, guarding the object's upper boundary without requiring an extra `if` condition.",
+                  "question_es": "En la clase `Pet`, ¿por qué se prefiere `self.energy = min(100, self.energy + amount)` sobre `self.energy += amount`?",
+                  "options_es": [
+                      "Evita automáticamente que la energía de la mascota supere el límite máximo de 100 de forma irreal",
+                      "`min()` hace que Python se ejecute más rápido en RAM",
+                      "`+=` está prohibido sobre atributos de objetos en Python",
+                      "Convierte automáticamente el monto a un número de punto flotante"
+                  ],
+                  "explanation_es": "Si una mascota descansa por 200 unidades, `min(100, self.energy + 200)` evalúa matemáticamente a 100, protegiendo el límite superior del objeto sin requerir un condicional `if` adicional."
+              },
+              "title_es": "Laboratorio Práctico: Perfil de Mascota (Estado y Límites)",
+              "why_es": "Las aplicaciones reales modelan entidades cuya energía o estado fluctúa según acciones. En el laboratorio práctico de la Prof. Cao, diseñas una clase Pet con límites dobles (0 a 100) y métodos de consulta de estado (`is_tired()`).",
+              "concept_es": "Gestión de estado acotado: `self.energy = max(0, self.energy - (minutes * 2))` al jugar, y `self.energy = min(100, self.energy + amount)` al descansar. Métodos booleanos consultan condiciones: `def is_tired(self): return self.energy < 30`. Múltiples mascotas confirman que la energía de Luna es independiente de la de Milo.",
+              "pitfall_es": "¡Usar `min` cuando debes usar `max` para pisos mínimos: `self.energy = min(0, self.energy - cost)` haría que la energía fuera 0 o negativa! Para fijar un piso en 0, usa siempre `max(0, ...)`. Para un techo en 100, usa `min(100, ...)`.",
+              "book_ref": {
+                  "gaddis_chapter": 10,
+                  "gaddis_section": "Section 10.3",
+                  "title": "Passing Objects as Arguments and Instance Management",
+                  "explanation": "Gaddis demonstrates practical object state management: passing instances to functions, managing multiple interacting objects, and maintaining consistent internal state across sequences of method calls.",
+                  "explanation_es": "Gaddis demuestra la gestión práctica del estado de objetos: pasar instancias a funciones, coordinar múltiples objetos que interactúan y conservar un estado interno consistente a lo largo de secuencias de llamadas a métodos."
+              },
+              "breakdown": {
+                  "analogy": "Think of a smartphone battery meter. When you play heavy 3D games, battery drains rapidly, but it cannot drop below 0%. When you plug it into a supercharger, it recharges, but it stops cleanly at 100%. The phone's battery management system (BMS) enforces these exact physical bounds.",
+                  "analogy_es": "Imagina la batería de un teléfono móvil. Al jugar videojuegos exigentes, la batería se agota rápidamente, pero nunca cae por debajo de 0%. Al conectarlo a un cargador rápido, recupera carga pero se detiene exactamente al 100%. El sistema de gestión de batería aplica exactamente estos límites físicos.",
+                  "steps": [
+                      "1. Birth with Full Battery: `Pet('Milo', 'Dog', 3)` initializes with `energy = 100`.",
+                      "2. Energy Depletion: `milo.play(40)` drains 80 energy, leaving 20. `max(0, 20)` keeps it positive.",
+                      "3. State Query: `milo.is_tired()` checks `20 < 30`, returning `True`.",
+                      "4. Recovery: `milo.rest(50)` recovers 50 energy (20 + 50 = 70). `min(100, 70)` keeps it safely under the 100 ceiling."
+                  ],
+                  "steps_es": [
+                      "1. Nacimiento con Batería Llena: `Pet('Milo', 'Dog', 3)` inicia con `energy = 100`.",
+                      "2. Gasto de Energía: `milo.play(40)` gasta 80 de energía, dejando 20. `max(0, 20)` la mantiene positiva.",
+                      "3. Consulta de Estado: `milo.is_tired()` evalúa `20 < 30`, retornando `True`.",
+                      "4. Recuperación: `milo.rest(50)` recupera 50 de energía (20 + 50 = 70). `min(100, 70)` la mantiene dentro del tope de 100."
+                  ]
+              },
+              "deep_dive": {
+                  "concept": "State Machines & Query Predicate Methods in OOP",
+                  "detail": "Methods like `is_tired()` that return a boolean (`True`/`False`) based on internal state are known in computer science as 'predicate methods'. They decouple external decision-making from internal variable representations. If you later change the energy threshold or formula, external code calling `if pet.is_tired():` continues working without breaking!",
+                  "detail_es": "Los métodos como `is_tired()` que devuelven un booleano (`True`/`False`) según el estado interno se conocen en ciencias de la computación como 'métodos predicados'. Desacoplan las decisiones externas de la estructura interna de variables. Si después cambias el umbral de energía, el código externo que llama `if pet.is_tired():` sigue funcionando sin romperse."
+              }
+          }
+      ]
   },
   {
     "num": 10,

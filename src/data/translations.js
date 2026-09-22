@@ -88,7 +88,7 @@ export const TRANSLATIONS = {
     citationsSubtitle: "Everything you need to know about citing this resource",
     instructorRole: "Course Instructor & Curriculum:",
     instructorAffil: "Prof. Jade Cao • Central Carolina Community College (CCCC)",
-    instructorModules: "Lecture Notebook Modules 1.0 – 5.2 (Variables, Lists, Dicts, While Loops, Functions)",
+    instructorModules: "Lecture Notebook Modules 1.0 – 6.1 (Variables, Lists, Dicts, While Loops, Functions, Classes)",
     textbookRole: "Syllabus Companion Textbook:",
     textbookTitle: "Starting Out with Python (6th Edition)",
     textbookAuthor: "Author: Tony Gaddis • Publisher: Pearson",
@@ -148,7 +148,9 @@ export const TRANSLATIONS = {
     clearStats: "Reset Session Analytics",
     clearStatsConfirm: "Are you sure you want to reset all learning session statistics and rep logs? (Curriculum checkmarks will remain intact).",
     viewStats: "View Learning Stats",
-    backToChapters: "← Back to Curriculum"
+    backToChapters: "← Back to Curriculum",
+    loadModule61: "Load Module 6.1 (Prof. Cao)",
+    loadModule61Short: "Module 6.1 (Prof. Cao)"
   },
   es: {
     // Header & Meta
@@ -239,7 +241,7 @@ export const TRANSLATIONS = {
     citationsSubtitle: "Todo lo que necesitas para citar este recurso correctamente",
     instructorRole: "Instructora del Curso y Plan de Estudios:",
     instructorAffil: "Prof. Jade Cao • Central Carolina Community College (CCCC)",
-    instructorModules: "Módulos de Cuadernos 1.0 – 5.2 (Variables, Listas, Diccionarios, Bucles While, Funciones)",
+    instructorModules: "Módulos de Cuadernos 1.0 – 6.1 (Variables, Listas, Diccionarios, Bucles While, Funciones, Clases)",
     textbookRole: "Libro de Texto de Acompañamiento:",
     textbookTitle: "Starting Out with Python (6.ª Edición)",
     textbookAuthor: "Autor: Tony Gaddis • Editorial: Pearson",
@@ -299,6 +301,8 @@ export const TRANSLATIONS = {
     clearStats: "Restablecer Analíticas de Sesión",
     clearStatsConfirm: "¿Estás seguro de que deseas restablecer las analíticas de sesión y registros de repetición? (Las casillas del currículo permanecerán intactas).",
     viewStats: "Ver Estadísticas de Aprendizaje",
-    backToChapters: "← Volver al Currículo"
+    backToChapters: "← Volver al Currículo",
+    loadModule61: "Cargar Módulo 6.1 (Prof. Cao)",
+    loadModule61Short: "Módulo 6.1 (Prof. Cao)"
   }
 };
