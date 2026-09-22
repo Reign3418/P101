@@ -87,7 +87,29 @@ finally:
         try {
           actualVal = pyodide.globals.get(testVar);
           if (expectedVal !== null && actualVal !== undefined) {
-            passed = String(actualVal).trim().toLowerCase() === String(expectedVal).trim().toLowerCase();
+            const actStr = String(actualVal).trim();
+            const expStr = String(expectedVal).trim();
+
+            // 1. Direct string comparison (case-insensitive)
+            if (actStr.toLowerCase() === expStr.toLowerCase()) {
+              passed = true;
+            } else {
+              // 2. Numeric equality (handles float/int conversions like 4 vs 4.0 or 46 vs 46.0)
+              const actNum = Number(actualVal);
+              const expNum = Number(expectedVal);
+              if (!isNaN(actNum) && !isNaN(expNum) && Math.abs(actNum - expNum) < 0.0001) {
+                passed = true;
+              } else {
+                // 3. Normalized list/collection representations (quotes and spacing)
+                const normAct = actStr.replace(/"/g, "'").replace(/\s*,\s*/g, ', ');
+                const normExp = expStr.replace(/"/g, "'").replace(/\s*,\s*/g, ', ');
+                if (normAct.toLowerCase() === normExp.toLowerCase()) {
+                  passed = true;
+                } else {
+                  passed = false;
+                }
+              }
+            }
           } else {
             passed = actualVal !== undefined;
           }
