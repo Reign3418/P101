@@ -1,5 +1,19 @@
-import React, { useState, useRef } from 'react';
-import { Play, Copy, Check, Upload, Trash2, FileText, ShieldCheck, Sparkles, AlertCircle } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { 
+  Play, 
+  Copy, 
+  Check, 
+  Upload, 
+  Trash2, 
+  FileText, 
+  ShieldCheck, 
+  Sparkles, 
+  AlertCircle,
+  RotateCcw,
+  Plus,
+  PlayCircle,
+  Image as ImageIcon
+} from 'lucide-react';
 
 const SAMPLE_NOTEBOOK_EN = {
   id: 'sample-cafe-workshop',
@@ -15,7 +29,7 @@ const SAMPLE_NOTEBOOK_EN = {
         '- Write decision logic with **`if-elif-else`** structures\n',
         '- Calculate drink totals and apply automated customer discounts\n',
         '\n',
-        '> **Pro-Tip**: Click **"Run Cell"** on any code block below to execute it in your browser with Pyodide!'
+        '> **Pro-Tip**: You can directly click into any code box below, type modifications, and hit **Shift + Enter** or **"Run Cell"** to execute live in your browser!'
       ]
     },
     {
@@ -82,7 +96,7 @@ const SAMPLE_NOTEBOOK_ES = {
         '- Escribir lógica de decisión con estructuras **`if-elif-else`**\n',
         '- Calcular totales de bebidas y aplicar descuentos automáticos\n',
         '\n',
-        '> **Consejo Pro**: Haz clic en **"Ejecutar Celda"** en cualquier bloque de código para probarlo en vivo con Pyodide.'
+        '> **Consejo Pro**: Puedes hacer clic directamente en cualquier bloque de código, editarlo y pulsar **Shift + Enter** o **"Ejecutar Celda"** para probarlo en vivo.'
       ]
     },
     {
@@ -98,14 +112,14 @@ const SAMPLE_NOTEBOOK_ES = {
         '\n',
         'cola_pedidos = ["latte", "cold brew"]\n',
         'print(f"Cola actual: {cola_pedidos}")\n',
-        'print(f"Elementos del menú: {list(menu.keys())}")'
+        'print(f"Bebidas en menú: {list(menu.keys())}")'
       ]
     },
     {
       cell_type: 'markdown',
       source: [
-        '### Paso 2: Procesar Pedidos y Aplicar Reglas Comerciales\n',
-        'A continuación procesamos los pedidos de los clientes. Si el pedido supera $8.00, aplicamos un **10% de descuento estudiantil / militar**.'
+        '### Paso 2: Procesar Pedidos y Aplicar Descuentos\n',
+        'A continuación procesamos los pedidos. ¡Si la orden supera los $8.00, aplicamos un **10% de descuento para Estudiantes o Veteranos**!'
       ]
     },
     {
@@ -117,26 +131,26 @@ const SAMPLE_NOTEBOOK_ES = {
         '        if item in menu:\n',
         '            total += menu[item]\n',
         '        else:\n',
-        '            print(f"Aviso: {item} está agotado.")\n',
+        '            print(f"Aviso: {item} no está disponible.")\n',
         '            \n',
         '    descuento = 0.0\n',
         '    if es_estudiante_o_veterano and total >= 8.0:\n',
         '        descuento = total * 0.10\n',
-        '        print(f"Descuento del 10% aplicado: -${descuento:.2f}")\n',
+        '        print(f"10% Descuento Aplicado: -${descuento:.2f}")\n',
         '        \n',
-        '    total_final = total - descuento\n',
-        '    return round(total_final, 2)\n',
+        '    final_total = total - descuento\n',
+        '    return round(final_total, 2)\n',
         '\n',
         'mi_pedido = ["latte", "cappuccino"]\n',
-        'monto_a_pagar = calcular_cuenta(mi_pedido, es_estudiante_o_veterano=True)\n',
-        'print(f"Monto total a pagar: ${monto_a_pagar:.2f}")'
+        'a_pagar = calcular_cuenta(mi_pedido, es_estudiante_o_veterano=True)\n',
+        'print(f"Total a Pagar: ${a_pagar:.2f}")'
       ]
     }
   ]
 };
 
 export function NotebookViewer({ 
-  notebooks, 
+  notebooks = [], 
   activeNotebookId, 
   onSelectNotebook, 
   onAddNotebook, 
@@ -146,14 +160,35 @@ export function NotebookViewer({
   t,
   lang = 'en'
 }) {
+  const [cellCodes, setCellCodes] = useState({});
   const [cellOutputs, setCellOutputs] = useState({});
   const [cellRunning, setCellRunning] = useState({});
   const [copiedCell, setCopiedCell] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
-  const sampleNotebook = lang === 'es' ? SAMPLE_NOTEBOOK_ES : SAMPLE_NOTEBOOK_EN;
+  const isEs = lang === 'es';
+  const sampleNotebook = isEs ? SAMPLE_NOTEBOOK_ES : SAMPLE_NOTEBOOK_EN;
   const activeNotebook = notebooks.find(n => n.id === activeNotebookId) || notebooks[0] || null;
+
+  const formatSource = (src) => {
+    if (Array.isArray(src)) return src.join('');
+    return String(src || '');
+  };
+
+  // Initialize editable code state whenever the active notebook changes
+  useEffect(() => {
+    if (!activeNotebook?.cells) return;
+    const initialCodes = {};
+    activeNotebook.cells.forEach((cell, idx) => {
+      if (cell.cell_type === 'code') {
+        initialCodes[idx] = formatSource(cell.source);
+      }
+    });
+    setCellCodes(initialCodes);
+    setCellOutputs({});
+    setCellRunning({});
+  }, [activeNotebook?.id]);
 
   const handleFileUpload = (file) => {
     if (!file) return;
@@ -199,13 +234,20 @@ export function NotebookViewer({
     }
   };
 
-  const handleRunCell = async (cellIndex, code) => {
+  const handleRunCell = async (cellIndex, codeToRun) => {
     setCellRunning(prev => ({ ...prev, [cellIndex]: true }));
-    const result = await onExecuteCode(code);
+    const result = await onExecuteCode(codeToRun);
     setCellRunning(prev => ({ ...prev, [cellIndex]: false }));
     setCellOutputs(prev => ({
       ...prev,
       [cellIndex]: result
+    }));
+  };
+
+  const handleResetCell = (idx, originalSource) => {
+    setCellCodes(prev => ({
+      ...prev,
+      [idx]: formatSource(originalSource)
     }));
   };
 
@@ -215,10 +257,36 @@ export function NotebookViewer({
     setTimeout(() => setCopiedCell(null), 1800);
   };
 
-  const formatSource = (src) => {
-    if (Array.isArray(src)) return src.join('');
-    return String(src || '');
+  const handleRunAllCells = async () => {
+    if (!activeNotebook?.cells) return;
+    for (let idx = 0; idx < activeNotebook.cells.length; idx++) {
+      const cell = activeNotebook.cells[idx];
+      if (cell.cell_type === 'code') {
+        const code = cellCodes[idx] !== undefined ? cellCodes[idx] : formatSource(cell.source);
+        await handleRunCell(idx, code);
+      }
+    }
   };
+
+  const handleAddCodeCell = () => {
+    if (!activeNotebook) return;
+    const newCellIndex = activeNotebook.cells.length;
+    activeNotebook.cells.push({
+      cell_type: 'code',
+      source: ['# Write your Python code here...\n']
+    });
+    setCellCodes(prev => ({
+      ...prev,
+      [newCellIndex]: '# Write your Python code here...\n'
+    }));
+  };
+
+  const isModifiedCount = activeNotebook?.cells
+    ? Object.keys(cellCodes).filter(idx => {
+        const orig = formatSource(activeNotebook.cells[idx]?.source);
+        return cellCodes[idx] !== orig;
+      }).length
+    : 0;
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950 text-slate-100">
@@ -240,7 +308,7 @@ export function NotebookViewer({
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <input 
             type="file" 
             ref={fileInputRef} 
@@ -253,7 +321,7 @@ export function NotebookViewer({
           />
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-blue-600/20 transition-all"
+            className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-blue-600/20 transition-all active:scale-95"
           >
             <Upload className="w-3.5 h-3.5" />
             <span>{t ? t('importIpynb') : 'Import .ipynb'}</span>
@@ -290,13 +358,13 @@ export function NotebookViewer({
                 onClick={() => onSelectNotebook(nb.id)}
               >
                 <FileText className="w-3.5 h-3.5" />
-                <span className="max-w-[160px] truncate">{nb.name}</span>
+                <span className="max-w-[160px] truncate" title={nb.name}>{nb.name}</span>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onDeleteNotebook(nb.id);
                   }}
-                  className="text-slate-500 hover:text-rose-400 p-0.5 ml-1"
+                  className="text-slate-500 hover:text-rose-400 p-0.5 ml-1 transition-colors"
                   title="Remove from browser"
                 >
                   <Trash2 className="w-3 h-3" />
@@ -331,7 +399,7 @@ export function NotebookViewer({
               </p>
             </div>
 
-            <div className="flex items-center justify-center gap-3 pt-2">
+            <div className="flex items-center justify-center gap-3 pt-2 flex-wrap">
               <button
                 onClick={() => fileInputRef.current?.click()}
                 className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/20 flex items-center gap-2 transition-all"
@@ -358,21 +426,52 @@ export function NotebookViewer({
           <div className="max-w-4xl mx-auto space-y-6">
             {/* Notebook Title Card */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <span className="text-[10px] font-mono text-blue-400 uppercase tracking-wider font-bold">
-                  {t ? t('activeNotebook') : 'Active Notebook:'} {activeNotebook.name}
-                </span>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded font-bold uppercase truncate max-w-xs sm:max-w-md" title={activeNotebook.name}>
+                    {activeNotebook.name}
+                  </span>
+                  {isModifiedCount > 0 && (
+                    <span className="text-[10px] font-mono text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded font-bold">
+                      {isModifiedCount} {isEs ? 'modificadas' : 'edited'}
+                    </span>
+                  )}
+                </div>
                 <h2 className="text-xl font-bold text-white mt-0.5">{activeNotebook.title}</h2>
-                <span className="text-xs text-slate-400">
-                  {activeNotebook.cells.length} {t ? t('totalCells') : 'Total Cells'} ({activeNotebook.cells.filter(c => c.cell_type === 'code').length} {t ? t('executableCells') : 'Executable Code Cells'})
-                </span>
+                <div className="flex items-center gap-3 text-xs text-slate-400 font-mono">
+                  <span>{activeNotebook.cells.length} {t ? t('totalCells') : 'Total Cells'}</span>
+                  <span>•</span>
+                  <span className="text-emerald-400 font-bold">
+                    {activeNotebook.cells.filter(c => c.cell_type === 'code').length} {t ? t('executableCells') : 'Executable Code Cells'}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
+
+              {/* Top Controls: Run All Cells, Add Cell, Import Another */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={handleRunAllCells}
+                  className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-950/50 transition-all active:scale-95"
+                  title={isEs ? "Ejecutar todas las celdas de código en secuencia" : "Run all code cells in sequence"}
+                >
+                  <PlayCircle className="w-3.5 h-3.5" />
+                  <span>{isEs ? 'Ejecutar Todo' : 'Run All Cells'}</span>
+                </button>
+
+                <button
+                  onClick={handleAddCodeCell}
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 flex items-center gap-1.5 font-medium transition-colors"
+                  title={isEs ? "Agregar una nueva celda de código editable" : "Add a new editable code cell"}
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>{isEs ? '+ Celda' : '+ Code Cell'}</span>
+                </button>
+
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-xs border border-blue-500/30 flex items-center gap-1.5 font-medium transition-colors"
                 >
-                  <Upload className="w-3 h-3" />
+                  <Upload className="w-3.5 h-3.5" />
                   <span>{t ? t('importAnother') : 'Import Another'}</span>
                 </button>
               </div>
@@ -388,9 +487,9 @@ export function NotebookViewer({
                   return (
                     <div 
                       key={idx}
-                      className="p-4 rounded-xl bg-slate-900/40 border border-slate-800/60 text-slate-200 text-xs leading-relaxed space-y-2 prose prose-invert max-w-none"
+                      className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-slate-200 text-xs leading-relaxed space-y-2 prose prose-invert max-w-none shadow-sm"
                     >
-                      <MarkdownPreview content={src} />
+                      <MarkdownPreview content={src} attachments={cell.attachments} />
                     </div>
                   );
                 }
@@ -398,29 +497,54 @@ export function NotebookViewer({
                 if (cell.cell_type === 'code') {
                   const output = cellOutputs[idx];
                   const isRunning = cellRunning[idx] || false;
+                  const originalCode = formatSource(cell.source);
+                  const currentCode = cellCodes[idx] !== undefined ? cellCodes[idx] : originalCode;
+                  const isModified = currentCode !== originalCode;
 
                   return (
                     <div 
                       key={idx}
-                      className="rounded-2xl border border-slate-800 bg-slate-900 shadow-md overflow-hidden space-y-0"
+                      className="rounded-2xl border border-slate-800 bg-slate-900 shadow-md overflow-hidden space-y-0 transition-all focus-within:border-blue-500/50"
                     >
                       {/* Code Cell Header */}
-                      <div className="bg-slate-950/80 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs">
-                        <span className="text-[11px] font-mono text-blue-400 font-bold">
-                          In [{idx + 1}]:
-                        </span>
+                      <div className="bg-slate-950/90 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs">
                         <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-mono text-blue-400 font-bold">
+                            In [{idx + 1}]:
+                          </span>
+                          {isModified && (
+                            <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                              {isEs ? '● Modificado' : '● Edited'}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          {isModified && (
+                            <button
+                              onClick={() => handleResetCell(idx, originalCode)}
+                              className="px-2 py-1 rounded text-[11px] font-mono bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-amber-300 border border-slate-800 flex items-center gap-1 transition-colors"
+                              title={isEs ? "Restaurar código original" : "Reset to original starter code"}
+                            >
+                              <RotateCcw className="w-3 h-3" />
+                              <span className="hidden sm:inline">{isEs ? 'Restaurar' : 'Reset'}</span>
+                            </button>
+                          )}
+
                           <button
-                            onClick={() => handleCopyCode(idx, src)}
-                            className="px-2 py-1 rounded text-[11px] font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1"
+                            onClick={() => handleCopyCode(idx, currentCode)}
+                            className="px-2 py-1 rounded text-[11px] font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1 transition-colors"
+                            title="Copy code to clipboard"
                           >
                             {copiedCell === idx ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                             <span>{copiedCell === idx ? (t ? t('copiedCode') : 'Copied') : (t ? t('copyCode') : 'Copy')}</span>
                           </button>
+
                           <button
-                            onClick={() => handleRunCell(idx, src)}
+                            onClick={() => handleRunCell(idx, currentCode)}
                             disabled={isRunning}
-                            className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-xs flex items-center gap-1.5 shadow transition-all"
+                            className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-xs flex items-center gap-1.5 shadow transition-all active:scale-95"
+                            title="Run cell (Shift + Enter)"
                           >
                             <Play className="w-3 h-3 fill-current" />
                             <span>{isRunning ? (t ? t('running') : 'Running...') : (t ? t('runCell') : 'Run Cell')}</span>
@@ -428,10 +552,42 @@ export function NotebookViewer({
                         </div>
                       </div>
 
-                      {/* Code Text */}
-                      <pre className="p-4 text-xs font-mono text-slate-200 bg-slate-950 overflow-x-auto custom-scroll leading-relaxed whitespace-pre">
-                        <code>{src}</code>
-                      </pre>
+                      {/* Interactive Editable Code Textarea */}
+                      <div className="relative group">
+                        <textarea
+                          rows={Math.max(currentCode.split('\n').length, 2)}
+                          value={currentCode}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCellCodes(prev => ({ ...prev, [idx]: val }));
+                          }}
+                          onKeyDown={(e) => {
+                            // Shift + Enter or Ctrl + Enter to run
+                            if ((e.shiftKey || e.ctrlKey) && e.key === 'Enter') {
+                              e.preventDefault();
+                              handleRunCell(idx, currentCode);
+                            }
+                            // Tab indentation (4 spaces)
+                            if (e.key === 'Tab') {
+                              e.preventDefault();
+                              const start = e.target.selectionStart;
+                              const end = e.target.selectionEnd;
+                              const val = e.target.value;
+                              const newVal = val.substring(0, start) + '    ' + val.substring(end);
+                              setCellCodes(prev => ({ ...prev, [idx]: newVal }));
+                              setTimeout(() => {
+                                e.target.selectionStart = e.target.selectionEnd = start + 4;
+                              }, 0);
+                            }
+                          }}
+                          spellCheck="false"
+                          className="w-full bg-slate-950 p-4 text-xs font-mono text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40 resize-y leading-relaxed border-0"
+                          placeholder={isEs ? '# Escribe o edita código Python aquí...' : '# Type or edit Python code here...'}
+                        />
+                        <div className="absolute right-3 bottom-2 text-[10px] font-mono text-slate-600 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+                          Shift + Enter {isEs ? 'para ejecutar' : 'to run'}
+                        </div>
+                      </div>
 
                       {/* Output Console (if run) */}
                       {output && (
@@ -477,42 +633,208 @@ export function NotebookViewer({
   );
 }
 
-// Simple lightweight markdown parser for cell text
-function MarkdownPreview({ content }) {
-  const lines = content.split('\n');
+// Resolves attachment:filename or raw data URI
+function resolveImageSrc(src, attachments) {
+  if (!src) return '';
+  const trimmed = src.trim();
+  if (trimmed.startsWith('attachment:')) {
+    const filename = trimmed.replace('attachment:', '').trim();
+    if (attachments && attachments[filename]) {
+      const mimeTypes = Object.keys(attachments[filename]);
+      if (mimeTypes.length > 0) {
+        const mime = mimeTypes[0];
+        const base64Data = attachments[filename][mime];
+        return `data:${mime};base64,${base64Data}`;
+      }
+    }
+  }
+  return trimmed;
+}
+
+// Graceful notebook image renderer with fallback placeholder
+function NotebookImage({ src, alt }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError || !src) {
+    return (
+      <div className="my-3 p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-400 flex items-center gap-2 text-xs font-mono">
+        <ImageIcon className="w-4 h-4 text-slate-500 shrink-0" />
+        <span className="font-semibold text-slate-300 truncate max-w-sm">{alt || 'Notebook Graphic'}</span>
+        <span className="text-[10px] text-slate-500">({hasError ? 'Embedded graphic' : 'No source'})</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-2">
-      {lines.map((line, i) => {
-        const trimmed = line.trim();
-        if (trimmed.startsWith('# ')) {
-          return <h1 key={i} className="text-lg font-extrabold text-white">{trimmed.replace('# ', '')}</h1>;
-        }
-        if (trimmed.startsWith('## ')) {
-          return <h2 key={i} className="text-base font-bold text-slate-100">{trimmed.replace('## ', '')}</h2>;
-        }
-        if (trimmed.startsWith('### ')) {
-          return <h3 key={i} className="text-sm font-semibold text-blue-300">{trimmed.replace('### ', '')}</h3>;
-        }
-        if (trimmed.startsWith('> ')) {
-          return (
-            <div key={i} className="border-l-2 border-amber-500 pl-3 py-1 text-amber-200 bg-amber-500/10 rounded-r text-[11px]">
-              {trimmed.replace('> ', '')}
-            </div>
-          );
-        }
-        if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-          return (
-            <div key={i} className="flex items-start gap-2 text-slate-300 pl-2">
-              <span className="text-blue-400 font-bold">•</span>
-              <span>{trimmed.substring(2)}</span>
-            </div>
-          );
-        }
-        if (!trimmed) {
-          return <div key={i} className="h-1" />;
-        }
-        return <p key={i} className="text-slate-300 leading-relaxed">{line}</p>;
-      })}
+    <div className="my-3 rounded-xl overflow-hidden bg-slate-950/60 border border-slate-800 p-1 flex flex-col items-center">
+      <img
+        src={src}
+        alt={alt || 'Notebook graphic'}
+        onError={() => setHasError(true)}
+        loading="lazy"
+        className="max-w-full rounded-lg max-h-96 object-contain shadow-md"
+      />
+      {alt && (
+        <span className="text-[10px] text-slate-500 font-mono mt-1 px-2 text-center truncate max-w-md">
+          {alt}
+        </span>
+      )}
     </div>
   );
+}
+
+// Tokenizes inline code, bold, links, and text
+function parseFormattedText(text) {
+  if (!text) return '';
+  const tokenRegex = /(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g;
+  const parts = text.split(tokenRegex);
+
+  return parts.map((part, i) => {
+    if (!part) return null;
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code key={i} className="px-1.5 py-0.5 mx-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-emerald-300 text-[11px]">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} className="text-white font-bold">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (linkMatch) {
+      return (
+        <a
+          key={i}
+          href={linkMatch[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 hover:text-blue-300 underline font-medium"
+        >
+          {linkMatch[1]}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
+// Splices markdown image tags ![alt](src) and formatted text
+function renderInline(text, attachments) {
+  if (!text) return null;
+
+  const imageRegex = /!\[(.*?)\]\((.*?)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = imageRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ type: 'text', content: text.substring(lastIndex, match.index) });
+    }
+    const alt = match[1];
+    const rawSrc = match[2];
+    const resolvedSrc = resolveImageSrc(rawSrc, attachments);
+    parts.push({ type: 'image', alt, src: resolvedSrc });
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push({ type: 'text', content: text.substring(lastIndex) });
+  }
+
+  return parts.map((part, idx) => {
+    if (part.type === 'image') {
+      return <NotebookImage key={idx} src={part.src} alt={part.alt} />;
+    }
+    return <span key={idx}>{parseFormattedText(part.content)}</span>;
+  });
+}
+
+// Markdown parser supporting code blocks, images, attachments, and formatting
+function MarkdownPreview({ content, attachments }) {
+  const lines = content.split('\n');
+  const rendered = [];
+  let inCodeBlock = false;
+  let codeBlockLines = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith('```')) {
+      if (inCodeBlock) {
+        rendered.push(
+          <pre key={`code-${i}`} className="p-3 my-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-emerald-300 overflow-x-auto custom-scroll leading-relaxed">
+            <code>{codeBlockLines.join('\n')}</code>
+          </pre>
+        );
+        inCodeBlock = false;
+        codeBlockLines = [];
+      } else {
+        inCodeBlock = true;
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeBlockLines.push(line);
+      continue;
+    }
+
+    if (trimmed.startsWith('# ')) {
+      rendered.push(<h1 key={i} className="text-lg font-extrabold text-white mt-3 mb-1">{parseFormattedText(trimmed.replace('# ', ''))}</h1>);
+      continue;
+    }
+    if (trimmed.startsWith('## ')) {
+      rendered.push(<h2 key={i} className="text-base font-bold text-slate-100 mt-2.5 mb-1">{parseFormattedText(trimmed.replace('## ', ''))}</h2>);
+      continue;
+    }
+    if (trimmed.startsWith('### ')) {
+      rendered.push(<h3 key={i} className="text-sm font-semibold text-blue-300 mt-2 mb-0.5">{parseFormattedText(trimmed.replace('### ', ''))}</h3>);
+      continue;
+    }
+    if (trimmed.startsWith('> ')) {
+      rendered.push(
+        <div key={i} className="border-l-2 border-amber-500 pl-3 py-1 text-amber-200 bg-amber-500/10 rounded-r text-xs my-2">
+          {renderInline(trimmed.replace('> ', ''), attachments)}
+        </div>
+      );
+      continue;
+    }
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      rendered.push(
+        <div key={i} className="flex items-start gap-2 text-slate-300 pl-2 text-xs">
+          <span className="text-blue-400 font-bold">•</span>
+          <span>{renderInline(trimmed.substring(2), attachments)}</span>
+        </div>
+      );
+      continue;
+    }
+
+    if (!trimmed) {
+      rendered.push(<div key={i} className="h-1.5" />);
+      continue;
+    }
+
+    rendered.push(
+      <p key={i} className="text-slate-300 text-xs leading-relaxed">
+        {renderInline(line, attachments)}
+      </p>
+    );
+  }
+
+  if (inCodeBlock && codeBlockLines.length > 0) {
+    rendered.push(
+      <pre key="code-unclosed" className="p-3 my-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-emerald-300 overflow-x-auto custom-scroll leading-relaxed">
+        <code>{codeBlockLines.join('\n')}</code>
+      </pre>
+    );
+  }
+
+  return <div className="space-y-1.5">{rendered}</div>;
 }
