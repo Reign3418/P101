@@ -102,7 +102,11 @@ export const TRANSLATIONS = {
     clearAllReviews: "Clear All from Review Queue",
     noReviews: "Great job! All checkpoint concepts are mastered and your review queue is clear.",
     whyFlagged: "Checkpoint quiz missed — review the concept and retake the quiz to clear.",
-    close: "Close"
+    close: "Close",
+
+    // White Paper Modal
+    whitePaper: "White Paper",
+    whitePaperTheory: "Academic Theory White Paper"
   },
   es: {
     // Header & Meta
@@ -207,6 +211,10 @@ export const TRANSLATIONS = {
     clearAllReviews: "Limpiar Cola de Repaso",
     noReviews: "¡Excelente! Todos los conceptos están dominados y tu cola de repaso está limpia.",
     whyFlagged: "Cuestionario fallado — repasa el concepto y repite el cuestionario para superarlo.",
-    close: "Cerrar"
+    close: "Cerrar",
+
+    // White Paper Modal
+    whitePaper: "Documento Blanco",
+    whitePaperTheory: "Teoría Académica (White Paper)"
   }
 };

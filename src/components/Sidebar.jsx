@@ -9,6 +9,7 @@ export function Sidebar({
   onFilterReviewQueue,
   onResetProgress,
   onOpenCitation,
+  onOpenWhitePaper,
   activeView = 'chapters',
   notebooks = [],
   activeNotebookId = null,
@@ -176,7 +177,13 @@ export function Sidebar({
       </nav>
 
       {/* Footer Controls */}
-      <div className="p-3 border-t border-slate-800 flex items-center justify-between text-xs">
+      <div className="p-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-1.5 text-xs">
+        <button
+          onClick={onOpenWhitePaper}
+          className="text-blue-400 hover:text-blue-300 flex items-center gap-1 text-[11px] font-medium"
+        >
+          <span>🏛️</span> {t ? t('whitePaper') : 'White Paper'}
+        </button>
         <button
           onClick={onOpenCitation}
           className="text-slate-400 hover:text-slate-200 flex items-center gap-1 text-[11px]"
@@ -187,7 +194,7 @@ export function Sidebar({
           onClick={onResetProgress}
           className="text-[11px] text-slate-500 hover:text-rose-400 transition-colors"
         >
-          {t ? t('resetProgress') : 'Reset Progress'}
+          {t ? t('resetProgress') : 'Reset'}
         </button>
       </div>
     </aside>

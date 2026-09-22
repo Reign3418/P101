@@ -4,6 +4,7 @@ export function Header({
   activeChapter,
   totalChapters,
   onOpenCitation,
+  onOpenWhitePaper,
   isMuted,
   onToggleMute,
   isSpeaking,
@@ -204,6 +205,16 @@ export function Header({
             </div>
           )}
         </div>
+
+        {/* White Paper button */}
+        <button
+          onClick={onOpenWhitePaper}
+          className="flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/40 transition-colors shadow-sm font-medium"
+          title={t ? t('whitePaperTheory') : 'Academic Theory White Paper'}
+        >
+          <span>🏛️</span>
+          <span className="hidden sm:inline text-[11px] font-semibold">{t ? t('whitePaper') : 'White Paper'}</span>
+        </button>
 
         {/* Citations button */}
         <button

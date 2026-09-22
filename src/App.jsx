@@ -13,6 +13,7 @@ import { QuizBox } from './components/QuizBox.jsx';
 import { CitationModal } from './components/CitationModal.jsx';
 import { NotebookViewer } from './components/NotebookViewer.jsx';
 import { ReviewModal } from './components/ReviewModal.jsx';
+import { WhitePaperModal } from './components/WhitePaperModal.jsx';
 
 export default function App() {
   const [lang, setLang] = useState(() => {
@@ -49,6 +50,7 @@ export default function App() {
   });
   const [isCitationOpen, setIsCitationOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isWhitePaperOpen, setIsWhitePaperOpen] = useState(false);
 
   // Internationalization helper
   const t = (key) => {
@@ -232,6 +234,7 @@ export default function App() {
         onFilterReviewQueue={handleFilterReviewQueue}
         onResetProgress={handleResetProgress}
         onOpenCitation={() => setIsCitationOpen(true)}
+        onOpenWhitePaper={() => setIsWhitePaperOpen(true)}
         activeView={activeView}
         notebooks={importedNotebooks}
         activeNotebookId={activeNotebookId}
@@ -261,6 +264,7 @@ export default function App() {
             totalChapters={localizedChapters.length}
             sections={activeChapter.sections}
             onOpenCitation={() => setIsCitationOpen(true)}
+            onOpenWhitePaper={() => setIsWhitePaperOpen(true)}
             isMuted={isMuted}
             onToggleMute={toggleMute}
             isSpeaking={isSpeaking}
@@ -405,6 +409,14 @@ export default function App() {
         onJumpToSection={handleJumpToReviewSection}
         onDismissItem={handleDismissReviewItem}
         onClearAll={handleClearAllReviews}
+        t={t}
+        lang={lang}
+      />
+
+      {/* Academic Theory White Paper Modal */}
+      <WhitePaperModal
+        isOpen={isWhitePaperOpen}
+        onClose={() => setIsWhitePaperOpen(false)}
         t={t}
         lang={lang}
       />
