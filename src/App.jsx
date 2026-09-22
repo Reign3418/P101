@@ -26,6 +26,16 @@ export default function App() {
     }
   });
 
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem('p101_theme') || 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
+  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+
   const [activeView, setActiveView] = useState('chapters'); // 'chapters' or 'notebook'
   const [activeChapterNum, setActiveChapterNum] = useState(1);
   const [importedNotebooks, setImportedNotebooks] = useState(() => {
@@ -67,6 +77,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('p101_lang', lang);
   }, [lang]);
+
+  useEffect(() => {
+    localStorage.setItem('p101_theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     localStorage.setItem('py_completed_sections', JSON.stringify(completedSections));
@@ -227,7 +241,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100">
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100" data-theme={theme}>
       {/* Sidebar Navigation */}
       <Sidebar
         chapters={localizedChapters}
@@ -273,6 +287,8 @@ export default function App() {
           lang={lang}
           onToggleLang={setLang}
           t={t}
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
 
         {/* Main View: Either Notebook Viewer, Stats Dashboard, or Standard Chapters */}

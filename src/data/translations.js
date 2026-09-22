@@ -110,6 +110,10 @@ export const TRANSLATIONS = {
     whyFlagged: "Checkpoint quiz missed — review the concept and retake the quiz to clear.",
     close: "Close",
 
+    // Theme Toggle
+    lightMode: "Light Mode",
+    darkMode: "Dark Mode",
+
     // White Paper Modal & Button
     whitePaper: "White Paper",
     whitePaperTheory: "Academic Theory White Paper",
@@ -256,6 +260,10 @@ export const TRANSLATIONS = {
     noReviews: "¡Excelente! Todos los conceptos están dominados y tu cola de repaso está limpia.",
     whyFlagged: "Cuestionario fallado — repasa el concepto y repite el cuestionario para superarlo.",
     close: "Cerrar",
+
+    // Theme Toggle
+    lightMode: "Modo Claro",
+    darkMode: "Modo Oscuro",
 
     // White Paper Modal & Button
     whitePaper: "Documento Blanco",

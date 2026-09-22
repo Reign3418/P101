@@ -17,7 +17,9 @@ export function Header({
   onToggleLang,
   t,
   onOpenStats,
-  activeView = 'chapters'
+  activeView = 'chapters',
+  theme = 'dark',
+  onToggleTheme
 }) {
   const [voicePickerOpen, setVoicePickerOpen] = useState(false);
   const pickerRef = useRef(null);
@@ -207,6 +209,28 @@ export function Header({
             </div>
           )}
         </div>
+
+        {/* Light / Dark mode toggle */}
+        {onToggleTheme && (
+          <button
+            onClick={onToggleTheme}
+            title={theme === 'dark'
+              ? (t ? t('lightMode') : 'Switch to Light Mode')
+              : (t ? t('darkMode') : 'Switch to Dark Mode')}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all text-xs font-semibold border ${
+              theme === 'dark'
+                ? 'bg-slate-800 hover:bg-amber-500/20 text-slate-300 hover:text-amber-200 border-slate-700 hover:border-amber-500/50'
+                : 'bg-amber-50 hover:bg-amber-100 text-amber-700 border-amber-200 hover:border-amber-400'
+            }`}
+          >
+            <span className="text-sm leading-none">{theme === 'dark' ? '☀️' : '🌙'}</span>
+            <span className="hidden md:inline text-[11px]">
+              {theme === 'dark'
+                ? (t ? t('lightMode') : 'Light')
+                : (t ? t('darkMode') : 'Dark')}
+            </span>
+          </button>
+        )}
 
         {/* Stats button */}
         {onOpenStats && (
