@@ -99,35 +99,255 @@ code, pre, .code-font {
 [data-theme="light"] .border-slate-800\/80 { border-color: rgba(226,232,240,0.8) !important; }
 [data-theme="light"] .border-slate-800\/60 { border-color: rgba(226,232,240,0.6) !important; }
 
-/* ── Semantic text: darken light shades to be readable on white ──
-   Hue stays identical — only luminance changes.
-   amber-300 (#fcd34d) → amber-800 (#92400e): same warm orange, dark enough  */
+/* ═══════════════════════════════════════════════════════════
+   SEMANTIC TEXT COLORS IN LIGHT MODE (WCAG AAA Contrast)
+   Uses substring selectors ([class*="..."]) to match BOTH exact 
+   classes (e.g. .text-amber-300) AND slash-opacity variants 
+   (e.g. .text-amber-100/95, .text-amber-300/90).
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Amber / Yellow: deep rich warm bronze & espresso brown (no washed-out yellow) ── */
+[data-theme="light"] [class*="text-amber-50"],
+[data-theme="light"] [class*="text-amber-100"],
+[data-theme="light"] [class*="text-amber-200"],
+[data-theme="light"] [class*="text-amber-300"],
 [data-theme="light"] .text-amber-100,
 [data-theme="light"] .text-amber-200,
-[data-theme="light"] .text-amber-300  { color: #92400e !important; }  /* amber-800 */
-[data-theme="light"] .text-amber-400  { color: #b45309 !important; }  /* amber-700 */
+[data-theme="light"] .text-amber-300 { 
+  color: #78350f !important; /* amber-900: deep rich warm dark amber */
+}
 
-[data-theme="light"] .text-emerald-200,
-[data-theme="light"] .text-emerald-300 { color: #065f46 !important; } /* emerald-800 */
-[data-theme="light"] .text-emerald-400 { color: #047857 !important; } /* emerald-700 */
+[data-theme="light"] [class*="text-amber-400"],
+[data-theme="light"] [class*="text-amber-500"],
+[data-theme="light"] .text-amber-400,
+[data-theme="light"] .text-amber-500 { 
+  color: #92400e !important; /* amber-800: bold dark amber */
+}
 
+/* ── Rose / Red: deep burgundy & ruby red ── */
+[data-theme="light"] [class*="text-rose-100"],
+[data-theme="light"] [class*="text-rose-200"],
+[data-theme="light"] [class*="text-rose-300"],
 [data-theme="light"] .text-rose-200,
-[data-theme="light"] .text-rose-300   { color: #9f1239 !important; }  /* rose-800 */
-[data-theme="light"] .text-rose-400   { color: #be123c !important; }  /* rose-700 */
+[data-theme="light"] .text-rose-300 { 
+  color: #881337 !important; /* rose-900 */
+}
 
+[data-theme="light"] [class*="text-rose-400"],
+[data-theme="light"] [class*="text-rose-500"],
+[data-theme="light"] .text-rose-400 { 
+  color: #be123c !important; /* rose-700 */
+}
+
+/* ── Emerald / Green: deep forest green ── */
+[data-theme="light"] [class*="text-emerald-100"],
+[data-theme="light"] [class*="text-emerald-200"],
+[data-theme="light"] [class*="text-emerald-300"],
+[data-theme="light"] .text-emerald-200,
+[data-theme="light"] .text-emerald-300 { 
+  color: #064e3b !important; /* emerald-900 */
+}
+
+[data-theme="light"] [class*="text-emerald-400"],
+[data-theme="light"] [class*="text-emerald-500"],
+[data-theme="light"] .text-emerald-400 { 
+  color: #047857 !important; /* emerald-700 */
+}
+
+/* ── Purple: deep royal violet ── */
+[data-theme="light"] [class*="text-purple-100"],
+[data-theme="light"] [class*="text-purple-200"],
+[data-theme="light"] [class*="text-purple-300"],
 [data-theme="light"] .text-purple-200,
-[data-theme="light"] .text-purple-300 { color: #581c87 !important; }  /* purple-900 */
-[data-theme="light"] .text-purple-400 { color: #6b21a8 !important; }  /* purple-800 */
+[data-theme="light"] .text-purple-300 { 
+  color: #581c87 !important; /* purple-900 */
+}
 
+[data-theme="light"] [class*="text-purple-400"],
+[data-theme="light"] .text-purple-400 { 
+  color: #6b21a8 !important; /* purple-800 */
+}
+
+/* ── Blue: deep midnight navy ── */
+[data-theme="light"] [class*="text-blue-100"],
+[data-theme="light"] [class*="text-blue-200"],
+[data-theme="light"] [class*="text-blue-300"],
 [data-theme="light"] .text-blue-200,
-[data-theme="light"] .text-blue-300   { color: #1e40af !important; }  /* blue-800 */
-[data-theme="light"] .text-blue-400   { color: #1d4ed8 !important; }  /* blue-700 */
+[data-theme="light"] .text-blue-300 { 
+  color: #1e3a8a !important; /* blue-900 */
+}
 
-[data-theme="light"] .text-indigo-300,
-[data-theme="light"] .text-indigo-400 { color: #3730a3 !important; }  /* indigo-800 */
+[data-theme="light"] [class*="text-blue-400"],
+[data-theme="light"] .text-blue-400 { 
+  color: #1d4ed8 !important; /* blue-700 */
+}
 
+/* ── Indigo: deep indigo navy ── */
+[data-theme="light"] [class*="text-indigo-100"],
+[data-theme="light"] [class*="text-indigo-200"],
+[data-theme="light"] [class*="text-indigo-300"],
+[data-theme="light"] .text-indigo-300 { 
+  color: #312e81 !important; /* indigo-900 */
+}
+
+[data-theme="light"] [class*="text-indigo-400"],
+[data-theme="light"] .text-indigo-400 { 
+  color: #4338ca !important; /* indigo-700 */
+}
+
+/* ── Teal ── */
+[data-theme="light"] [class*="text-teal-300"],
+[data-theme="light"] [class*="text-teal-400"],
 [data-theme="light"] .text-teal-300,
-[data-theme="light"] .text-teal-400   { color: #0f766e !important; }  /* teal-700 */
+[data-theme="light"] .text-teal-400 { 
+  color: #0f766e !important; /* teal-700 */
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DEDICATED COMPONENT STYLES: THE "WHY" BOX IN LIGHT MODE
+   ═══════════════════════════════════════════════════════════ */
+
+/* Container: Warm ivory/amber-50 with crisp warm amber border */
+[data-theme="light"] .why-box,
+[data-theme="light"] [id^="why-box-"] {
+  background-color: #fffbeb !important; /* amber-50 */
+  border-color: #f59e0b !important;     /* amber-500: clear, defined warm outline */
+  box-shadow: 0 4px 6px -1px rgba(217, 119, 6, 0.08), 0 2px 4px -2px rgba(217, 119, 6, 0.05) !important;
+}
+
+/* Header: "THE WHY UNDER THE HOOD" */
+[data-theme="light"] .why-box-title,
+[data-theme="light"] [id^="why-box-"] .text-amber-400 {
+  color: #92400e !important; /* amber-800 */
+}
+
+/* Main Explanation Body Text: Deep warm espresso brown for effortless reading */
+[data-theme="light"] .why-box-text,
+[data-theme="light"] [id^="why-box-"] p {
+  color: #451a03 !important; /* amber-950: 14:1 contrast ratio against #fffbeb */
+}
+
+/* Action Bar Divider */
+[data-theme="light"] [id^="why-box-"] .border-amber-500\/20 {
+  border-color: #fde68a !important; /* amber-200 */
+}
+
+/* Interactive Buttons: Read Aloud & "I Don't Understand" */
+[data-theme="light"] [id^="why-box-"] button[class*="bg-amber-500\/20"] {
+  background-color: #fef3c7 !important; /* amber-100 */
+  border-color: #f59e0b !important;     /* amber-500 */
+  color: #78350f !important;            /* amber-900 */
+  box-shadow: 0 1px 2px 0 rgba(180, 83, 9, 0.1) !important;
+}
+[data-theme="light"] [id^="why-box-"] button[class*="bg-amber-500\/20"]:hover {
+  background-color: #fde68a !important; /* amber-200 */
+  border-color: #d97706 !important;     /* amber-600 */
+  color: #451a03 !important;            /* amber-950 */
+}
+
+/* "I Don't Understand" Active Selected State */
+[data-theme="light"] [id^="why-box-"] button.bg-amber-500 {
+  background-color: #d97706 !important; /* amber-600 */
+  border-color: #b45309 !important;     /* amber-700 */
+  color: #ffffff !important;
+  box-shadow: 0 2px 4px 0 rgba(180, 83, 9, 0.25) !important;
+}
+
+/* "Keep Going" Button in WhyBox */
+[data-theme="light"] [id^="why-box-"] button[class*="bg-indigo-950"] {
+  background-color: #e0e7ff !important; /* indigo-100 */
+  border-color: #818cf8 !important;     /* indigo-400 */
+  color: #312e81 !important;            /* indigo-900 */
+  box-shadow: 0 1px 2px 0 rgba(79, 70, 229, 0.1) !important;
+}
+[data-theme="light"] [id^="why-box-"] button[class*="bg-indigo-950"]:hover {
+  background-color: #c7d2fe !important; /* indigo-200 */
+  color: #1e1b4b !important;
+}
+[data-theme="light"] [id^="why-box-"] button.bg-indigo-600 {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+  border-color: #3730a3 !important;
+}
+
+/* Expanded Layer 1: Analogy + Steps Container */
+[data-theme="light"] [id^="why-box-"] .border-t-2.border-amber-500\/40 {
+  background-color: #fffdf5 !important;
+  border-top-color: #f59e0b !important;
+}
+[data-theme="light"] [id^="why-box-"] .bg-amber-500\/10 {
+  background-color: #fef3c7 !important; /* amber-100 */
+  border-color: #fcd34d !important;     /* amber-300 */
+}
+[data-theme="light"] [id^="why-box-"] .bg-amber-500\/10 span {
+  color: #78350f !important;
+}
+[data-theme="light"] [id^="why-box-"] .bg-amber-500\/10 p {
+  color: #451a03 !important;
+}
+
+/* Tony Gaddis Book Reference Card */
+[data-theme="light"] [id^="why-box-"] .bg-blue-500\/10 {
+  background-color: #eff6ff !important; /* blue-50 */
+  border-color: #60a5fa !important;     /* blue-400 */
+}
+[data-theme="light"] [id^="why-box-"] .bg-blue-500\/10 p {
+  color: #172554 !important; /* blue-950 */
+}
+
+/* RAM Execution Sequence Step Cards */
+[data-theme="light"] [id^="why-box-"] .bg-slate-900\/90 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme="light"] [id^="why-box-"] .bg-slate-900\/90 p {
+  color: #1e293b !important; /* slate-800 */
+}
+[data-theme="light"] [id^="why-box-"] span.bg-amber-500\/20 {
+  background-color: #fef3c7 !important;
+  border-color: #f59e0b !important;
+  color: #78350f !important;
+}
+
+/* Expanded Layer 2: CPython Deep Dive Container */
+[data-theme="light"] [id^="why-box-"] .border-t-2.border-indigo-500\/40 {
+  background-color: #faf5ff !important;
+  border-top-color: #6366f1 !important;
+}
+[data-theme="light"] [id^="why-box-"] .bg-indigo-950\/20 {
+  background-color: #ffffff !important;
+  border-color: #c7d2fe !important;
+}
+[data-theme="light"] [id^="why-box-"] .bg-indigo-950\/20 p {
+  color: #1e1b4b !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DEDICATED COMPONENT STYLES: TRAP / PITFALL BOX IN LIGHT MODE
+   ═══════════════════════════════════════════════════════════ */
+[data-theme="light"] .trap-box,
+[data-theme="light"] .bg-rose-500\/10 {
+  background-color: #fff1f2 !important; /* rose-50 */
+  border-color: #f43f5e !important;     /* rose-500 */
+}
+[data-theme="light"] .trap-box-title,
+[data-theme="light"] .bg-rose-500\/10 span.text-rose-400 {
+  color: #9f1239 !important; /* rose-800 */
+}
+[data-theme="light"] .trap-box-text,
+[data-theme="light"] .bg-rose-500\/10 p {
+  color: #4c0519 !important; /* rose-950 */
+}
+
+/* ═══════════════════════════════════════════════════════════
+   AMBER BADGES, PILLS & STATUS TAGS IN LIGHT MODE
+   ═══════════════════════════════════════════════════════════ */
+[data-theme="light"] [class*="bg-amber-500\/15"],
+[data-theme="light"] [class*="bg-amber-500\/20"] {
+  background-color: #fef3c7 !important; /* amber-100 */
+  border-color: #f59e0b !important;     /* amber-500 */
+  color: #78350f !important;            /* amber-900 */
+}
 
 /* ── Inputs & Textareas ── */
 [data-theme="light"] input[type="text"],
@@ -150,3 +370,4 @@ code, pre, .code-font {
 [data-theme="light"] .shadow-md   { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05) !important; }
 [data-theme="light"] .shadow-xl   { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04) !important; }
 [data-theme="light"] .shadow-2xl  { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.12) !important; }
+

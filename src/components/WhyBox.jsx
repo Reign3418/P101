@@ -36,11 +36,11 @@ export function WhyBox({
   };
 
   return (
-    <div id={`why-box-${sectionId}`} className="rounded-2xl bg-amber-500/10 border border-amber-500/30 overflow-hidden shadow-md transition-all">
+    <div id={`why-box-${sectionId}`} className="why-box rounded-2xl bg-amber-500/10 border border-amber-500/30 overflow-hidden shadow-md transition-all">
       {/* Primary Why Header & Summary */}
       <div className="p-4 md:p-5 space-y-2.5">
         <div className="flex items-center justify-between">
-          <div className="text-xs font-extrabold text-amber-400 flex items-center gap-2 uppercase tracking-wider">
+          <div className="why-box-title text-xs font-extrabold text-amber-400 flex items-center gap-2 uppercase tracking-wider">
             <span className="text-base">💡</span>
             <span>{t ? t('whyUnderTheHood') : 'The "Why" Under the Hood:'}</span>
           </div>
@@ -55,7 +55,7 @@ export function WhyBox({
           </button>
         </div>
 
-        <p className="text-xs md:text-sm text-amber-100/95 leading-relaxed font-medium">
+        <p className="why-box-text text-xs md:text-sm text-amber-100/95 leading-relaxed font-medium">
           {whyText}
         </p>
 
