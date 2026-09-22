@@ -176,26 +176,53 @@ export function Sidebar({
         })}
       </nav>
 
-      {/* Footer Controls */}
-      <div className="p-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-1.5 text-xs">
+      {/* Bottom-Left White Paper Feature Card & Utility Controls */}
+      <div className="p-3 border-t border-slate-800 bg-slate-950/70 space-y-2.5 shrink-0">
+        {/* Prominent Bottom-Left White Paper Button */}
         <button
           onClick={onOpenWhitePaper}
-          className="text-blue-400 hover:text-blue-300 flex items-center gap-1 text-[11px] font-medium"
+          id="btn-white-paper-bottom-left"
+          className="w-full text-left p-2.5 rounded-xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-purple-900/40 hover:from-blue-800/50 hover:via-indigo-800/40 hover:to-purple-800/50 border border-blue-500/40 hover:border-blue-400 transition-all shadow-lg shadow-blue-950/50 group flex items-center justify-between"
+          title={t ? t('whitePaperTheory') : 'Academic Theory White Paper'}
         >
-          <span>🏛️</span> {t ? t('whitePaper') : 'White Paper'}
+          <div className="flex items-center gap-2.5">
+            <span className="text-xl p-1.5 rounded-lg bg-blue-500/20 text-blue-300 border border-blue-500/30 group-hover:scale-110 transition-transform">
+              🏛️
+            </span>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-extrabold text-white group-hover:text-blue-200 transition-colors">
+                  {t ? (t('whitePaperBtnTitle') || 'Academic White Paper') : 'Academic White Paper'}
+                </span>
+                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
+                  OPEN
+                </span>
+              </div>
+              <div className="text-[10px] text-blue-300/80 font-medium">
+                {t ? (t('whitePaperBtnDesc') || 'Curriculum theory & zero telemetry') : 'Curriculum theory & zero telemetry'}
+              </div>
+            </div>
+          </div>
+          <span className="text-blue-400 group-hover:text-blue-200 group-hover:translate-x-1 transition-all text-sm font-bold pr-1">
+            →
+          </span>
         </button>
-        <button
-          onClick={onOpenCitation}
-          className="text-slate-400 hover:text-slate-200 flex items-center gap-1 text-[11px]"
-        >
-          <span>📜</span> {t ? t('citations') : 'Citations'}
-        </button>
-        <button
-          onClick={onResetProgress}
-          className="text-[11px] text-slate-500 hover:text-rose-400 transition-colors"
-        >
-          {t ? t('resetProgress') : 'Reset'}
-        </button>
+
+        {/* Secondary Utilities: Citations & Reset Progress */}
+        <div className="flex items-center justify-between text-xs px-1">
+          <button
+            onClick={onOpenCitation}
+            className="text-slate-400 hover:text-slate-200 flex items-center gap-1 text-[11px] transition-colors font-medium"
+          >
+            <span>📜</span> {t ? t('citations') : 'Citations'}
+          </button>
+          <button
+            onClick={onResetProgress}
+            className="text-[11px] text-slate-500 hover:text-rose-400 transition-colors"
+          >
+            {t ? t('resetProgress') : 'Reset Progress'}
+          </button>
+        </div>
       </div>
     </aside>
   );

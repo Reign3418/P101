@@ -104,9 +104,11 @@ export const TRANSLATIONS = {
     whyFlagged: "Checkpoint quiz missed — review the concept and retake the quiz to clear.",
     close: "Close",
 
-    // White Paper Modal
+    // White Paper Modal & Button
     whitePaper: "White Paper",
-    whitePaperTheory: "Academic Theory White Paper"
+    whitePaperTheory: "Academic Theory White Paper",
+    whitePaperBtnTitle: "Academic White Paper",
+    whitePaperBtnDesc: "Curriculum theory & zero telemetry"
   },
   es: {
     // Header & Meta
@@ -213,8 +215,10 @@ export const TRANSLATIONS = {
     whyFlagged: "Cuestionario fallado — repasa el concepto y repite el cuestionario para superarlo.",
     close: "Cerrar",
 
-    // White Paper Modal
+    // White Paper Modal & Button
     whitePaper: "Documento Blanco",
-    whitePaperTheory: "Teoría Académica (White Paper)"
+    whitePaperTheory: "Teoría Académica (White Paper)",
+    whitePaperBtnTitle: "Documento Blanco Académico",
+    whitePaperBtnDesc: "Teoría pedagógica y cero telemetría"
   }
 };
