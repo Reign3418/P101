@@ -241,6 +241,7 @@ export default function App() {
         onSelectNotebook={handleSelectNotebook}
         onOpenNotebookLab={handleOpenNotebookLab}
         t={t}
+        lang={lang}
       />
 
       {/* Main View: Either Notebook Viewer or Standard Chapters */}
@@ -419,6 +420,7 @@ export default function App() {
         onClose={() => setIsWhitePaperOpen(false)}
         t={t}
         lang={lang}
+        onToggleLang={setLang}
       />
     </div>
   );

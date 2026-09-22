@@ -15,7 +15,8 @@ export function Sidebar({
   activeNotebookId = null,
   onSelectNotebook,
   onOpenNotebookLab,
-  t
+  t,
+  lang = 'en'
 }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -195,7 +196,7 @@ export function Sidebar({
                   {t ? (t('whitePaperBtnTitle') || 'Academic White Paper') : 'Academic White Paper'}
                 </span>
                 <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
-                  OPEN
+                  {lang === 'es' ? 'ABIERTO' : 'OPEN'}
                 </span>
               </div>
               <div className="text-[10px] text-blue-300/80 font-medium">

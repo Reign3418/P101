@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FileText, 
   BookOpen, 
@@ -15,14 +15,193 @@ import {
   Globe
 } from 'lucide-react';
 
-export function WhitePaperModal({ isOpen, onClose, t, lang = 'en' }) {
+const CURRICULUM_SYNTHESIS_DATA = [
+  {
+    module: {
+      en: 'Module 1: Variables & Formatting',
+      es: 'Módulo 1: Variables y Formato',
+      source: '01_Variables_and_Data_Types.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 2 (Sections 2.4, 2.7, 2.8)',
+      es: 'Capítulo 2 (Secciones 2.4, 2.7, 2.8)'
+    },
+    concepts: {
+      en: 'RAM memory pointers, primitive types, int/float conversions, string immutability, f-strings, traceback debugging forensics.',
+      es: 'Punteros en memoria RAM, tipos primitivos, conversión int/float, inmutabilidad de cadenas, f-strings, pistas de depuración en tracebacks.'
+    },
+    analogy: {
+      en: 'Numbered warehouse bins with tied label tags; immutable stone tablet carved in granite.',
+      es: 'Almacén con cajas numeradas y etiquetas con cuerda; lápida de piedra inmutable grabada en granito.'
+    }
+  },
+  {
+    module: {
+      en: 'Module 2.1: Intro to Lists',
+      es: 'Módulo 2.1: Introducción a Listas',
+      source: 'Module2.1_Intro_to_Lists.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 7 (Sections 7.1 – 7.4)',
+      es: 'Capítulo 7 (Secciones 7.1 – 7.4)'
+    },
+    concepts: {
+      en: '0-based & negative indexing, append vs insert, len(), del vs pop vs remove, sort() vs sorted(), dynamic over-allocation.',
+      es: 'Índice en base 0 y negativo, append vs insert, len(), del vs pop vs remove, sort() vs sorted(), sobre-asignación dinámica.'
+    },
+    analogy: {
+      en: 'Freight train with numbered boxcars; office desk in-box with paper shredder vs active folder.',
+      es: 'Tren de carga con vagones numerados; bandeja de oficina con trituradora de papel vs escritorio activo.'
+    }
+  },
+  {
+    module: {
+      en: 'Module 2.2: For Loops & Tuples',
+      es: 'Módulo 2.2: Bucles for y Tuplas',
+      source: 'Module2.2_Working_with_Lists.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 4 (4.2, 4.3) & Chapter 7 (7.5, 7.7, 7.10)',
+      es: 'Capítulo 4 (4.2, 4.3) y Cap 7 (7.5, 7.7, 7.10)'
+    },
+    concepts: {
+      en: 'Count-controlled loops, range(), running accumulators, shallow copy protection ([:], .copy()), memory aliasing trap, immutable tuples.',
+      es: 'Bucles por conteo, range(), acumuladores, copias superficiales ([:], .copy()), trampa de alias en memoria, tuplas inmutables.'
+    },
+    analogy: {
+      en: 'Robotic arm scanning conveyor belt items; two physical keys opening the exact same house door.',
+      es: 'Brazo robótico escaneando sobre cinta transportadora; dos llaves físicas para la misma puerta de casa.'
+    }
+  },
+  {
+    module: {
+      en: 'Module 3.1: If-Elif-Else Decision Structures',
+      es: 'Módulo 3.1: Estructuras if-elif-else',
+      source: 'Module3.1_If_Statements.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 3 (Sections 3.1, 3.3, 3.5)',
+      es: 'Capítulo 3 (Secciones 3.1, 3.3, 3.5)'
+    },
+    concepts: {
+      en: 'Relational operators, in / not in membership, and / or / not logic, short-circuit boolean evaluation, elif fallback chains.',
+      es: 'Operadores relacionales, pertenencia in / not in, lógica and / or / not, evaluación de cortocircuito, cadenas elif ordenadas.'
+    },
+    analogy: {
+      en: 'Security guard checking badge credentials at gate; mail sorting conveyor divert chute.',
+      es: 'Guardia de seguridad revisando credenciales en puerta; canal de clasificación postal automatizado.'
+    }
+  },
+  {
+    module: {
+      en: 'Module 3.2: Dictionaries & Key-Value Pairs',
+      es: 'Módulo 3.2: Diccionarios y Pares Clave-Valor',
+      source: 'Module3.2_Dictionaries.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 9 (Section 9.1)',
+      es: 'Capítulo 9 (Sección 9.1)'
+    },
+    concepts: {
+      en: 'Key-value mapping, safe lookup with .get(), key error handling, dictionary mutation, unpacking loops with .items().',
+      es: 'Mapeo clave-valor, búsqueda segura con .get(), manejo de errores KeyError, mutación de diccionarios, desempaquetado con .items().'
+    },
+    analogy: {
+      en: 'Coat check locker with claim ticket; supermarket barcode scanner instantly resolving shelf price.',
+      es: 'Taquilla de guardarropa con ticket de reclamo; escáner de código de barras asociando precio instantáneo.'
+    }
+  },
+  {
+    module: {
+      en: 'Module 4.1 & 4.2: While Loops & Integrated Workshops',
+      es: 'Módulo 4.1 y 4.2: Bucles while y Talleres Integrados',
+      source: 'Module4.1_While_Loops & 4.2_workshop.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 4 (4.1, 4.3, 4.4) & Chapter 7 Workshop',
+      es: 'Capítulo 4 (4.1, 4.3, 4.4) y Taller del Cap 7'
+    },
+    concepts: {
+      en: 'Condition-controlled pretest loops, sentinel values (\'quit\'), state flags, modulo operator %, nested data structures (lists of dicts).',
+      es: 'Bucles de prueba previa, centinelas (\'quit\'), banderas de estado, operador módulo %, estructuras anidadas (listas de diccionarios).'
+    },
+    analogy: {
+      en: 'Airport boarding gate ticket scanner; grocery register belt computing running customer cart total.',
+      es: 'Puerta de embarque en aeropuerto; escáner de caja registradora calculando subtotal acumulado del carrito.'
+    }
+  },
+  {
+    module: {
+      en: 'Module 5.1 & 5.2: Functions & Modularity',
+      es: 'Módulo 5.1 y 5.2: Funciones y Modularidad',
+      source: 'Module5.1_Function1 & 5.2_Function2.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 5 (Sections 5.1, 5.2, 5.5, 5.7, 5.8)',
+      es: 'Capítulo 5 (Secciones 5.1, 5.2, 5.5, 5.7, 5.8)'
+    },
+    concepts: {
+      en: 'def keyword, parameters vs arguments, return vs print, caller stack frames, protecting lists with slices, *args and **kwargs.',
+      es: 'Palabra clave def, parámetros vs argumentos, return vs print, marcos de pila, protección de listas con rebanadas, *args y **kwargs.'
+    },
+    analogy: {
+      en: 'Tax accountant returning an official refund check; photocopying spiral notebook pages before sharing with classmates.',
+      es: 'Contador entregando cheque de reembolso oficial; fotocopiar cuaderno en espiral antes de prestarlo a compañeros.'
+    }
+  },
+  {
+    module: {
+      en: 'Extended Track: File I/O, OOP, Exceptions & SQL',
+      es: 'Pista Extendida: Archivos, POO, Excepciones y SQL',
+      source: 'Extended Engineering Track'
+    },
+    gaddis: {
+      en: 'Chapters 6, 10, 11, 14',
+      es: 'Capítulos 6, 10, 11, 14'
+    },
+    concepts: {
+      en: 'Context managers (with open), exception handling (try-except-finally), class encapsulation, parameterized queries preventing SQL injection.',
+      es: 'Gestores de contexto (with open), manejo de excepciones (try-except-finally), encapsulación en clases, consultas parametrizadas contra inyección SQL.'
+    },
+    analogy: {
+      en: 'Legally binding lease agreement (with); building emergency sprinkler system; architectural blueprint vs physical house.',
+      es: 'Contrato legal de arrendamiento (with); sistema de rociadores de emergencia; plano arquitectónico vs casa construida.'
+    }
+  }
+];
+
+export function WhitePaperModal({ isOpen, onClose, t, lang = 'en', onToggleLang }) {
   const [activeTab, setActiveTab] = useState('all');
   const [copied, setCopied] = useState(false);
+  const [modalLang, setModalLang] = useState(lang);
+
+  // Sync internal modal language with prop whenever modal opens or parent lang changes
+  useEffect(() => {
+    setModalLang(lang);
+  }, [lang, isOpen]);
 
   if (!isOpen) return null;
 
+  const currentLang = modalLang || lang || 'en';
+  const isEs = currentLang === 'es';
+
+  const handleLangChange = (targetLang) => {
+    setModalLang(targetLang);
+    if (onToggleLang) {
+      onToggleLang(targetLang);
+    }
+  };
+
   const handleCopySummary = () => {
-    const text = `P101 Academic Theory White Paper
+    const text = isEs ? `P101 Documento Blanco: Teoría Académica
+Conectando los cuadernos de la Prof. Jade Cao (CCCC) con el libro de Tony Gaddis "Starting Out with Python" (6.ª Ed.)
+Documento Completo: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
+
+1. Motor Pedagógico: Teoría de Carga Cognitiva (Sweller) + Modelo Concreto-Representacional-Abstracto (CRA) + Práctica de Recuperación Activa.
+2. Divulgación Progresiva en 3 Niveles: El "Porqué" Funcional -> Analogía Física y Trazado de RAM -> Mecánicas de CPython.
+3. Arquitectura Sin Telemetría: 100% WebAssembly en el navegador (Pyodide v0.26.2). Cero bases de datos, cero telemetría, cumplimiento total con FERPA.
+4. Equidad Multilingüe: Paridad del 100% en inglés y español con narración nativa mediante la API Web Speech.`
+    : `P101 Academic Theory White Paper
 Bridging Prof. Jade Cao (CCCC) Lecture Notebooks with Tony Gaddis "Starting Out with Python" (6th Ed.)
 Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
 
@@ -30,19 +209,18 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
 2. Three-Tier Progressive Disclosure: Core Functional Why -> Physical Analogy & Step-by-Step RAM Trace -> CPython Internals.
 3. Zero-Telemetry Architecture: 100% Client-Side WebAssembly (Pyodide v0.26.2). Zero database, zero telemetry, full FERPA compliance.
 4. Multilingual Equity: 100% English & Spanish parity with native browser Web Speech API narration.`;
+
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
-  const isEs = lang === 'es';
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
       <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-4xl w-full h-[90vh] flex flex-col shadow-2xl overflow-hidden">
         
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-950/80 flex items-center justify-between shrink-0">
+        <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-950/80 flex flex-wrap items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
               <GraduationCap className="w-5 h-5" />
@@ -52,7 +230,7 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 <h2 className="text-base sm:text-lg font-extrabold text-white tracking-wide">
                   {isEs ? 'Documento Blanco: Teoría Académica de P101' : 'P101 Academic & Technical Theory White Paper'}
                 </h2>
-                <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
+                <span className="hidden md:inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
                   {isEs ? 'Sin Telemetría • 100% Abierto' : 'Zero Telemetry • 100% Open'}
                 </span>
               </div>
@@ -64,11 +242,38 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Right Action Controls: Dedicated Language Switcher + Copy + GitHub + Close */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Modal Language Choice Selector */}
+            <div className="flex items-center bg-slate-950 border border-slate-700/80 rounded-lg p-0.5 text-xs font-mono font-bold shadow-inner">
+              <button
+                onClick={() => handleLangChange('en')}
+                title="Read White Paper in English"
+                className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 text-xs ${
+                  !isEs
+                    ? 'bg-blue-600 text-white shadow font-extrabold'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <span>🇺🇸</span> <span>English</span>
+              </button>
+              <button
+                onClick={() => handleLangChange('es')}
+                title="Leer Documento Blanco en Español"
+                className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 text-xs ${
+                  isEs
+                    ? 'bg-blue-600 text-white shadow font-extrabold'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <span>🇪🇸</span> <span>Español</span>
+              </button>
+            </div>
+
             <button
               onClick={handleCopySummary}
               className="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors flex items-center gap-1.5 font-medium"
-              title="Copy White Paper Summary to clipboard"
+              title={isEs ? "Copiar resumen del Documento Blanco al portapapeles" : "Copy White Paper Summary to clipboard"}
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               <span className="hidden sm:inline">{copied ? (isEs ? '¡Copiado!' : 'Copied!') : (isEs ? 'Copiar Resumen' : 'Copy Summary')}</span>
@@ -79,15 +284,16 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs px-2.5 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 transition-colors flex items-center gap-1.5 font-medium"
-              title="Open full WHITE_PAPER.md on GitHub"
+              title={isEs ? "Ver código y documento completo en GitHub" : "Open full WHITE_PAPER.md on GitHub"}
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">GitHub Source</span>
+              <span className="hidden sm:inline">{isEs ? 'Fuente GitHub' : 'GitHub Source'}</span>
             </a>
 
             <button
               onClick={onClose}
               className="text-slate-400 hover:text-white w-8 h-8 rounded-lg hover:bg-slate-800 flex items-center justify-center transition-colors text-lg ml-1"
+              title={isEs ? "Cerrar" : "Close"}
             >
               <X className="w-5 h-5" />
             </button>
@@ -174,15 +380,15 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                   </div>
                   <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-800 text-center">
                     <span className="text-slate-400 block text-[10px]">{isEs ? 'Telemetría' : 'Telemetry'}</span>
-                    <span className="text-emerald-400 font-bold">0% (Zero Trackers)</span>
+                    <span className="text-emerald-400 font-bold">{isEs ? '0% (Cero Rastreadores)' : '0% (Zero Trackers)'}</span>
                   </div>
                   <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-800 text-center">
                     <span className="text-slate-400 block text-[10px]">{isEs ? 'Privacidad' : 'Compliance'}</span>
-                    <span className="text-blue-400 font-bold">FERPA Compliant</span>
+                    <span className="text-blue-400 font-bold">{isEs ? 'Cumple con FERPA' : 'FERPA Compliant'}</span>
                   </div>
                   <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-800 text-center">
                     <span className="text-slate-400 block text-[10px]">{isEs ? 'Idiomas' : 'Language'}</span>
-                    <span className="text-purple-400 font-bold">100% EN &amp; ES Parity</span>
+                    <span className="text-purple-400 font-bold">{isEs ? '100% Paridad EN / ES' : '100% EN & ES Parity'}</span>
                   </div>
                 </div>
               </div>
@@ -247,7 +453,9 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 </span>
                 <div className="space-y-2 font-mono text-xs">
                   <div className="p-2.5 rounded-lg bg-slate-900 border border-amber-500/30 flex items-start gap-3">
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[10px] shrink-0 mt-0.5">NIVEL 0</span>
+                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[10px] shrink-0 mt-0.5">
+                      {isEs ? 'NIVEL 0' : 'TIER 0'}
+                    </span>
                     <div>
                       <span className="text-amber-200 font-bold">{isEs ? 'El "Porqué" Funcional y Mecánicas Clave' : 'The Core Functional "Why" & Mechanics'}</span>
                       <p className="text-slate-400 text-[11px] font-sans mt-0.5">
@@ -257,7 +465,9 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                   </div>
 
                   <div className="p-2.5 rounded-lg bg-slate-900 border border-blue-500/30 flex items-start gap-3">
-                    <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold text-[10px] shrink-0 mt-0.5">NIVEL 1</span>
+                    <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold text-[10px] shrink-0 mt-0.5">
+                      {isEs ? 'NIVEL 1' : 'TIER 1'}
+                    </span>
                     <div>
                       <span className="text-blue-200 font-bold">{isEs ? '🤔 "No Entiendo" — Modelo Concreto y Libro de Gaddis' : '🤔 "I Don\'t Understand" — Concrete CRA & Gaddis Textbook Bridge'}</span>
                       <p className="text-slate-400 text-[11px] font-sans mt-0.5">
@@ -267,7 +477,9 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                   </div>
 
                   <div className="p-2.5 rounded-lg bg-slate-900 border border-indigo-500/30 flex items-start gap-3">
-                    <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold text-[10px] shrink-0 mt-0.5">NIVEL 2</span>
+                    <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold text-[10px] shrink-0 mt-0.5">
+                      {isEs ? 'NIVEL 2' : 'TIER 2'}
+                    </span>
                     <div>
                       <span className="text-indigo-200 font-bold">{isEs ? '🚀 "Profundizar Más" — Mecánicas del Motor CPython' : '🚀 "Keep Going" — CPython Engine Mechanics & Best Practices'}</span>
                       <p className="text-slate-400 text-[11px] font-sans mt-0.5">
@@ -296,60 +508,35 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                   : 'P101 deliberately synthesizes Prof. Jade Cao’s classroom sequencing with Tony Gaddis\'s Starting Out with Python (6th Ed.). Prof. Cao introduces Lists early (Module 2.1) before conditionals so students immediately learn to manage collections. Dictionaries are introduced in Module 3.2 to teach labeled records, culminating in While Loop workshops that integrate lists of dictionaries with running accumulators.'}
               </p>
 
-              {/* Module Mapping Table */}
+              {/* Fully Localized Module Mapping Table */}
               <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950">
                 <table className="w-full text-left text-xs">
                   <thead className="bg-slate-900 text-slate-300 font-mono text-[11px] border-b border-slate-800">
                     <tr>
-                      <th className="p-3">{isEs ? 'Módulo y Fuente (Prof. Cao)' : 'Module & Prof. Source'}</th>
-                      <th className="p-3">{isEs ? 'Libro de Gaddis (6.ª Ed.)' : 'Gaddis 6th Ed. Mapping'}</th>
-                      <th className="p-3">{isEs ? 'Conceptos Clave' : 'Key Concepts Mastered'}</th>
-                      <th className="p-3">{isEs ? 'Analogía Física' : 'Physical Analogy'}</th>
+                      <th className="p-3 whitespace-nowrap">{isEs ? 'Módulo y Fuente (Prof. Cao)' : 'Module & Prof. Source'}</th>
+                      <th className="p-3 whitespace-nowrap">{isEs ? 'Libro de Gaddis (6.ª Ed.)' : 'Gaddis 6th Ed. Mapping'}</th>
+                      <th className="p-3">{isEs ? 'Conceptos Clave Dominados' : 'Key Concepts Mastered'}</th>
+                      <th className="p-3">{isEs ? 'Analogía Física Mental' : 'Physical Real-World Analogy'}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/80 text-[11px]">
-                    <tr className="hover:bg-slate-900/40">
-                      <td className="p-3 font-semibold text-white">Módulo 1: Variables &amp; Formato</td>
-                      <td className="p-3 font-mono text-blue-400">Capítulo 2 (2.4, 2.7, 2.8)</td>
-                      <td className="p-3 text-slate-300">Punteros en RAM, tipos primitivos, conversión int/float, f-strings, pistas en errores.</td>
-                      <td className="p-3 text-amber-300">Almacén con cajas numeradas y etiquetas con cuerda; lápida de piedra inmutable.</td>
-                    </tr>
-                    <tr className="hover:bg-slate-900/40">
-                      <td className="p-3 font-semibold text-white">Módulo 2.1: Introducción a Listas</td>
-                      <td className="p-3 font-mono text-blue-400">Capítulo 7 (7.1 – 7.4)</td>
-                      <td className="p-3 text-slate-300">Índice en base 0 y negativo, append vs insert, len(), del vs pop vs remove, sort() vs sorted().</td>
-                      <td className="p-3 text-amber-300">Tren de carga con vagones numerados; bandeja de oficina con trituradora vs escritorio.</td>
-                    </tr>
-                    <tr className="hover:bg-slate-900/40">
-                      <td className="p-3 font-semibold text-white">Módulo 2.2: Bucles for &amp; Tuplas</td>
-                      <td className="p-3 font-mono text-blue-400">Capítulo 4 (4.2, 4.3) &amp; Cap 7</td>
-                      <td className="p-3 text-slate-300">Bucles for, range(), acumuladores, copias superficiales ([:], .copy()), tuplas inmutables.</td>
-                      <td className="p-3 text-amber-300">Brazo robótico sobre cinta transportadora; dos llaves para la misma puerta de casa.</td>
-                    </tr>
-                    <tr className="hover:bg-slate-900/40">
-                      <td className="p-3 font-semibold text-white">Módulo 3.1: Estructuras if-elif-else</td>
-                      <td className="p-3 font-mono text-blue-400">Capítulo 3 (3.1, 3.3, 3.5)</td>
-                      <td className="p-3 text-slate-300">Operadores relacionales, in / not in, and / or / not, evaluación de cortocircuito, cadenas elif.</td>
-                      <td className="p-3 text-amber-300">Guardia de seguridad revisando credenciales; canal de clasificación postal.</td>
-                    </tr>
-                    <tr className="hover:bg-slate-900/40">
-                      <td className="p-3 font-semibold text-white">Módulo 3.2: Diccionarios</td>
-                      <td className="p-3 font-mono text-blue-400">Capítulo 9 (9.1)</td>
-                      <td className="p-3 text-slate-300">Pares clave-valor, búsqueda segura .get(), agregar/eliminar, desempaquetado con .items().</td>
-                      <td className="p-3 text-amber-300">Taquilla de guardarropa con ticket de reclamo; ticket de supermercado con precio al lado.</td>
-                    </tr>
-                    <tr className="hover:bg-slate-900/40">
-                      <td className="p-3 font-semibold text-white">Módulo 4.1 &amp; 4.2: while &amp; Talleres</td>
-                      <td className="p-3 font-mono text-blue-400">Capítulo 4 (4.1, 4.3, 4.4)</td>
-                      <td className="p-3 text-slate-300">Bucles de prueba previa, centinelas ('quit'), banderas, operador módulo %, listas de diccionarios.</td>
-                      <td className="p-3 text-amber-300">Puerta de embarque en aeropuerto; escáner de caja registradora con subtotal acumulado.</td>
-                    </tr>
-                    <tr className="hover:bg-slate-900/40">
-                      <td className="p-3 font-semibold text-white">Módulo 5.1 &amp; 5.2: Funciones</td>
-                      <td className="p-3 font-mono text-blue-400">Capítulo 5 (5.1, 5.2, 5.5, 5.7, 5.8)</td>
-                      <td className="p-3 text-slate-300">def, parámetros vs argumentos, return vs print, protección de listas, *args y **kwargs.</td>
-                      <td className="p-3 text-amber-300">Contador entregando cheque de reembolso; fotocopia de cuaderno de notas en espiral.</td>
-                    </tr>
+                    {CURRICULUM_SYNTHESIS_DATA.map((row, idx) => (
+                      <tr key={idx} className="hover:bg-slate-900/40 transition-colors">
+                        <td className="p-3 font-semibold text-white whitespace-nowrap align-top">
+                          <div>{isEs ? row.module.es : row.module.en}</div>
+                          <div className="text-[10px] font-mono text-slate-500 mt-0.5">{row.module.source}</div>
+                        </td>
+                        <td className="p-3 font-mono text-blue-400 whitespace-nowrap align-top">
+                          {isEs ? row.gaddis.es : row.gaddis.en}
+                        </td>
+                        <td className="p-3 text-slate-300 align-top leading-relaxed">
+                          {isEs ? row.concepts.es : row.concepts.en}
+                        </td>
+                        <td className="p-3 text-amber-300/90 align-top leading-relaxed">
+                          {isEs ? row.analogy.es : row.analogy.en}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -382,7 +569,7 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <span className="font-bold text-blue-400 flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4" />
-                    <span>{isEs ? 'Cumplimiento con FERPA' : 'FERPA Institutional Compliance'}</span>
+                    <span>{isEs ? 'Cumplimiento Institucional con FERPA' : 'FERPA Institutional Compliance'}</span>
                   </span>
                   <p className="text-slate-300 leading-relaxed">
                     {isEs
@@ -394,11 +581,11 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <span className="font-bold text-purple-400 flex items-center gap-1.5">
                     <Cpu className="w-4 h-4" />
-                    <span>{isEs ? 'Ejecución BYOD de Cuadernos' : 'BYOD Notebook Execution'}</span>
+                    <span>{isEs ? 'Ejecución de Cuadernos BYOD en RAM' : 'BYOD Notebook Client Execution'}</span>
                   </span>
                   <p className="text-slate-300 leading-relaxed">
                     {isEs
-                      ? 'Los cuadernos de clase (.ipynb) de la profesora se analizan en memoria mediante la API FileReader de HTML5. Ningún archivo con derechos de autor se sube a servidores públicos.'
+                      ? 'Los cuadernos de clase (.ipynb) de la profesora se analizan en memoria mediante la API FileReader de HTML5. Ningún archivo con derechos de autor se sube a servidores públicos ni a la nube.'
                       : 'Classroom notebooks (.ipynb) are parsed in client RAM via the HTML5 FileReader API. Proprietary instructor course materials are never uploaded or committed to public cloud repositories.'}
                   </p>
                 </div>
