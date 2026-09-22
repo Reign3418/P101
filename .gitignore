@@ -10,6 +10,7 @@ __pycache__
 *.pyc
 *.mp4
 *.pdf
+!public/cheatsheets/*.pdf
 .gemini
 temp_node
 .github

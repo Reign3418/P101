@@ -17,6 +17,10 @@ export const CHEAT_SHEETS_DATA = {
     title_es: 'NumPy: Arreglos Multidimensionales Rápidos y Matemática Vectorizada',
     badge: 'v1.26+',
     icon: '🧮',
+    pdfFilename: 'Numpy_Python_Cheat_Sheet.pdf',
+    pdfTitle: 'NumPy Basics Cheat Sheet (DataCamp)',
+    pdfPages: 1,
+    pdfSize: '650 KB',
     summary_en: 'The core library for scientific computing in Python, providing n-dimensional arrays (ndarray) with C-speed operations.',
     summary_es: 'La biblioteca fundamental para computación científica en Python, que proporciona arreglos n-dimensionales (ndarray) con operaciones a velocidad de C.',
     sections: [
@@ -258,6 +262,56 @@ print("Flattened (.ravel()):", reshaped.ravel())`,
             tags: ['reshape', 'transpose', 'ravel', 'flatten', 'dimension']
           }
         ]
+      },
+      {
+        id: 'np-manipulation-copying',
+        title_en: 'Stacking, Concatenating & Array Copying',
+        title_es: 'Apilamiento, Concatenación y Copias de Arreglos',
+        items: [
+          {
+            id: 'np-stack-concat',
+            name: 'np.vstack(), np.hstack() & np.concatenate()',
+            desc_en: 'Stack arrays vertically (row-wise) or horizontally (column-wise) to assemble larger datasets.',
+            desc_es: 'Apila arreglos verticalmente (por filas) u horizontalmente (por columnas) para ensamblar conjuntos de datos mayores.',
+            code: `import numpy as np
+
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+# Vertical stack (rows on top of rows)
+v_stacked = np.vstack((a, b))
+print("Vertical Stack (vstack):\\n", v_stacked)
+
+# Horizontal stack (columns side by side)
+h_stacked = np.hstack((a, b))
+print("Horizontal Stack (hstack):", h_stacked)
+
+# Concatenate along axis 0
+concat_res = np.concatenate((a, b), axis=0)
+print("Concatenate axis=0:", concat_res)`,
+            tags: ['vstack', 'hstack', 'concatenate', 'stack', 'combine', 'append']
+          },
+          {
+            id: 'np-view-vs-copy',
+            name: 'Shallow View (.view()) vs Deep Copy (.copy())',
+            desc_en: 'A view creates a new array object looking at the identical memory buffer (modifying one changes both). A copy duplicates memory safely.',
+            desc_es: 'Una vista crea un nuevo objeto que apunta al mismo búfer de memoria (modificar uno cambia ambos). Una copia duplica la memoria de forma segura.',
+            code: `import numpy as np
+
+original = np.array([10, 20, 30])
+
+# Shallow view (shares RAM)
+view_arr = original.view()
+# Deep copy (independent RAM)
+copy_arr = original.copy()
+
+original[0] = 999
+print("Original modified:", original)
+print("View changed! -> ", view_arr)  # 999, 20, 30
+print("Copy untouched ->", copy_arr)  # 10, 20, 30`,
+            tags: ['copy', 'view', 'memory', 'ram', 'shallow', 'deep', 'safety']
+          }
+        ]
       }
     ]
   },
@@ -269,6 +323,10 @@ print("Flattened (.ravel()):", reshaped.ravel())`,
     title_es: 'Matplotlib 3.10: Visualización de Datos y Anatomía de Figuras',
     badge: 'v3.10+',
     icon: '📈',
+    pdfFilename: 'cheatsheets_matplotlib.pdf',
+    pdfTitle: 'Matplotlib 3.10 Visual Cheat Sheet (Official 2-Page Guide)',
+    pdfPages: 2,
+    pdfSize: '2.85 MB',
     summary_en: 'Comprehensive 2D data plotting library in Python using the modern Object-Oriented (fig, ax) API.',
     summary_es: 'Biblioteca integral de gráficos 2D en Python mediante la moderna API orientada a objetos (fig, ax).',
     sections: [
@@ -440,6 +498,60 @@ print("Saved successfully!")`,
             tags: ['savefig', 'export', 'save', 'png', 'pdf', 'dpi']
           }
         ]
+      },
+      {
+        id: 'mpl-scales-rules',
+        title_en: 'Scales, Fill Between & Figure Rules',
+        title_es: 'Escalas, Relleno y Reglas de Figuras',
+        items: [
+          {
+            id: 'mpl-fill-scales',
+            name: 'Log Scales & ax.fill_between()',
+            desc_en: 'Render logarithmic axes for exponential phenomena and highlight confidence intervals or uncertainty bounds with fill_between.',
+            desc_es: 'Renderiza ejes logarítmicos para fenómenos exponenciales y resalta intervalos de confianza o límites de incertidumbre con fill_between.',
+            code: `import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.exp(x / 2)
+lower = y * 0.8
+upper = y * 1.2
+
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ax.plot(x, y, color='#2563eb', label='Nominal Growth')
+ax.fill_between(x, lower, upper, color='#3b82f6', alpha=0.25, label='±20% Margin')
+
+# Logarithmic y-axis
+ax.set_yscale('log')
+ax.set_title("Exponential Growth on Logarithmic Scale")
+ax.set_xlabel("Time Step")
+ax.set_ylabel("Quantity (Log Scale)")
+ax.legend()
+plt.tight_layout()
+plt.show()`,
+            tags: ['log', 'scale', 'fill_between', 'uncertainty', 'interval', 'band']
+          },
+          {
+            id: 'mpl-ten-rules',
+            name: 'Ten Rules for Better Scientific Figures',
+            desc_en: 'Core design principles from the official Matplotlib Cheat Sheet authored by scientific visualization experts (Rougier et al.).',
+            desc_es: 'Principios clave de diseño de la Hoja de Referencia oficial de Matplotlib desarrollada por expertos en visualización científica (Rougier et al.).',
+            code: `# Ten Simple Rules for Better Scientific Figures:
+# 1. Know your audience (tailor complexity to the reader)
+# 2. Identify your message (every figure must tell ONE clear story)
+# 3. Adapt the figure (match medium: slide, paper, or mobile screen)
+# 4. Captions are not optional (explain everything visible)
+# 5. Do not trust the defaults (tweak colors, limits, and fonts)
+# 6. Use color effectively (accessible colormaps like viridis)
+# 7. Do not mislead the reader (honest 0-baselines and proportional scales)
+# 8. Avoid "chartjunk" (eliminate distracting 3D effects and heavy borders)
+# 9. Message trumps beauty (clarity over artistic decoration)
+# 10. Get the right tool (choose plots matched to data types)
+
+print("Visualization mastery guidelines loaded.")`,
+            tags: ['rules', 'theory', 'best practices', 'design', 'chartjunk', 'principles']
+          }
+        ]
       }
     ]
   },
@@ -451,6 +563,10 @@ print("Saved successfully!")`,
     title_es: 'SciPy: Álgebra Lineal Computacional (scipy.linalg)',
     badge: 'v1.12+',
     icon: '🔬',
+    pdfFilename: 'Python_SciPy_Cheat_Sheet_Linear_Algebra.pdf',
+    pdfTitle: 'SciPy Linear Algebra Cheat Sheet (DataCamp)',
+    pdfPages: 1,
+    pdfSize: '146 KB',
     summary_en: 'The standard Python scientific library for linear algebra, system solvers (Ax = b), matrix decompositions, eigenvalues, and SVD.',
     summary_es: 'La biblioteca científica estándar de Python para álgebra lineal, solucionadores de sistemas (Ax = b), descomposiciones matriciales, autovalores y SVD.',
     sections: [
@@ -609,6 +725,44 @@ print("Upper Triangular U:\\n", U)
 # Reconstruct: P @ L @ U == A
 print("Verification (P @ L @ U):\\n", P @ L @ U)`,
             tags: ['lu', 'cholesky', 'decomposition', 'triangular', 'permutation']
+          },
+          {
+            id: 'sp-cholesky',
+            name: 'Cholesky Decomposition (linalg.cholesky)',
+            desc_en: 'Factorize a symmetric positive-definite matrix A into L · L* (lower triangular matrix times its conjugate transpose).',
+            desc_es: 'Factoriza una matriz simétrica definida positiva A en L · L* (matriz triangular inferior por su traspuesta conjugada).',
+            code: `import numpy as np
+from scipy import linalg
+
+# Symmetric positive-definite matrix
+A = np.array([[4, 12, -16], [12, 37, -43], [-16, -43, 98]])
+
+# Upper triangular Cholesky factor
+L = linalg.cholesky(A, lower=True)
+print("Lower Cholesky Factor L:\\n", L)
+
+# Verification: L @ L.T == A
+print("Verification (L @ L.T):\\n", L @ L.T)`,
+            tags: ['cholesky', 'decomposition', 'positive-definite', 'symmetric', 'triangular']
+          },
+          {
+            id: 'sp-matrix-funcs',
+            name: 'Matrix Functions (linalg.expm & linalg.sqrtm)',
+            desc_en: 'Compute matrix exponentials e^A and principal matrix square roots A^(1/2) via Padé approximation.',
+            desc_es: 'Calcula exponenciales matriciales e^A y raíces cuadradas principales de matrices A^(1/2) mediante aproximación de Padé.',
+            code: `import numpy as np
+from scipy import linalg
+
+A = np.array([[1, 2], [3, 4]])
+
+# Matrix exponential: e^A
+exp_A = linalg.expm(A)
+print("Matrix Exponential expm(A):\\n", exp_A)
+
+# Matrix square root: S such that S @ S == A
+sqrt_A = linalg.sqrtm(A)
+print("Matrix Square Root sqrtm(A):\\n", sqrt_A.real)`,
+            tags: ['expm', 'sqrtm', 'matrix exponential', 'matrix functions', 'pade']
           }
         ]
       }

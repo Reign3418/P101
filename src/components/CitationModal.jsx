@@ -91,6 +91,35 @@ export function CitationModal({ isOpen, onClose, t, lang = 'en' }) {
               <p className="text-[11px] text-slate-300">
                 {t ? t('peerContributorDesc') : 'Shared Data Science reference cheat sheets (NumPy Basics, Matplotlib 3.10 Anatomy & APIs, SciPy Linear Algebra) distributed to the class by Prof. Jade Cao.'}
               </p>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                <a
+                  href={`${import.meta.env.BASE_URL}cheatsheets/Numpy_Python_Cheat_Sheet.pdf`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-200 border border-emerald-500/40 hover:bg-emerald-500/30 flex items-center gap-1 transition-colors"
+                  title="Open NumPy cheat sheet PDF"
+                >
+                  <span>📄</span> <span>NumPy (PDF)</span> <span>↗</span>
+                </a>
+                <a
+                  href={`${import.meta.env.BASE_URL}cheatsheets/cheatsheets_matplotlib.pdf`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-500/20 text-blue-200 border border-blue-500/40 hover:bg-blue-500/30 flex items-center gap-1 transition-colors"
+                  title="Open Matplotlib cheat sheet PDF"
+                >
+                  <span>📄</span> <span>Matplotlib (PDF)</span> <span>↗</span>
+                </a>
+                <a
+                  href={`${import.meta.env.BASE_URL}cheatsheets/Python_SciPy_Cheat_Sheet_Linear_Algebra.pdf`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/20 text-purple-200 border border-purple-500/40 hover:bg-purple-500/30 flex items-center gap-1 transition-colors"
+                  title="Open SciPy Linear Algebra cheat sheet PDF"
+                >
+                  <span>📄</span> <span>SciPy (PDF)</span> <span>↗</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
