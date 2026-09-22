@@ -11,6 +11,7 @@ import { TrapBox } from './components/TrapBox.jsx';
 import { CodingRepLab } from './components/CodingRepLab.jsx';
 import { QuizBox } from './components/QuizBox.jsx';
 import { CitationModal } from './components/CitationModal.jsx';
+import { CheatSheetModal } from './components/CheatSheetModal.jsx';
 import { NotebookViewer } from './components/NotebookViewer.jsx';
 import { ReviewModal } from './components/ReviewModal.jsx';
 import { WhitePaperModal } from './components/WhitePaperModal.jsx';
@@ -61,6 +62,7 @@ export default function App() {
     }
   });
   const [isCitationOpen, setIsCitationOpen] = useState(false);
+  const [isCheatSheetOpen, setIsCheatSheetOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isWhitePaperOpen, setIsWhitePaperOpen] = useState(false);
 
@@ -268,6 +270,7 @@ export default function App() {
         onResetProgress={handleResetProgress}
         onOpenCitation={() => setIsCitationOpen(true)}
         onOpenWhitePaper={() => setIsWhitePaperOpen(true)}
+        onOpenCheatSheet={() => setIsCheatSheetOpen(true)}
         activeView={activeView}
         notebooks={importedNotebooks}
         activeNotebookId={activeNotebookId}
@@ -289,6 +292,7 @@ export default function App() {
           sections={activeChapter.sections}
           onOpenCitation={() => setIsCitationOpen(true)}
           onOpenWhitePaper={() => setIsWhitePaperOpen(true)}
+          onOpenCheatSheet={() => setIsCheatSheetOpen(true)}
           onOpenStats={() => setActiveView('stats')}
           activeView={activeView}
           isMuted={isMuted}
@@ -471,6 +475,16 @@ export default function App() {
         onClose={() => setIsCitationOpen(false)}
         t={t}
         lang={lang}
+      />
+
+      {/* Data Science Cheat Sheet Modal */}
+      <CheatSheetModal
+        isOpen={isCheatSheetOpen}
+        onClose={() => setIsCheatSheetOpen(false)}
+        t={t}
+        lang={lang}
+        onExecuteCode={executeCode}
+        pyodideReady={pyodideReady}
       />
 
       {/* Review Queue Modal */}

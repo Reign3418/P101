@@ -5,6 +5,7 @@ export function Header({
   totalChapters,
   onOpenCitation,
   onOpenWhitePaper,
+  onOpenCheatSheet,
   isMuted,
   onToggleMute,
   isSpeaking,
@@ -257,6 +258,18 @@ export function Header({
           <span>🏛️</span>
           <span className="hidden sm:inline text-[11px] font-semibold">{t ? t('whitePaper') : 'White Paper'}</span>
         </button>
+
+        {/* Cheat Sheets button */}
+        {onOpenCheatSheet && (
+          <button
+            onClick={onOpenCheatSheet}
+            className="flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 transition-colors shadow-sm font-medium"
+            title={t ? t('cheatSheets') : 'Data Science Cheat Sheets (NumPy, Matplotlib, SciPy)'}
+          >
+            <span>📑</span>
+            <span className="hidden sm:inline text-[11px] font-semibold">{t ? t('cheatSheets') : 'Cheat Sheets'}</span>
+          </button>
+        )}
 
         {/* Citations button */}
         <button

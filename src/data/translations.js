@@ -101,6 +101,10 @@ export const TRANSLATIONS = {
     textbookRole: "Syllabus Companion Textbook:",
     textbookTitle: "Starting Out with Python (6th Edition)",
     textbookAuthor: "Author: Tony Gaddis • Publisher: Pearson",
+    peerContributorRole: "Peer Contributor & Reference Shares:",
+    peerContributorTitle: "Python Class Peer Contributor",
+    peerContributorDesc: "Shared Data Science reference cheat sheets (NumPy Basics, Matplotlib 3.10 Anatomy & APIs, SciPy Linear Algebra) distributed to the class by Prof. Jade Cao.",
+    peerSharedResource: "Data Science Reference Sheets:",
     hwUsageTitle: "💡 For Class Assignments & Homework Comments:",
     hwUsageDesc: "All code drills, practice sandboxes, and 'Why' breakdowns in this portal are original interactive exercises aligned with Prof. Jade Cao's lecture notebooks at CCCC and Tony Gaddis's textbook. Click below to copy citations:",
     forCodeComments: "1. For Code Comments & Homework:",
@@ -108,6 +112,13 @@ export const TRANSLATIONS = {
     ccccLectureSeries: "CCCC Lecture Series:",
     textbookReference: "Textbook Reference:",
     gotItThanks: "Got it, thanks!",
+
+    // Cheat Sheets
+    cheatSheets: "Cheat Sheets",
+    cheatSheetsTitle: "Data Science Reference Toolkit",
+    cheatSheetsSubtitle: "NumPy Basics • Matplotlib 3.10 Figure Anatomy & APIs • SciPy Linear Algebra",
+    sharedBySarahCox: "Shared with the class by peer contributor Sarah Cox • Distributed by Prof. Jade Cao (CCCC)",
+    searchCheatSheetsPlaceholder: "Search methods, APIs, syntax...",
 
     // Review Modal
     reviewModalTitle: "Concepts Flagged for Review",
@@ -261,6 +272,10 @@ export const TRANSLATIONS = {
     textbookRole: "Libro de Texto de Acompañamiento:",
     textbookTitle: "Starting Out with Python (6.ª Edición)",
     textbookAuthor: "Autor: Tony Gaddis • Editorial: Pearson",
+    peerContributorRole: "Aportes de la Clase y Referencias:",
+    peerContributorTitle: "Colaboradora Estudiantil de la Clase de Python",
+    peerContributorDesc: "Compartió hojas de referencia de Ciencia de Datos (NumPy Básico, Matplotlib 3.10 y Álgebra Lineal SciPy) distribuidas a la clase por la Prof. Jade Cao.",
+    peerSharedResource: "Hojas de Referencia de Ciencia de Datos:",
     hwUsageTitle: "💡 Para Tareas y Comentarios de Código:",
     hwUsageDesc: "Todos los ejercicios de código, entornos de práctica y análisis explicativos en este portal son ejercicios originales adaptados al curso de la Prof. Jade Cao en CCCC y al libro de Tony Gaddis. Haz clic abajo para copiar la cita:",
     forCodeComments: "1. Para Comentarios de Código y Tareas:",
@@ -268,6 +283,13 @@ export const TRANSLATIONS = {
     ccccLectureSeries: "Serie de Clases CCCC:",
     textbookReference: "Referencia del Libro:",
     gotItThanks: "¡Entendido, gracias!",
+
+    // Cheat Sheets
+    cheatSheets: "Hojas de Referencia",
+    cheatSheetsTitle: "Kit de Referencia de Ciencia de Datos",
+    cheatSheetsSubtitle: "NumPy Básico • Matplotlib 3.10 Anatomía de Figuras y APIs • Álgebra Lineal SciPy",
+    sharedBySarahCox: "Compartido con la clase por la compañera Sarah Cox • Distribuido por la Prof. Jade Cao (CCCC)",
+    searchCheatSheetsPlaceholder: "Buscar métodos, APIs, sintaxis...",
 
     // Review Modal
     reviewModalTitle: "Conceptos Marcados para Repaso",

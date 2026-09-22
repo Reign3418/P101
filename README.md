@@ -61,6 +61,15 @@ Each section includes:
 - In-modal language switch independent of the app language
 - Direct link button to the canonical [WHITE_PAPER.md](https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md)
 
+### 📑 Data Science Reference Toolkit (Cheat Sheets)
+- **Interactive, Searchable Quick-Reference** — comprehensive syntax and pedagogical guide for scientific Python computing:
+  - **NumPy Basics**: 1D/2D array creation, shape inspection, vectorized arithmetic, dot products (`@`), slices, boolean masks, and summary statistics (`axis=0/1`).
+  - **Matplotlib 3.10**: Figure anatomy, object-oriented `fig, ax = plt.subplots()`, scatter, bar, histograms, subplots, layout adjustments, and high-res figure exports.
+  - **SciPy Linear Algebra**: Matrix inverse (`linalg.inv`), determinant (`linalg.det`), norms, system solvers for $Ax = b$ (`linalg.solve`), least squares (`linalg.lstsq`), eigenvalues (`linalg.eig`), and SVD (`linalg.svd`).
+- **Live Pyodide WebAssembly Execution** — run any cheat sheet drill directly inside the modal with real-time stdout output.
+- **1-Click Snippet Copying** with instant clipboard feedback.
+- **Peer Contributor Recognition** — honors peer contributor **Sarah Cox** for sharing reference sheets distributed by Prof. Jade Cao.
+
 ### 🌐 Bilingual Support (EN / ES)
 - Full English ↔ Spanish language parity for all UI strings
 - Voice narration via Web Speech API in both languages
@@ -78,6 +87,8 @@ Each section includes:
 **Cao, Jade.** Python Programming Lecture Notebooks (Modules 1.0–6.1). Central Carolina Community College (CCCC).
 
 **Gaddis, Tony.** *Starting Out with Python.* 6th ed., Pearson, 2024.
+
+**Cox, Sarah.** *Data Science Reference Sheets (NumPy, Matplotlib, SciPy Linear Algebra).* Shared in CCCC Python class, distributed by Prof. Jade Cao.
 
 ---
 

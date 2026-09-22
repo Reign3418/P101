@@ -17,6 +17,7 @@ export function CitationModal({ isOpen, onClose, t, lang = 'en' }) {
 
   const ccccCitation = "Cao, Jade. Python Programming Lecture Notebooks (Modules 1.0–6.1). Central Carolina Community College (CCCC).";
   const gaddisCitation = "Gaddis, Tony. Starting Out with Python. 6th ed., Pearson, 2024.";
+  const sarahCoxCitation = "Cox, Sarah. Data Science Reference Sheets (NumPy, Matplotlib, SciPy Linear Algebra). Shared in CCCC Python class, distributed by Prof. Jade Cao.";
 
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
@@ -74,6 +75,22 @@ export function CitationModal({ isOpen, onClose, t, lang = 'en' }) {
               <div className="text-[11px] text-slate-300">
                 {t ? t('textbookAuthor') : 'Author: Tony Gaddis • Publisher: Pearson'}
               </div>
+            </div>
+          </div>
+
+          {/* Peer Contributor Card - Sarah Cox */}
+          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-start gap-3">
+            <span className="text-2xl mt-0.5">🤝</span>
+            <div className="space-y-0.5">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-400">
+                {t ? t('peerContributorRole') : 'Peer Contributor & Reference Shares:'}
+              </span>
+              <div className="text-emerald-300 font-bold text-xs">
+                Sarah Cox • {t ? t('peerContributorTitle') : 'Python Class Peer Contributor'}
+              </div>
+              <p className="text-[11px] text-slate-300">
+                {t ? t('peerContributorDesc') : 'Shared Data Science reference cheat sheets (NumPy Basics, Matplotlib 3.10 Anatomy & APIs, SciPy Linear Algebra) distributed to the class by Prof. Jade Cao.'}
+              </p>
             </div>
           </div>
         </div>
@@ -155,6 +172,26 @@ export function CitationModal({ isOpen, onClose, t, lang = 'en' }) {
                 }`}
               >
                 {copiedType === 'gaddis' ? (lang === 'es' ? '¡Copiado! ✓' : 'Copied! ✓') : (lang === 'es' ? 'Copiar' : 'Copy')}
+              </button>
+            </div>
+
+            {/* Sarah Cox Peer Contributor */}
+            <div className="flex items-start justify-between gap-2 border-t border-slate-800/60 pt-2">
+              <div className="text-[11px]">
+                <span className="text-emerald-400 font-bold font-mono">
+                  {t ? t('peerSharedResource') : 'Data Science Reference Sheets:'}{' '}
+                </span>
+                <span className="text-slate-300">{sarahCoxCitation}</span>
+              </div>
+              <button
+                onClick={() => copyText(sarahCoxCitation, 'sarah')}
+                className={`px-2 py-0.5 rounded text-[11px] font-mono border transition-all shrink-0 ${
+                  copiedType === 'sarah' 
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-bold' 
+                    : 'bg-slate-800 text-slate-300 hover:text-white border-slate-700'
+                }`}
+              >
+                {copiedType === 'sarah' ? (lang === 'es' ? '¡Copiado! ✓' : 'Copied! ✓') : (lang === 'es' ? 'Copiar' : 'Copy')}
               </button>
             </div>
           </div>

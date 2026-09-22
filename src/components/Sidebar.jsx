@@ -10,6 +10,7 @@ export function Sidebar({
   onResetProgress,
   onOpenCitation,
   onOpenWhitePaper,
+  onOpenCheatSheet,
   activeView = 'chapters',
   notebooks = [],
   activeNotebookId = null,
@@ -142,6 +143,27 @@ export function Sidebar({
             {notebooks.length}
           </span>
         </button>
+
+        {/* Data Science Cheat Sheets Quick Access */}
+        {onOpenCheatSheet && (
+          <button
+            onClick={onOpenCheatSheet}
+            className="w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all border bg-emerald-950/30 text-emerald-200 hover:bg-emerald-900/40 border-emerald-500/30 shadow-sm"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-base">📑</span>
+              <div>
+                <div className="font-bold">{t ? t('cheatSheets') : 'Cheat Sheets'}</div>
+                <div className="text-[10px] text-emerald-300/80">
+                  NumPy • Matplotlib • SciPy
+                </div>
+              </div>
+            </div>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 font-bold">
+              3 SHEETS
+            </span>
+          </button>
+        )}
 
         {/* List of imported notebooks if any */}
         {notebooks.length > 0 && (

@@ -198,6 +198,18 @@ Voice narration enhances comprehension for auditory learners and students with r
 - Zero audio files are downloaded from third-party paid voice servers (no ElevenLabs, no AWS Polly), ensuring zero cloud bills, zero latency, and zero voice-data scraping.
 - Full bilingual language detection: switches seamlessly between English (`en-US`) and Spanish (`es-ES`, `es-MX`, `es-US`).
 
+### 4.6 Peer Collaboration, Data Science Reference Toolkit & Academic Attribution
+In collaborative academic environments, peer sharing accelerates collective mastery. During the course, classmate **Sarah Cox** shared a curated set of Data Science reference cheat sheets covering **NumPy Basics**, **Matplotlib 3.10 Figure Anatomy & APIs**, and **SciPy Linear Algebra**, which **Prof. Jade Cao** distributed to the class:
+
+1. **Copyright & Fair-Use Engineering**:
+   - Rather than redistributing raw third-party branded PDF binaries on public repositories (which would violate publisher licensing and bloat git history), the directory `student/` is excluded via `.gitignore`.
+   - The underlying mathematical operations, matrix decompositions, and open-source plotting patterns were synthesized into an original, 100% client-side interactive reference dataset (`cheatSheetsData.js`).
+2. **Interactive Pedagogical Integration**:
+   - Each method includes concrete explanations, dual-language descriptions (EN/ES), copyable code snippets, and instant **Pyodide WebAssembly** execution with dynamic package auto-loading (`loadPackagesFromImports`).
+   - Students can test matrix inversions (`linalg.inv`), equation solvers ($Ax = b$), and scatter plots in real-time without leaving their browser.
+3. **Formal Peer Recognition & Citation**:
+   - In adherence to academic honesty and intellectual provenance, Sarah Cox is formally credited across the platform: in the Cheat Sheet header banner, the Citation Modal, and the course documentation.
+
 ---
 
 ## 5. Universal Design for Learning (UDL) & Multilingual Parity
@@ -249,7 +261,17 @@ Prof. Jade Cao and academic evaluation committees can verify every claim in this
 
 ---
 
-## 7. Conclusion
+## 7. Formal Bibliography & Academic References
+
+1. **Cao, Jade.** *Python Programming Lecture Notebooks (Modules 1.0–6.1).* Department of Computer Information Technology, Central Carolina Community College (CCCC), 2024.
+2. **Cox, Sarah.** *Data Science Reference Sheets (NumPy Basics, Matplotlib 3.10 Anatomy & APIs, SciPy Linear Algebra).* Shared in CCCC Python class, distributed by Prof. Jade Cao, 2026.
+3. **Gaddis, Tony.** *Starting Out with Python.* 6th ed., Pearson, 2024.
+4. **Roediger, H. L., & Karpicke, J. D.** (2006). *Test-enhanced learning: Taking memory tests improves long-term retention.* Psychological Science, 17(3), 249–255.
+5. **Sweller, J.** (1988). *Cognitive load during problem solving: Effects on learning.* Cognitive Science, 12(2), 257–285.
+
+---
+
+## 8. Conclusion
 
 **P101** represents a modern, human-centered bridge between academic lecture notebooks and foundational textbook literature. By systematically eliminating extraneous cognitive load, grounding abstract memory behavior in physical mental models, providing infinite retrieval practice, and enforcing an uncompromising zero-telemetry client-side privacy standard, P101 equips every student—regardless of age, language, or background—with the confidence to master Python programming.
 

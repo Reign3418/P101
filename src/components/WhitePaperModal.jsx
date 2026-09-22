@@ -627,7 +627,7 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <span className="font-bold text-blue-400 flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4" />
@@ -652,7 +652,7 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2 sm:col-span-2 lg:col-span-1">
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <span className="font-bold text-amber-400 flex items-center gap-1.5">
                     <BookOpen className="w-4 h-4" />
                     <span>{isEs ? 'Puente Cuaderno-Libro e Integridad Académica' : 'In-Notebook Textbook Bridge & Fair Use'}</span>
@@ -661,6 +661,18 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                     {isEs
                       ? 'El texto del libro nunca se copia ni se scrapea. Funciona como un índice interactivo de sílabo que asocia preguntas de clase (ej. creación de objetos) con capítulos de Gaddis, explicaciones pedagógicas originales del "Porqué" y modelos de RAM en microsegundos sin servidores.'
                       : 'Textbook prose is never duplicated or scraped. It acts as an interactive syllabus cross-reference linking lecture questions (e.g. object creation) to Gaddis chapters, original "Why" pedagogical rationales, and RAM traces with sub-millisecond in-memory resolution.'}
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <span className="font-bold text-emerald-400 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4" />
+                    <span>{isEs ? 'Hojas de Referencia y Colaboración de Pares' : 'Data Science Cheat Sheets & Peer Shares'}</span>
+                  </span>
+                  <p className="text-slate-300 leading-relaxed">
+                    {isEs
+                      ? 'Las hojas de referencia de NumPy, Matplotlib y SciPy compartidas por la compañera Sarah Cox y distribuidas por la Prof. Jade Cao se sintetizaron en un kit interactivo ejecutable en Pyodide, excluyendo los PDFs de Git para salvaguardar licencias y derechos de autor.'
+                      : 'NumPy, Matplotlib, and SciPy reference sheets shared by classmate Sarah Cox and distributed by Prof. Jade Cao were synthesized into an interactive Pyodide toolkit, excluding raw PDFs from Git to preserve copyright and academic integrity.'}
                   </p>
                 </div>
               </div>

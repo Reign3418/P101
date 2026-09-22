@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export function usePyodide() {
   const [isReady, setIsReady] = useState(false);
@@ -64,6 +64,15 @@ export function usePyodide() {
 
     const pyodide = pyodideRef.current;
     try {
+      // Auto-load packages like numpy, scipy, matplotlib on demand if imported
+      if (pyodide.loadPackagesFromImports) {
+        try {
+          await pyodide.loadPackagesFromImports(code);
+        } catch (pkgErr) {
+          console.warn("Pyodide package autoload notice:", pkgErr);
+        }
+      }
+
       // Capture stdout
       const wrapped = `
 import sys, io
