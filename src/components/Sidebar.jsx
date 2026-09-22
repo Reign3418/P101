@@ -16,7 +16,10 @@ export function Sidebar({
   onSelectNotebook,
   onOpenNotebookLab,
   t,
-  lang = 'en'
+  lang = 'en',
+  onOpenStats,
+  sessionSeconds = 0,
+  totalReps = 0
 }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -92,8 +95,32 @@ export function Sidebar({
         </div>
       </div>
 
-      {/* BYOD Notebook Lab Quick Access */}
-      <div className="p-2 border-b border-slate-800/80 bg-slate-950/40">
+      {/* Analytics & BYOD Quick Access Group */}
+      <div className="p-2 border-b border-slate-800/80 bg-slate-950/40 space-y-1.5">
+        {/* Learning Stats Button */}
+        <button
+          onClick={onOpenStats}
+          className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all border ${
+            activeView === 'stats'
+              ? 'bg-blue-600 text-white font-bold shadow-lg shadow-blue-600/20 border-blue-400/40'
+              : 'bg-blue-950/30 text-blue-200 hover:bg-blue-900/40 border-blue-500/30'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-base">📊</span>
+            <div>
+              <div className="font-bold">{t ? t('stats') : 'Stats & Analytics'}</div>
+              <div className="text-[10px] text-blue-300/80 font-mono">
+                {totalReps} {lang === 'es' ? 'reps' : 'reps'} • {Math.floor(sessionSeconds / 60)}m {sessionSeconds % 60}s
+              </div>
+            </div>
+          </div>
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-200 border border-blue-400/30 font-bold">
+            {activeView === 'stats' ? 'ACTIVE' : 'STATS'}
+          </span>
+        </button>
+
+        {/* Notebook Lab (BYOD) Quick Access */}
         <button
           onClick={onOpenNotebookLab}
           className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all border ${

@@ -14,6 +14,8 @@ import { CitationModal } from './components/CitationModal.jsx';
 import { NotebookViewer } from './components/NotebookViewer.jsx';
 import { ReviewModal } from './components/ReviewModal.jsx';
 import { WhitePaperModal } from './components/WhitePaperModal.jsx';
+import { useLearningStats } from './hooks/useLearningStats.js';
+import { StatsDashboard } from './components/StatsDashboard.jsx';
 
 export default function App() {
   const [lang, setLang] = useState(() => {
@@ -59,6 +61,7 @@ export default function App() {
 
   const { isReady: pyodideReady, executeCode } = usePyodide();
   const { speak, stop, isMuted, toggleMute, isSpeaking, voices, selectedVoiceName, selectVoice, activeVoice } = useVoice(lang);
+  const { stats, repLog, sessionSeconds, logRep, logQuiz, resetStats } = useLearningStats(activeChapterNum);
 
   // Save state to localStorage
   useEffect(() => {
@@ -126,6 +129,7 @@ export default function App() {
   };
 
   const handleQuizAnswer = (secId, isCorrect) => {
+    logQuiz(activeChapterNum, isCorrect);
     if (isCorrect) {
       setReviewQueue(prev => {
         const next = { ...prev };
@@ -242,9 +246,12 @@ export default function App() {
         onOpenNotebookLab={handleOpenNotebookLab}
         t={t}
         lang={lang}
+        onOpenStats={() => setActiveView('stats')}
+        sessionSeconds={sessionSeconds}
+        totalReps={repLog.length}
       />
 
-      {/* Main View: Either Notebook Viewer or Standard Chapters */}
+      {/* Main View: Either Notebook Viewer, Stats Dashboard, or Standard Chapters */}
       {activeView === 'notebook' ? (
         <NotebookViewer
           notebooks={importedNotebooks}
@@ -257,6 +264,22 @@ export default function App() {
           t={t}
           lang={lang}
         />
+      ) : activeView === 'stats' ? (
+        <StatsDashboard
+          stats={stats}
+          sessionSeconds={sessionSeconds}
+          repLog={repLog}
+          chapters={localizedChapters}
+          completedSections={completedSections}
+          onJumpToModule={(chNum) => {
+            setActiveChapterNum(chNum);
+            setActiveView('chapters');
+          }}
+          onBackToCurriculum={() => setActiveView('chapters')}
+          onResetStats={resetStats}
+          t={t}
+          lang={lang}
+        />
       ) : (
         /* Main Study Area */
         <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950">
@@ -266,6 +289,8 @@ export default function App() {
             sections={activeChapter.sections}
             onOpenCitation={() => setIsCitationOpen(true)}
             onOpenWhitePaper={() => setIsWhitePaperOpen(true)}
+            onOpenStats={() => setActiveView('stats')}
+            activeView={activeView}
             isMuted={isMuted}
             onToggleMute={toggleMute}
             isSpeaking={isSpeaking}
@@ -361,11 +386,22 @@ export default function App() {
                     <CodingRepLab
                       repData={sec.rep}
                       onExecuteCode={executeCode}
-                      onCompleteRep={() => {
+                      onCompleteRep={(repDetails) => {
                         if (!completedSections[sec.id]) {
                           handleToggleComplete(sec.id);
                         }
+                        logRep({
+                          sectionId: sec.id,
+                          sectionNum: sec.num,
+                          chapterNum: activeChapter.num,
+                          moduleTitle: activeChapter.code_module || `Module ${activeChapter.num}`,
+                          sectionTitle: sec.title,
+                          testVar: repDetails?.testVar || sec.rep?.test_var,
+                          actualVal: repDetails?.actualVal ?? sec.rep?.expected_val,
+                          elapsed: repDetails?.elapsed || 0
+                        });
                       }}
+                      onViewRepLog={() => setActiveView('stats')}
                       pyodideReady={pyodideReady}
                       t={t}
                       lang={lang}

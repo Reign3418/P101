@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-export function CodingRepLab({ repData, onExecuteCode, onCompleteRep, pyodideReady, t, lang = 'en' }) {
+export function CodingRepLab({ 
+  repData, 
+  onExecuteCode, 
+  onCompleteRep, 
+  pyodideReady, 
+  t, 
+  lang = 'en',
+  onViewRepLog 
+}) {
   const [code, setCode] = useState(repData ? repData.starter : '');
   const [prompt, setPrompt] = useState(repData ? (lang === 'es' && repData.prompt_es ? repData.prompt_es : repData.prompt) : '');
   const [testVar, setTestVar] = useState(repData ? repData.test_var : null);
@@ -226,8 +234,12 @@ export function CodingRepLab({ repData, onExecuteCode, onCompleteRep, pyodideRea
     setResult(res);
     setIsRunning(false);
 
-    if (res.passed) {
-      onCompleteRep();
+    if (res.passed && onCompleteRep) {
+      onCompleteRep({
+        testVar,
+        actualVal: res.actualVal,
+        elapsed: res.elapsed
+      });
     }
   };
 
@@ -325,11 +337,22 @@ export function CodingRepLab({ repData, onExecuteCode, onCompleteRep, pyodideRea
                   &gt; {result.stdout}
                 </div>
               )}
-              <p className="text-xs text-emerald-100/90">
-                {lang === 'es' 
-                  ? <>La variable objetivo <code>{testVar}</code> se evaluó a <code>{result.actualVal}</code>. ¡Memoria muscular registrada!</>
-                  : <>Target variable <code>{testVar}</code> evaluated to <code>{result.actualVal}</code>. Muscle memory rep logged!</>}
-              </p>
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
+                <p className="text-xs text-emerald-100/90">
+                  {lang === 'es' 
+                    ? <>La variable objetivo <code>{testVar}</code> se evaluó a <code>{result.actualVal}</code>. ¡Memoria muscular registrada!</>
+                    : <>Target variable <code>{testVar}</code> evaluated to <code>{result.actualVal}</code>. Muscle memory rep logged!</>}
+                </p>
+                {onViewRepLog && (
+                  <button
+                    onClick={onViewRepLog}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-200 hover:text-white bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/40 px-2 py-0.5 rounded transition-all"
+                  >
+                    <span>📊</span>
+                    <span>{lang === 'es' ? 'Ver Registro de Reps' : 'View Workout Log'}</span>
+                  </button>
+                )}
+              </div>
             </div>
           ) : (
             <div className="p-3.5 rounded-xl bg-rose-500/15 border-2 border-rose-500/40 space-y-2">

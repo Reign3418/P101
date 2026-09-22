@@ -16,6 +16,8 @@ export function Header({
   lang = 'en',
   onToggleLang,
   t,
+  onOpenStats,
+  activeView = 'chapters'
 }) {
   const [voicePickerOpen, setVoicePickerOpen] = useState(false);
   const pickerRef = useRef(null);
@@ -205,6 +207,22 @@ export function Header({
             </div>
           )}
         </div>
+
+        {/* Stats button */}
+        {onOpenStats && (
+          <button
+            onClick={onOpenStats}
+            className={`flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg transition-all font-medium border ${
+              activeView === 'stats'
+                ? 'bg-blue-600 text-white font-bold border-blue-400 shadow-sm'
+                : 'bg-slate-800 hover:bg-slate-700 text-blue-300 border-slate-700'
+            }`}
+            title={t ? t('stats') : 'Stats & Analytics'}
+          >
+            <span>📊</span>
+            <span className="hidden sm:inline text-[11px] font-semibold">{t ? t('stats') : 'Stats'}</span>
+          </button>
+        )}
 
         {/* White Paper button */}
         <button
