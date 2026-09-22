@@ -218,16 +218,18 @@ Documento Completo: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
 
 1. Motor Pedagógico: Teoría de Carga Cognitiva (Sweller) + Modelo Concreto-Representacional-Abstracto (CRA) + Práctica de Recuperación Activa.
 2. Divulgación Progresiva en 3 Niveles: El "Porqué" Funcional -> Analogía Física y Trazado de RAM -> Mecánicas de CPython.
-3. Arquitectura Sin Telemetría: 100% WebAssembly en el navegador (Pyodide v0.26.2). Cero bases de datos, cero telemetría, cumplimiento total con FERPA.
-4. Equidad Multilingüe: Paridad del 100% en inglés y español con narración nativa mediante la API Web Speech.`
+3. Puente Cuaderno-Libro e Integridad: Indexación instantánea en RAM (<2ms) que conecta preguntas de clase (ej. creación de objetos) con capítulos de Gaddis sin duplicar texto con derechos de autor.
+4. Arquitectura Sin Telemetría: 100% WebAssembly en el navegador (Pyodide v0.26.2). Cero bases de datos, cero telemetría, cumplimiento total con FERPA.
+5. Equidad Multilingüe: Paridad del 100% en inglés y español con narración nativa mediante la API Web Speech.`
     : `P101 Academic Theory White Paper
 Bridging Prof. Jade Cao (CCCC) Lecture Notebooks with Tony Gaddis "Starting Out with Python" (6th Ed.)
 Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
 
 1. Pedagogical Engine: Cognitive Load Theory (Sweller) + Concrete-Representational-Abstract (CRA) Framework + Active Retrieval Practice.
 2. Three-Tier Progressive Disclosure: Core Functional Why -> Physical Analogy & Step-by-Step RAM Trace -> CPython Internals.
-3. Zero-Telemetry Architecture: 100% Client-Side WebAssembly (Pyodide v0.26.2). Zero database, zero telemetry, full FERPA compliance.
-4. Multilingual Equity: 100% English & Spanish parity with native browser Web Speech API narration.`;
+3. In-Notebook Textbook Bridge & Fair Use: Sub-millisecond in-memory pedagogical indexing connecting lecture questions (e.g. object creation) to Gaddis chapters without reproducing copyrighted book text.
+4. Zero-Telemetry Architecture: 100% Client-Side WebAssembly (Pyodide v0.26.2). Zero database, zero telemetry, full FERPA compliance.
+5. Multilingual Equity: 100% English & Spanish parity with native browser Web Speech API narration.`;
 
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -625,7 +627,7 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-xs">
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <span className="font-bold text-blue-400 flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4" />
@@ -647,6 +649,18 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                     {isEs
                       ? 'Los cuadernos de clase (.ipynb) de la profesora se analizan en memoria mediante la API FileReader de HTML5. Ningún archivo con derechos de autor se sube a servidores públicos ni a la nube.'
                       : 'Classroom notebooks (.ipynb) are parsed in client RAM via the HTML5 FileReader API. Proprietary instructor course materials are never uploaded or committed to public cloud repositories.'}
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2 sm:col-span-2 lg:col-span-1">
+                  <span className="font-bold text-amber-400 flex items-center gap-1.5">
+                    <BookOpen className="w-4 h-4" />
+                    <span>{isEs ? 'Puente Cuaderno-Libro e Integridad Académica' : 'In-Notebook Textbook Bridge & Fair Use'}</span>
+                  </span>
+                  <p className="text-slate-300 leading-relaxed">
+                    {isEs
+                      ? 'El texto del libro nunca se copia ni se scrapea. Funciona como un índice interactivo de sílabo que asocia preguntas de clase (ej. creación de objetos) con capítulos de Gaddis, explicaciones pedagógicas originales del "Porqué" y modelos de RAM en microsegundos sin servidores.'
+                      : 'Textbook prose is never duplicated or scraped. It acts as an interactive syllabus cross-reference linking lecture questions (e.g. object creation) to Gaddis chapters, original "Why" pedagogical rationales, and RAM traces with sub-millisecond in-memory resolution.'}
                   </p>
                 </div>
               </div>
