@@ -54,6 +54,7 @@ export function StatsDashboard({
   completedSections = {},
   onJumpToModule,
   onBackToCurriculum,
+  onOpenNotebookLab,
   onResetStats,
   t,
   lang = 'en'
@@ -188,6 +189,18 @@ export function StatsDashboard({
           >
             <RotateCcw className="w-4 h-4" />
           </button>
+
+          {/* Jump to BYOD Notebook Lab */}
+          {onOpenNotebookLab && (
+            <button
+              onClick={onOpenNotebookLab}
+              title={isEs ? 'Ir al Laboratorio de Cuadernos' : 'Go to Notebook Lab (BYOD)'}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-purple-950/40 hover:bg-purple-900/50 text-purple-200 border border-purple-500/30 hover:border-purple-400 transition-colors text-xs font-semibold"
+            >
+              <span>📓</span>
+              <span className="hidden sm:inline">{isEs ? 'Cuadernos' : 'Notebook Lab'}</span>
+            </button>
+          )}
         </div>
       </div>
 

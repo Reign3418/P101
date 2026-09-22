@@ -51,7 +51,7 @@ export function Sidebar({
               <h2 className="text-sm font-extrabold text-white tracking-wide">
                 P101 {t ? t('mastery') : 'Mastery'}
               </h2>
-              <span className="text-[10px] text-slate-400 font-mono">Tony Gaddis &amp; Prof. Cao</span>
+              <span className="text-[10px] text-slate-400 font-mono">Tony Gaddis & Prof. Cao</span>
             </div>
           </div>
           <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">

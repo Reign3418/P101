@@ -251,61 +251,63 @@ export default function App() {
         totalReps={repLog.length}
       />
 
-      {/* Main View: Either Notebook Viewer, Stats Dashboard, or Standard Chapters */}
-      {activeView === 'notebook' ? (
-        <NotebookViewer
-          notebooks={importedNotebooks}
-          activeNotebookId={activeNotebookId}
-          onSelectNotebook={handleSelectNotebook}
-          onAddNotebook={handleAddNotebook}
-          onDeleteNotebook={handleDeleteNotebook}
-          onExecuteCode={executeCode}
+      {/* Right Panel: Header always on top, content below */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden">
+        {/* Global Header — always visible across all views */}
+        <Header
+          activeChapter={activeChapter}
+          totalChapters={localizedChapters.length}
+          sections={activeChapter.sections}
+          onOpenCitation={() => setIsCitationOpen(true)}
+          onOpenWhitePaper={() => setIsWhitePaperOpen(true)}
+          onOpenStats={() => setActiveView('stats')}
+          activeView={activeView}
+          isMuted={isMuted}
+          onToggleMute={toggleMute}
+          isSpeaking={isSpeaking}
+          voices={voices}
+          selectedVoiceName={selectedVoiceName}
+          onSelectVoice={selectVoice}
+          activeVoice={activeVoice}
           pyodideReady={pyodideReady}
-          t={t}
           lang={lang}
-        />
-      ) : activeView === 'stats' ? (
-        <StatsDashboard
-          stats={stats}
-          sessionSeconds={sessionSeconds}
-          repLog={repLog}
-          chapters={localizedChapters}
-          completedSections={completedSections}
-          onJumpToModule={(chNum) => {
-            setActiveChapterNum(chNum);
-            setActiveView('chapters');
-          }}
-          onBackToCurriculum={() => setActiveView('chapters')}
-          onResetStats={resetStats}
+          onToggleLang={setLang}
           t={t}
-          lang={lang}
         />
-      ) : (
-        /* Main Study Area */
-        <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950">
-          <Header
-            activeChapter={activeChapter}
-            totalChapters={localizedChapters.length}
-            sections={activeChapter.sections}
-            onOpenCitation={() => setIsCitationOpen(true)}
-            onOpenWhitePaper={() => setIsWhitePaperOpen(true)}
-            onOpenStats={() => setActiveView('stats')}
-            activeView={activeView}
-            isMuted={isMuted}
-            onToggleMute={toggleMute}
-            isSpeaking={isSpeaking}
-            voices={voices}
-            selectedVoiceName={selectedVoiceName}
-            onSelectVoice={selectVoice}
-            activeVoice={activeVoice}
-            pyodideReady={pyodideReady}
-            lang={lang}
-            onToggleLang={setLang}
-            t={t}
-          />
 
-          {/* Scrollable Content */}
-          <main className="flex-1 overflow-y-auto custom-scroll p-4 md:p-8 space-y-8">
+        {/* Main View: Either Notebook Viewer, Stats Dashboard, or Standard Chapters */}
+        {activeView === 'notebook' ? (
+          <NotebookViewer
+            notebooks={importedNotebooks}
+            activeNotebookId={activeNotebookId}
+            onSelectNotebook={handleSelectNotebook}
+            onAddNotebook={handleAddNotebook}
+            onDeleteNotebook={handleDeleteNotebook}
+            onExecuteCode={executeCode}
+            pyodideReady={pyodideReady}
+            t={t}
+            lang={lang}
+          />
+        ) : activeView === 'stats' ? (
+          <StatsDashboard
+            stats={stats}
+            sessionSeconds={sessionSeconds}
+            repLog={repLog}
+            chapters={localizedChapters}
+            completedSections={completedSections}
+            onJumpToModule={(chNum) => {
+              setActiveChapterNum(chNum);
+              setActiveView('chapters');
+            }}
+            onBackToCurriculum={() => setActiveView('chapters')}
+            onOpenNotebookLab={handleOpenNotebookLab}
+            onResetStats={resetStats}
+            t={t}
+            lang={lang}
+          />
+        ) : (
+          /* Main Study Area */
+          <main className="flex-1 overflow-y-auto custom-scroll p-4 md:p-8 space-y-8 bg-slate-950">
             {/* Chapter Banner */}
             <div className="bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-purple-900/20 border border-blue-500/20 rounded-2xl p-6 shadow-xl">
               <div className="flex items-center gap-4">
@@ -427,8 +429,8 @@ export default function App() {
               })}
             </div>
           </main>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Academic Citation Modal */}
       <CitationModal

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 
 export function usePyodide() {
   const [isReady, setIsReady] = useState(false);

@@ -337,11 +337,18 @@ export function NotebookViewer({
 
   const handleAddCodeCell = () => {
     if (!activeNotebook) return;
-    const newCellIndex = activeNotebook.cells.length;
-    activeNotebook.cells.push({
+    // Build an updated notebook with the new cell immutably (no direct mutation)
+    const newCell = {
       cell_type: 'code',
       source: ['# Write your Python code here...\n']
-    });
+    };
+    const updatedNotebook = {
+      ...activeNotebook,
+      cells: [...activeNotebook.cells, newCell]
+    };
+    const newCellIndex = updatedNotebook.cells.length - 1;
+    // Persist through parent so React state stays consistent
+    onAddNotebook(updatedNotebook);
     setCellCodes(prev => ({
       ...prev,
       [newCellIndex]: '# Write your Python code here...\n'
@@ -355,28 +362,35 @@ export function NotebookViewer({
     }));
   };
 
-  const scaffoldStats = useMemo(() => {
-    if (!activeNotebook?.cells) return { total: 0, completed: 0, inProgress: 0 };
-    let total = 0;
-    let completed = 0;
-    let inProgress = 0;
+  // Memoize ALL per-cell scaffold analysis in a single pass.
+  // The render loop does a cheap O(1) map lookup instead of re-running the heuristic engine
+  // on every keypress or state update.
+  const scaffoldData = useMemo(() => {
+    const cellScaffolds = {}; // idx → scaffold result
+    let total = 0, completed = 0, inProgress = 0;
 
-    activeNotebook.cells.forEach((cell, idx) => {
-      if (cell.cell_type === 'code') {
-        const orig = formatSource(cell.source);
-        const curr = cellCodes[idx] !== undefined ? cellCodes[idx] : orig;
-        const out = cellOutputs[idx];
-        const sc = analyzeCellScaffolding(orig, curr, out);
-        if (sc.isScaffolded) {
-          total++;
-          if (sc.state === 'completed') completed++;
-          else if (sc.state === 'in_progress') inProgress++;
+    if (activeNotebook?.cells) {
+      activeNotebook.cells.forEach((cell, idx) => {
+        if (cell.cell_type === 'code') {
+          const orig = formatSource(cell.source);
+          const curr = cellCodes[idx] !== undefined ? cellCodes[idx] : orig;
+          const out = cellOutputs[idx];
+          const sc = analyzeCellScaffolding(orig, curr, out);
+          cellScaffolds[idx] = sc;
+          if (sc.isScaffolded) {
+            total++;
+            if (sc.state === 'completed') completed++;
+            else if (sc.state === 'in_progress') inProgress++;
+          }
         }
-      }
-    });
+      });
+    }
 
-    return { total, completed, inProgress };
+    return { cellScaffolds, stats: { total, completed, inProgress } };
   }, [activeNotebook, cellCodes, cellOutputs]);
+
+  // Convenience aliases for backward compatibility with existing render code
+  const scaffoldStats = scaffoldData.stats;
 
   const isModifiedCount = activeNotebook?.cells
     ? Object.keys(cellCodes).filter(idx => {
@@ -609,7 +623,9 @@ export function NotebookViewer({
                   const originalCode = formatSource(cell.source);
                   const currentCode = cellCodes[idx] !== undefined ? cellCodes[idx] : originalCode;
                   const isModified = currentCode !== originalCode;
-                  const scaffold = analyzeCellScaffolding(originalCode, currentCode, output);
+                  // Use the memoized scaffold analysis (computed once per state change, not per render)
+                  const scaffold = scaffoldData.cellScaffolds[idx] ||
+                    analyzeCellScaffolding(originalCode, currentCode, output);
 
                   return (
                     <div 

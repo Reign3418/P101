@@ -186,10 +186,10 @@ export function WhitePaperModal({ isOpen, onClose, t, lang = 'en', onToggleLang 
   const isEs = currentLang === 'es';
 
   const handleLangChange = (targetLang) => {
+    // Only update the modal's internal language — do NOT propagate to the global app.
+    // This lets a Spanish-speaking student read the White Paper in English (e.g. to share
+    // with an English-speaking professor) without flipping the entire curriculum to English.
     setModalLang(targetLang);
-    if (onToggleLang) {
-      onToggleLang(targetLang);
-    }
   };
 
   const handleCopySummary = () => {

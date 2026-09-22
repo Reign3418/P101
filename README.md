@@ -1,56 +1,117 @@
-# P101: Python Deliberate Practice & Study Portal
+# P101 — Python Mastery Portal
 
-> **Interactive Study Portal, Audio Explanations & Deliberate Practice Reps Gym**  
-> Curriculum structured around Tony Gaddis's *Starting Out with Python (6th Edition)*.
+> Built for Prof. Jade Cao's Python course at Central Carolina Community College (CCCC).  
+> Bridges her 9 lecture notebooks with Tony Gaddis's *Starting Out with Python* (6th Ed.).
 
----
-
-## 🌐 Live Web Portal (GitHub Pages)
-
-Access the live interactive portal from any device (phone, tablet, laptop, or desktop):
-
-👉 **[https://reign3418.github.io/P101/](https://reign3418.github.io/P101/)**
-
-### What's Inside the Portal:
-- **📓 Bring Your Own Notebook (BYOD) Lab**: Drag-and-drop any Jupyter Notebook (`.ipynb`) from your college portal. Parses cells client-side and runs Python code in your browser via WebAssembly (Pyodide).
-- **🛡️ 100% Client-Side Privacy & Compliance**: Zero files or student data are ever uploaded to a remote server. Fully compliant with Community College intellectual property policies and academic honor codes.
-- **10 Core Curriculum Modules**: Synchronized with Prof. Jade Cao's lecture progression (Variables, Lists, Dictionaries, While Loops, Functions) and Tony Gaddis's advanced chapters.
-- **The "Why" Under the Hood**: Deep architectural breakdowns explaining *why* the CPU, memory, and Python interpreter behave the way they do.
-- **Interactive Checkpoints & Quizzes**: Quick concept checks with a **"Take Me to Review"** spotlight feature that auto-scrolls to the underlying concept and reads it aloud with text-to-speech.
-- **Common Traps & Pitfalls**: Warning callouts for classic beginner bugs (e.g. string concatenation vs addition, floating-point rounding, accumulator reset bugs).
-- **In-Browser Coding Reps**: Hands-on coding exercises right on the page.
+**Live site → https://reign3418.github.io/P101/**
 
 ---
 
-## 🏋️ Local Deliberate Practice Reps Gym (`python_reps.py`)
+## What This Is
 
-For true programming muscle memory, this repository includes a terminal-based deliberate practice workout gym:
+P101 is a bilingual (English / Spanish) Python learning portal that runs 100% in the browser with zero telemetry and zero server-side data storage. All Python code executes via **Pyodide WebAssembly** — no backend required. It is fully FERPA-compliant.
 
-- **Infinite Randomized Drills**: Inputs, numbers, strings, and parameters change dynamically every time you run a drill. No memorizing answers!
-- **Automated Test Battery**: Runs 5 to 10 automated test cases (including zero, negative, boundary, and edge cases) against your code in real time.
-- **Error Diagnostics & The Why**: When code fails, it pinpoints the line, explains what happened, and provides an **Efficiency Pro-Tip** on how to write it idiomatically.
+---
 
-### How to Run Locally:
-```bash
-# Clone the repository
-git clone https://github.com/Reign3418/P101.git
-cd P101
+## Features
 
-# Run the Reps Gym
-python python_reps.py
+### 📚 Curriculum Modules 1–5
+Five structured learning modules aligned to Prof. Cao's lectures and the Gaddis textbook:
+
+| Module | Topic |
+|--------|-------|
+| 1 | Variables, Data Types & F-Strings |
+| 2.1 | Intro to Lists |
+| 2.2 | For Loops & Tuples |
+| 3.1 | If / Elif / Else Decision Structures |
+| 3.2 | Boolean Logic & While Loops |
+| 4 | Functions & Scope |
+| 5 | Dictionaries & File I/O |
+
+Each section includes:
+- **💡 The Why** — pedagogical explanation with real-world analogies, RAM trace, and CPython internals
+- **Key Mechanics** — live runnable code example via Pyodide
+- **🏋️ Muscle Memory Rep Lab** — randomized interactive coding exercises with instant grading
+- **⚠️ Common Trap** — pitfall warnings
+- **❓ Checkpoint Quiz** — multi-choice quiz with automatic review flagging
+
+### 📓 Notebook Lab (BYOD)
+- Import any `.ipynb` Jupyter notebook (drag & drop or file browser)
+- Code cells are fully interactive textareas — edit, run with **Shift+Enter**, reset, or copy
+- **🎯 Scaffolded Learning Detection** — automatically identifies `# TODO`, `raise NotImplementedError`, empty string/zero placeholders and badges each cell as:
+  - 🟣 `Starter Template` — not yet started
+  - 🟡 `In Progress` (pulsing) — user has started editing
+  - 🟢 `Completed ✓` — exercise satisfied
+- Collapsible **Learning Goals** accordion extracts TODO items into a numbered checklist
+- Run All Cells button + Add Scratchpad Cell button
+- Filename truncation with tooltip for long filenames
+
+### 📊 Stats & Analytics Dashboard
+- Live session timer with idle protection (pauses after 2 min inactivity)
+- Per-module engagement: visits, time spent, reps done, quiz passes
+- **Curriculum Balance Matrix** — flags never-touched and barely-touched modules
+- **Muscle Memory Rep Log** — every successful Pyodide execution logged with timestamp and elapsed time
+- Jump to Notebook Lab directly from the stats page
+
+### 🏛️ Academic White Paper
+- Full bilingual (EN/ES) academic white paper on the pedagogical theory behind P101
+- Covers: Cognitive Load Theory (Sweller), CRA scaffolding, zero-telemetry architecture, multilingual equity (UDL)
+- In-modal language switch independent of the app language
+- Direct link button to the canonical [WHITE_PAPER.md](https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md)
+
+### 🌐 Bilingual Support (EN / ES)
+- Full English ↔ Spanish language parity for all UI strings
+- Voice narration via Web Speech API in both languages
+- Language switch in global header — always accessible regardless of active view
+
+### 🔒 Zero Telemetry
+- No analytics, no cookies, no remote data storage
+- All session stats stored in `localStorage` on the user's device only
+- `localStorage` keys: `p101_learning_stats`, `p101_rep_log`, `p101_lang`, `p101_user_notebooks`, `py_completed_sections`, `py_review_queue`
+
+---
+
+## Citations
+
+**Cao, Jade.** Python Programming Lecture Notebooks (Modules 1.0–5.2). Central Carolina Community College (CCCC).
+
+**Gaddis, Tony.** *Starting Out with Python.* 6th ed., Pearson, 2024.
+
+---
+
+## Architecture
+
+| Layer | Technology |
+|-------|------------|
+| Framework | React 18 + Vite |
+| Styling | Tailwind CSS |
+| Python Runtime | Pyodide v0.26.2 (WebAssembly) |
+| Voice | Web Speech API |
+| Persistence | localStorage |
+| Deployment | GitHub Pages (`gh-pages` branch) |
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full technical design.
+
+---
+
+## Local Development
+
+```powershell
+npm install
+npm run dev
 ```
-*(On Windows, you can also simply double-click `START_REPS_GYM.bat`)*
 
----
+## Deploy to GitHub Pages
 
-## 📜 Academic Attribution & Course Citations
-
-This educational repository and study portal is an independent learning companion structured around and aligned with:
-
-- **Course Curriculum & Lecture Series**:  
-  **Prof. Jade Cao**, Central Carolina Community College (CCCC).  
-  *Python Programming Lecture Series (Modules 1.0 – 5.2: Variables, Lists, Dictionaries, While Loops, Functions)*.
-- **Companion Textbook Reference**:  
-  Gaddis, Tony. *Starting Out with Python* (6th ed.). Pearson, 2024.
-
-*All explanations, interactive sandboxes, randomized coding reps, and "Why" breakdowns are original instructional synthesis created for deliberate student practice and mastery.*
+```powershell
+npm run build
+cd dist
+git init -b gh-pages
+git config user.name "Reign3418"
+git remote add origin https://github.com/Reign3418/P101.git
+git add .
+git commit -m "deploy: ..."
+git push -f origin gh-pages
+cd ..
+Remove-Item -Recurse -Force dist\.git
+```

@@ -22,7 +22,11 @@ export function ConceptBox({ section, onRunCode, t, lang = 'en' }) {
           setIsRunning(false);
           return;
         } else if (res && res.error) {
-          setTerminalOutput(`Error: ${res.error}`);
+          // Safely extract readable string — res.error can be an object or string
+          const errMsg = typeof res.error === 'string'
+            ? res.error
+            : (res.error?.summary || res.error?.type || res.error?.message || JSON.stringify(res.error));
+          setTerminalOutput(`Error: ${errMsg}`);
           setIsRunning(false);
           return;
         }
