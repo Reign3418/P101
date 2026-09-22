@@ -198,17 +198,25 @@ Voice narration enhances comprehension for auditory learners and students with r
 - Zero audio files are downloaded from third-party paid voice servers (no ElevenLabs, no AWS Polly), ensuring zero cloud bills, zero latency, and zero voice-data scraping.
 - Full bilingual language detection: switches seamlessly between English (`en-US`) and Spanish (`es-ES`, `es-MX`, `es-US`).
 
-### 4.6 Peer Collaboration, Data Science Reference Toolkit & Academic Attribution
+### 4.6 Peer Collaboration, Data Science Reference Toolkit & Legal Compliance Framework
 In collaborative academic environments, peer sharing accelerates collective mastery. During the course, classmate **Sarah Cox** shared a curated set of Data Science reference cheat sheets covering **NumPy Basics**, **Matplotlib 3.10 Figure Anatomy & APIs**, and **SciPy Linear Algebra**, which **Prof. Jade Cao** distributed to the class:
 
-1. **Copyright & Fair-Use Engineering**:
-   - Rather than redistributing raw third-party branded PDF binaries on public repositories (which would violate publisher licensing and bloat git history), the directory `student/` is excluded via `.gitignore`.
-   - The underlying mathematical operations, matrix decompositions, and open-source plotting patterns were synthesized into an original, 100% client-side interactive reference dataset (`cheatSheetsData.js`).
-2. **Interactive Pedagogical Integration**:
-   - Each method includes concrete explanations, dual-language descriptions (EN/ES), copyable code snippets, and instant **Pyodide WebAssembly** execution with dynamic package auto-loading (`loadPackagesFromImports`).
-   - Students can test matrix inversions (`linalg.inv`), equation solvers ($Ax = b$), and scatter plots in real-time without leaving their browser.
-3. **Formal Peer Recognition & Citation**:
-   - In adherence to academic honesty and intellectual provenance, Sarah Cox is formally credited across the platform: in the Cheat Sheet header banner, the Citation Modal, and the course documentation.
+1. **Dual-Mode Delivery Architecture (Visual PDF + Interactive Drills)**:
+   - **Tier 1 (Original Full PDF Viewer)**: An in-modal, responsive embedded viewer (`<iframe>`) renders the complete, authentic graphic layouts, colormap palettes, and visual figure anatomies directly from `public/cheatsheets/`, equipped with 1-click **Open in New Tab** and **Download PDF** controls.
+   - **Tier 2 (Interactive Code Playground)**: Synthesizes core formulas into an original, 100% client-side dataset (`cheatSheetsData.js`) with instant search filtering, 1-click code copying, and live **Pyodide WebAssembly** execution with dynamic package autoloading (`loadPackagesFromImports`).
+
+2. **Copyright, Fair Use & Licensing Compliance**:
+   - **Matplotlib 3.10 Cheat Sheet**: Authored by Nicolas P. Rougier and the Matplotlib Development Team; released under the permissive open-source **BSD 3-Clause / CC-BY (Creative Commons Attribution 4.0)** license, which explicitly permits academic distribution, hosting, and embedding.
+   - **DataCamp Reference Sheets (NumPy Basics & SciPy Linear Algebra)**: Hosted and utilized under **Educational Fair Use (17 U.S.C. § 107)**. DataCamp distributes these materials freely to the public for non-commercial educational study. P101 operates strictly as an unmonetized, student-facing academic tool, preserving all original DataCamp logos, trademarks, and links without commercial alteration.
+   - **Non-Copyrightability of APIs & Mathematical Logic**: As affirmed by the U.S. Supreme Court in *Google LLC v. Oracle America, Inc.* (2021), programming language APIs, method names (`linalg.solve`, `np.linspace`, `ax.plot`), and mathematical algorithms cannot be copyrighted. All interactive exercises in `cheatSheetsData.js` represent original, transformative educational commentary.
+
+3. **Separation of Public Reference vs. Private Course Materials**:
+   - A critical compliance distinction is maintained between **public educational reference aids** (open cheat sheets) and **proprietary institutional coursework**:
+     - Prof. Jade Cao’s classroom lecture notebooks (`.ipynb`), assignments, and individual student submissions remain **strictly untracked** via `.gitignore` and are parsed exclusively in local client RAM via the HTML5 `FileReader` API.
+     - Public reference cheat sheets are served statically to enhance student workflow without exposing any institutional intellectual property or student records.
+
+4. **Scholarly Provenance & Academic Honesty**:
+   - Adhering to academic honesty standards, **Sarah Cox** is formally credited across the platform: in the Cheat Sheet header banner (with a 1-click citation copy button), the Citation Modal, the README, and this white paper’s formal bibliography.
 
 ---
 

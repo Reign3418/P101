@@ -667,12 +667,12 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <span className="font-bold text-emerald-400 flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    <span>{isEs ? 'Hojas de Referencia y Colaboración de Pares' : 'Data Science Cheat Sheets & Peer Shares'}</span>
+                    <span>{isEs ? 'Hojas de Referencia, Visor de PDFs y Uso Justo' : 'Cheat Sheets, Full PDF Viewer & Fair Use'}</span>
                   </span>
                   <p className="text-slate-300 leading-relaxed">
                     {isEs
-                      ? 'Las hojas de referencia de NumPy, Matplotlib y SciPy compartidas por la compañera Sarah Cox y distribuidas por la Prof. Jade Cao se sintetizaron en un kit interactivo ejecutable en Pyodide, excluyendo los PDFs de Git para salvaguardar licencias y derechos de autor.'
-                      : 'NumPy, Matplotlib, and SciPy reference sheets shared by classmate Sarah Cox and distributed by Prof. Jade Cao were synthesized into an interactive Pyodide toolkit, excluding raw PDFs from Git to preserve copyright and academic integrity.'}
+                      ? 'Las hojas de referencia compartidas por Sarah Cox y distribuidas por la Prof. Jade Cao cuentan con visor de PDFs integrado y prácticas en Pyodide. Matplotlib se acoge a licencia de código abierto (BSD/CC-BY) y DataCamp a Uso Justo Educativo (17 U.S.C. § 107) con atribución académica completa.'
+                      : 'Reference sheets shared by Sarah Cox and distributed by Prof. Jade Cao feature an embedded in-app PDF viewer and interactive Pyodide drills. Matplotlib is licensed open-source (BSD/CC-BY) and DataCamp operates under Educational Fair Use (17 U.S.C. § 107) with complete academic attribution.'}
                   </p>
                 </div>
               </div>
