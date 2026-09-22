@@ -83,7 +83,17 @@ export const TRANSLATIONS = {
     formalAttributions: "2. Formal Course & Textbook Attributions:",
     ccccLectureSeries: "CCCC Lecture Series:",
     textbookReference: "Textbook Reference:",
-    gotItThanks: "Got it, thanks!"
+    gotItThanks: "Got it, thanks!",
+
+    // Review Modal
+    reviewModalTitle: "Concepts Flagged for Review",
+    reviewModalSubtitle: "Topics flagged during checkpoint quizzes so you can reinforce muscle memory.",
+    jumpToSection: "Go to Section & Review 🚀",
+    markReviewed: "Mark Reviewed ✓",
+    clearAllReviews: "Clear All from Review Queue",
+    noReviews: "Great job! All checkpoint concepts are mastered and your review queue is clear.",
+    whyFlagged: "Checkpoint quiz missed — review the concept and retake the quiz to clear.",
+    close: "Close"
   },
   es: {
     // Header & Meta
@@ -169,6 +179,16 @@ export const TRANSLATIONS = {
     formalAttributions: "2. Atribuciones Formales Académicas:",
     ccccLectureSeries: "Serie de Clases CCCC:",
     textbookReference: "Referencia del Libro:",
-    gotItThanks: "¡Entendido, gracias!"
+    gotItThanks: "¡Entendido, gracias!",
+
+    // Review Modal
+    reviewModalTitle: "Conceptos Marcados para Repaso",
+    reviewModalSubtitle: "Temas marcados durante los cuestionarios para que puedas reforzar la memoria muscular.",
+    jumpToSection: "Ir a la Sección y Repasar 🚀",
+    markReviewed: "Marcar como Repasado ✓",
+    clearAllReviews: "Limpiar Cola de Repaso",
+    noReviews: "¡Excelente! Todos los conceptos están dominados y tu cola de repaso está limpia.",
+    whyFlagged: "Cuestionario fallado — repasa el concepto y repite el cuestionario para superarlo.",
+    close: "Cerrar"
   }
 };

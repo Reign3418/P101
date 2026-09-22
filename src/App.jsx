@@ -12,6 +12,7 @@ import { CodingRepLab } from './components/CodingRepLab.jsx';
 import { QuizBox } from './components/QuizBox.jsx';
 import { CitationModal } from './components/CitationModal.jsx';
 import { NotebookViewer } from './components/NotebookViewer.jsx';
+import { ReviewModal } from './components/ReviewModal.jsx';
 
 export default function App() {
   const [lang, setLang] = useState(() => {
@@ -47,6 +48,7 @@ export default function App() {
     }
   });
   const [isCitationOpen, setIsCitationOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   // Internationalization helper
   const t = (key) => {
@@ -152,14 +154,61 @@ export default function App() {
     speak(text, { rate: 0.95, pitch: 1.02 });
   };
 
-  const handleFilterReviewQueue = () => {
-    const queueIds = Object.keys(reviewQueue);
-    if (queueIds.length === 0) return;
-    const targetChapter = localizedChapters.find(ch => ch.sections.some(s => queueIds.includes(s.id)));
-    if (targetChapter) {
-      setActiveChapterNum(targetChapter.num);
-      setActiveView('chapters');
+  const reviewItems = Object.keys(reviewQueue).map(id => {
+    for (const ch of localizedChapters) {
+      const sec = ch.sections.find(s => s.id === id);
+      if (sec) {
+        return {
+          id,
+          chapterNum: ch.num,
+          chapterTitle: ch.title,
+          sectionNum: sec.num,
+          sectionTitle: sec.title,
+          why: sec.why
+        };
+      }
     }
+    return { id, isOrphaned: true };
+  });
+
+  const handleFilterReviewQueue = () => {
+    setIsReviewModalOpen(true);
+  };
+
+  const handleDismissReviewItem = (secId) => {
+    setReviewQueue(prev => {
+      const next = { ...prev };
+      delete next[secId];
+      return next;
+    });
+  };
+
+  const handleClearAllReviews = () => {
+    setReviewQueue({});
+  };
+
+  const handleJumpToReviewSection = (chapterNum, secId) => {
+    setIsReviewModalOpen(false);
+    setActiveView('chapters');
+    setActiveChapterNum(chapterNum);
+
+    setTimeout(() => {
+      const el = document.getElementById(`sec-${secId}`) || document.getElementById(`why-box-${secId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('highlight-focus');
+        setTimeout(() => el.classList.remove('highlight-focus'), 4500);
+
+        const ch = localizedChapters.find(c => c.num === chapterNum);
+        const sec = ch?.sections.find(s => s.id === secId);
+        if (sec && !isMuted) {
+          const intro = lang === 'es'
+            ? "Aquí está el repaso de este concepto: "
+            : "Reviewing concept: ";
+          speak(intro + sec.why, { rate: 0.92 });
+        }
+      }
+    }, 300);
   };
 
   const handleResetProgress = () => {
@@ -339,6 +388,18 @@ export default function App() {
       <CitationModal
         isOpen={isCitationOpen}
         onClose={() => setIsCitationOpen(false)}
+        t={t}
+        lang={lang}
+      />
+
+      {/* Review Queue Modal */}
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        reviewItems={reviewItems}
+        onJumpToSection={handleJumpToReviewSection}
+        onDismissItem={handleDismissReviewItem}
+        onClearAll={handleClearAllReviews}
         t={t}
         lang={lang}
       />
