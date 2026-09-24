@@ -1478,6 +1478,158 @@ export const CHAPTERS_DATA = [
   },
   {
     "num": 10,
+    "code_module": "Module 6.2",
+    "title": "Classes, Part 2: Connecting Classes (Inheritance & Composition)",
+    "icon": "🧬",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module6.2_Class2.ipynb",
+    "desc": "Subclasses, super(), method overriding, polymorphism, and the critical design distinction between 'IS A' (Inheritance) and 'HAS A' (Composition).",
+    "sections": [
+      {
+        "id": "10-1",
+        "num": "10.1",
+        "title": "Inheritance, Subclasses & super() (“IS A” Hierarchy)",
+        "why": "Copy-pasting class code creates bugs and duplicate maintenance. Inheritance lets a child class reuse parent logic while specializing new attributes and behaviors.",
+        "concept": "Syntax: `class Child(Parent):`. A child class inherits all parent attributes and methods. `super().__init__(...)` delegates shared setup to the parent on the same instance. Method overriding occurs when a child defines a method with the same name as the parent, providing a specialized implementation (polymorphism).",
+        "code": "class Vehicle:\n    def __init__(self, make, model):\n        self.make = make\n        self.model = model\n    def describe(self):\n        return f'{self.make} {self.model}'\n\nclass ElectricVehicle(Vehicle):\n    def __init__(self, make, model, battery_size):\n        super().__init__(make, model)\n        self.battery_size = battery_size\n    def describe(self):\n        return f'{super().describe()} ({self.battery_size} kWh)'\n\nev = ElectricVehicle('Nissan', 'Leaf', 40)\nprint(ev.describe())",
+        "expected_output": "Nissan Leaf (40 kWh)",
+        "pitfall": "Forgetting that `super()` does NOT create a separate parent object in memory! It configures the EXACT SAME child instance in RAM.",
+        "rep": {
+          "title": "Child Class & super() Rep",
+          "prompt": "Create Vehicle(make, model) with __init__. Create ElectricVehicle(Vehicle) with __init__(self, make, model, battery) that calls super().__init__(make, model) and sets self.battery = battery, plus method battery_info() returning f'{self.make}: {self.battery}kWh'. Instantiate ev = ElectricVehicle('Tesla', 'Model 3', 75). Store ev.battery_info() in 'ev_info'.",
+          "starter": "class Vehicle:\n    def __init__(self, make, model):\n        self.make = make\n        self.model = model\n\nclass ElectricVehicle(Vehicle):\n    def __init__(self, make, model, battery):\n        # TODO: call super().__init__(make, model) and store self.battery\n        pass\n\n    def battery_info(self):\n        # TODO: return f'{self.make}: {self.battery}kWh'\n        pass\n\nev = ElectricVehicle('Tesla', 'Model 3', 75)\nev_info = \nprint(ev_info)",
+          "test_var": "ev_info",
+          "expected_val": "Tesla: 75kWh",
+          "title_es": "Repetición: Clase Hija y super()",
+          "prompt_es": "Crea Vehicle(make, model) con __init__. Crea ElectricVehicle(Vehicle) con __init__(self, make, model, battery) que llame a super().__init__(make, model) y asigne self.battery = battery, más el método battery_info() devolviendo f'{self.make}: {self.battery}kWh'. Instancia ev = ElectricVehicle('Tesla', 'Model 3', 75). Guarda ev.battery_info() en 'ev_info'."
+        },
+        "quiz": {
+          "question": "What happens in RAM when a child class calls `super().__init__(...)`?",
+          "options": [
+            "Python creates a second hidden parent object in a different memory slot",
+            "The parent's __init__ runs directly on the current child instance, attaching parent attributes to the same object",
+            "The child instance is replaced by a parent instance",
+            "Python deletes the child's attributes to make room for parent attributes"
+          ],
+          "answer": 1,
+          "explanation": "`super()` does not create a new object. It executes the parent's constructor on the existing child instance (`self`), binding the parent attributes to that same memory address.",
+          "question_es": "¿Qué ocurre en RAM cuando una clase hija ejecuta `super().__init__(...)`?",
+          "options_es": [
+            "Python crea un segundo objeto padre oculto en una ranura de memoria distinta",
+            "El __init__ del padre se ejecuta directamente sobre la instancia hija actual, vinculando los atributos al mismo objeto",
+            "La instancia hija es reemplazada por una instancia padre",
+            "Python elimina los atributos de la hija para hacer espacio a los del padre"
+          ],
+          "explanation_es": "`super()` no crea un nuevo objeto. Ejecuta el constructor del padre sobre la instancia hija existente (`self`), enlazando los atributos del padre a esa misma dirección de memoria."
+        },
+        "title_es": "Herencia, Subclases y super() (Jerarquía 'ES UN')",
+        "why_es": "Copiar y pegar código entre clases genera errores y mantenimiento duplicado. La herencia permite que una clase hija reutilice la lógica del padre mientras especializa nuevos atributos y comportamientos.",
+        "concept_es": "Sintaxis: `class Child(Parent):`. Una clase hija hereda todos los atributos y métodos del padre. `super().__init__(...)` delega la configuración compartida en la misma instancia. La anulación de métodos ocurre cuando la hija define un método con el mismo nombre que el padre (polimorfismo).",
+        "pitfall_es": "¡Olvidar que `super()` NO crea un objeto padre independiente en memoria! Configura EXACTAMENTE LA MISMA instancia hija en RAM.",
+        "book_ref": {
+          "gaddis_chapter": 11,
+          "gaddis_section": "Sections 11.1 & 11.2",
+          "title": "Introduction to Inheritance & Polymorphism",
+          "explanation": "Gaddis introduces inheritance as an 'is a' relationship where specialized subclasses inherit general attributes and methods from a superclass. He covers super().__init__(), method overriding, and polymorphism, where different child classes respond to the same method call with specialized behaviors.",
+          "explanation_es": "Gaddis presenta la herencia como una relación 'es un' donde las subclases especializadas heredan atributos y métodos generales de una superclase. Explica super().__init__(), la anulación de métodos y el polimorfismo, donde diferentes clases hijas responden a la misma llamada de método con comportamientos especializados."
+        },
+        "breakdown": {
+          "analogy": "Think of a Commercial Driver License (CDL). A CDL IS A Driver License: you still have a name, license number, and standard driving rights (inherited from the base license), but you add specialized endorsements like air brakes or hazardous materials.",
+          "analogy_es": "Imagina una Licencia de Conducir Comercial (CDL). Una CDL ES UNA Licencia de Conducir: conservas tu nombre, número de licencia y derechos estándar (heredados de la base), pero agregas autorizaciones especializadas como frenos de aire o transporte peligroso.",
+          "steps": [
+            "1. Class Declaration: class ElectricVehicle(Vehicle): establishes that ElectricVehicle is a subtype of Vehicle.",
+            "2. Constructor Delegation: super().__init__(make, model) hands the common setup to Vehicle's __init__.",
+            "3. Specialization: self.battery_size = battery_size binds unique electric attributes to the same heap object.",
+            "4. Method Lookup (MRO): When calling ev.describe(), Python searches ElectricVehicle first; if overridden, child executes; if not, parent executes."
+          ],
+          "steps_es": [
+            "1. Declaración: class ElectricVehicle(Vehicle): establece que ElectricVehicle es un subtipo de Vehicle.",
+            "2. Delegación en Constructor: super().__init__(make, model) entrega la inicialización común al __init__ de Vehicle.",
+            "3. Especialización: self.battery_size = battery_size añade los atributos exclusivos al mismo objeto en el heap.",
+            "4. Búsqueda de Métodos (MRO): Al llamar ev.describe(), Python busca en ElectricVehicle primero; si está anulado, ejecuta el de la hija; si no, el del padre."
+          ]
+        },
+        "deep_dive": {
+          "concept": "Method Resolution Order (MRO) & Single Heap Allocation",
+          "detail": "In CPython, an instance of a subclass is a single PyObject struct in RAM. When you inspect an object with type(ev).__mro__, Python returns the exact hierarchy chain (ElectricVehicle -> Vehicle -> object). When ev.describe() is invoked, CPython searches the type dictionaries along this MRO list from left to right, providing zero-overhead polymorphic dispatch.",
+          "detail_es": "En CPython, una instancia de subclase es una única estructura PyObject en RAM. Al inspeccionar con type(ev).__mro__, Python devuelve la cadena jerárquica exacta (ElectricVehicle -> Vehicle -> object). Al llamar a ev.describe(), CPython busca en los diccionarios de tipos a lo largo de este orden MRO de izquierda a derecha, proporcionando despacho polimórfico sin sobrecarga."
+        }
+      },
+      {
+        "id": "10-2",
+        "num": "10.2",
+        "title": "Composition & Objects Working Together (“HAS A” Relationship)",
+        "why": "Not every relationship is inheritance. A Car is not a Battery, and a Library is not a Book. Forcing inheritance where it doesn't fit creates brittle, illogical hierarchies. Composition models real systems by having objects contain and manage other objects.",
+        "concept": "Composition represents a 'HAS A' relationship. Instead of inheriting, a class creates or holds references to instances of other classes as attributes or inside lists/dictionaries (e.g. `self.battery = Battery(77)` or `self.items.append(book)`).",
+        "code": "class Battery:\n    def __init__(self, capacity):\n        self.capacity = capacity\n    def describe(self):\n        return f'{self.capacity} kWh battery'\n\nclass ElectricCar:\n    def __init__(self, make, model, capacity):\n        self.make = make\n        self.model = model\n        self.battery = Battery(capacity)\n\ncar = ElectricCar('Hyundai', 'Ioniq 5', 77)\nprint(f'{car.make} with {car.battery.describe()}')",
+        "expected_output": "Hyundai with 77 kWh battery",
+        "pitfall": "Confusing 'IS A' with 'HAS A'! Always ask: 'Is A a specialized kind of B?' If no, use Composition, not Inheritance. Battery IS NOT a Car; Car HAS A Battery.",
+        "rep": {
+          "title": "Object Composition Rep",
+          "prompt": "Create Book(title). Create Library(name) with self.items = []. Add add_item(item) method that appends item to self.items. Create lib = Library('Campus'). Add Book('Python') and Book('Data'). Store len(lib.items) in 'item_count'.",
+          "starter": "class Book:\n    def __init__(self, title):\n        self.title = title\n\nclass Library:\n    def __init__(self, name):\n        self.name = name\n        self.items = []\n\n    def add_item(self, item):\n        # TODO: append item to self.items\n        pass\n\nlib = Library('Campus')\nlib.add_item(Book('Python'))\nlib.add_item(Book('Data'))\nitem_count = \nprint(item_count)",
+          "test_var": "item_count",
+          "expected_val": 2,
+          "title_es": "Repetición: Composición de Objetos",
+          "prompt_es": "Crea Book(title). Crea Library(name) con self.items = []. Agrega el método add_item(item) que agregue item a self.items. Crea lib = Library('Campus'). Agrega Book('Python') y Book('Data'). Guarda len(lib.items) en 'item_count'."
+        },
+        "quiz": {
+          "question": "Which of the following is the best example of Composition ('HAS A') rather than Inheritance ('IS A')?",
+          "options": [
+            "Dog and Animal",
+            "ElectricVehicle and Vehicle",
+            "Smartphone and Battery",
+            "Manager and Employee"
+          ],
+          "answer": 2,
+          "explanation": "A Smartphone is not a Battery—a Smartphone HAS a Battery! The others are true 'IS A' specialization relationships suited for inheritance.",
+          "question_es": "¿Cuál de los siguientes es el mejor ejemplo de Composición ('TIENE UN') en lugar de Herencia ('ES UN')?",
+          "options_es": [
+            "Perro y Animal",
+            "VehículoEléctrico y Vehículo",
+            "Smartphone y Batería",
+            "Gerente y Empleado"
+          ],
+          "explanation_es": "Un Smartphone no es una Batería; ¡un Smartphone TIENE una Batería! Los demás son verdaderas relaciones 'ES UN' adecuadas para la herencia."
+        },
+        "title_es": "Composición y Objetos Colaborativos (Relación 'TIENE UN')",
+        "why_es": "No todas las relaciones son de herencia. Un Auto no es una Batería, ni una Biblioteca es un Libro. Forzar herencia donde no corresponde crea jerarquías frágiles y confusas. La composición modela sistemas haciendo que los objetos contengan y administren otros objetos.",
+        "concept_es": "La composición representa una relación 'TIENE UN'. En lugar de heredar, una clase crea o almacena referencias a instancias de otras clases como atributos o en listas/diccionarios (ej. `self.battery = Battery(77)` o `self.items.append(book)`).",
+        "pitfall_es": "¡Confundir 'ES UN' con 'TIENE UN'! Pregúntate siempre: '¿A es una versión especializada de B?' Si no, usa Composición, no Herencia. Una Batería NO ES un Auto; un Auto TIENE una Batería.",
+        "book_ref": {
+          "gaddis_chapter": 11,
+          "gaddis_section": "Sections 11.3 & Chapter 10 (Aggregation)",
+          "title": "Object Aggregation & Composition",
+          "explanation": "Gaddis details how real-world software architectures compose complex objects out of simpler building blocks (aggregation/composition). Instead of inheritance, an object holds a reference to another object as an instance attribute.",
+          "explanation_es": "Gaddis detalla cómo el software del mundo real compone objetos complejos a partir de bloques más simples (agregación/composición). En lugar de herencia, un objeto mantiene una referencia a otro objeto como atributo de instancia."
+        },
+        "breakdown": {
+          "analogy": "Building a custom PC. A computer IS NOT a power supply; a computer HAS A power supply, a graphics card, and RAM modules plugged into a motherboard. You can upgrade the power supply without altering the CPU.",
+          "analogy_es": "Armar una PC personalizada. Una computadora NO ES una fuente de poder; una computadora TIENE UNA fuente de poder, placa de video y memoria RAM conectadas a la placa madre. Puedes cambiar la fuente sin alterar el procesador.",
+          "steps": [
+            "1. Standalone Component: Battery is defined independently with its own attributes and methods.",
+            "2. Owner Instantiation: When ElectricCar is created, it calls self.battery = Battery(capacity) inside __init__.",
+            "3. Pointer Linkage: The ElectricCar instance holds a memory address pointing to the independent Battery object in RAM.",
+            "4. Delegation: Calling car.battery.describe() navigates through the reference to trigger Battery's method."
+          ],
+          "steps_es": [
+            "1. Componente Independiente: Battery se define por separado con sus propios atributos y métodos.",
+            "2. Instanciación en Propietario: Al crearse ElectricCar, ejecuta self.battery = Battery(capacity) dentro de __init__.",
+            "3. Enlace por Puntero: La instancia de ElectricCar almacena una dirección de memoria que apunta al objeto Battery en RAM.",
+            "4. Delegación: Al llamar car.battery.describe(), navega por la referencia para ejecutar el método de Battery."
+          ]
+        },
+        "deep_dive": {
+          "concept": "Reference Graph & Memory Pointer Dereferencing",
+          "detail": "When Car contains a Battery, CPython stores a pointer to the Battery's PyObject address within the Car's __dict__. Invoking car.battery.describe() causes the Python virtual machine to perform two pointer lookups in RAM: first dereferencing 'battery' from car, then looking up 'describe' in the Battery class dictionary.",
+          "detail_es": "Cuando Car contiene Battery, CPython almacena un puntero a la dirección PyObject de Battery en el __dict__ de Car. Invocar car.battery.describe() hace que la máquina virtual realice dos búsquedas de punteros en RAM: primero desreferencia 'battery' desde car, luego busca 'describe' en el diccionario de la clase Battery."
+        }
+      }
+    ],
+    "title_es": "Clases, Parte 2: Conexión de Clases (Herencia y Composición)",
+    "desc_es": "Subclases, super(), anulación de métodos, polimorfismo y la distinción de diseño entre 'ES UN' (Herencia) y 'TIENE UN' (Composición)."
+  },
+  {
+    "num": 11,
     "code_module": "Extended Ch 14",
     "title": "Database Programming with SQLite",
     "icon": "🗄️",
@@ -1485,8 +1637,8 @@ export const CHAPTERS_DATA = [
     "desc": "Connecting to SQLite databases, creating tables, parameterized CRUD queries, and preventing SQL injection attacks.",
     "sections": [
       {
-        "id": "10-1",
-        "num": "10.1",
+        "id": "11-1",
+        "num": "11.1",
         "title": "SQLite CRUD & Parameterized Queries",
         "why": "Flat text files can't handle multiple simultaneous users or indexed queries. Relational databases provide structured, indexed, ACID storage.",
         "concept": "`sqlite3.connect()`. `cur.execute()`. Always use `?` placeholders for user data to prevent catastrophic SQL injection attacks. `conn.commit()` saves changes.",
@@ -1516,7 +1668,7 @@ export const CHAPTERS_DATA = [
           "options_es": [
             "Las f-strings son ilegales en módulos SQL de Python",
             "Los marcadores '?' aseguran que la entrada del usuario se trate estrictamente como dato, impidiendo ataques de Inyección SQL",
-            "'?' hace que las consultas se ejecuten más rápido en RAM",
+            "Los signos '?' hacen que las consultas se ejecuten más rápido en RAM",
             "SQL solo acepta signos de interrogación"
           ],
           "explanation_es": "Las consultas parametrizadas tratan las entradas como datos literales, impidiendo que usuarios malintencionados inyecten comandos SQL ejecutables en tu base de datos."

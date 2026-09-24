@@ -170,6 +170,25 @@ const CURRICULUM_SYNTHESIS_DATA = [
   },
   {
     module: {
+      en: 'Module 6.2: Inheritance, Composition & Modules',
+      es: 'Módulo 6.2: Herencia, Composición y Módulos',
+      source: 'Lecture_Module6.2_Class2.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 11 (Sections 11.1, 11.2, 11.3)',
+      es: 'Capítulo 11 (Secciones 11.1, 11.2, 11.3)'
+    },
+    concepts: {
+      en: 'Subclass inheritance, super().__init__ delegation, method overriding, polymorphism, IS-A vs HAS-A architecture, object aggregation & composition.',
+      es: 'Herencia de subclases, delegación super().__init__, anulación de métodos, polimorfismo, arquitectura ES-UN vs TIENE-UN, agregación y composición de objetos.'
+    },
+    analogy: {
+      en: 'Commercial Driver License specialized endorsements (Inheritance IS-A); desktop PC with motherboard, power supply, and RAM modules (Composition HAS-A).',
+      es: 'Licencia de conducir con autorizaciones especializadas (Herencia ES-UN); computadora con placa madre, fuente y módulos RAM (Composición TIENE-UN).'
+    }
+  },
+  {
+    module: {
       en: 'Extended Track: File I/O, OOP, Exceptions & SQL',
       es: 'Pista Extendida: Archivos, POO, Excepciones y SQL',
       source: 'Extended Engineering Track'

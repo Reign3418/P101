@@ -68,7 +68,7 @@ src/
 ├── App.jsx                    # Primary application controller & view switcher
 ├── index.css                  # Global styles, fonts, and dark mode base
 ├── data/
-│   ├── chaptersData.js        # 10 bilingual chapters, 21 sections, quizzes, and reps
+│   ├── chaptersData.js        # 11 bilingual chapters, 23 sections, quizzes, and reps
 │   ├── cheatSheetsData.js     # Data Science reference toolkit (NumPy, Matplotlib, SciPy)
 │   └── translations.js        # English & Spanish UI dictionary
 ├── hooks/
@@ -131,7 +131,7 @@ To ensure complete compliance with university intellectual property policies, P1
 
 ### 4.4 Bilingual Internationalization (i18n) System
 - **Centralized Dictionary (`translations.js`)**: Provides comprehensive English and Spanish strings for all UI buttons, labels, tooltips, and modal dialogues.
-- **Curriculum Localization (`chaptersData.js`)**: All 10 chapters and 21 sections include complete Spanish translations for titles, descriptions, "Why" breakdowns, pitfalls, and quizzes.
+- **Curriculum Localization (`chaptersData.js`)**: All 11 chapters and 23 sections include complete Spanish translations for titles, descriptions, "Why" breakdowns, pitfalls, and quizzes.
 - **Dynamic Getter (`getLocalizedChapters(lang)`)**: Returns the localized curriculum tree seamlessly based on the selected language, preserving code logic and test cases.
 - **Zero-Reload Toggle**: Header switch `[ 🇺🇸 EN | 🇪🇸 ES ]` updates the entire DOM and speech engine instantaneously.
 

@@ -8,9 +8,61 @@
 
 // Explicit mapping rules for known lecture notebooks
 const LECTURE_NOTEBOOK_RULES = [
+  // Module 6.2: Classes, Part 2: Connecting Classes (Inheritance & Composition) (Prof. Jade Cao)
+  {
+    matcher: (name, id) => /(6\.2|class2|classes[_\s-]*2|inheritance|composition)/i.test(name || '') || id === 'prof-cao-module-6-2',
+    chapterNum: 10,
+    sectionRules: [
+      // 10.1: Inheritance, Subclasses, super(), Method Overriding ("IS-A")
+      {
+        sectionNum: '10.1',
+        sectionId: '10-1',
+        triggers: [
+          /1\.\s*Warm-Up/i,
+          /2\.\s*Why\s*Inheritance/i,
+          /3\.\s*Inheritance\s*=\s*[“"]IS\s*A[”"]/i,
+          /4\.\s*Your\s*First\s*Child\s*Class/i,
+          /5\.\s*Inheritance\s*Is\s*More\s*Than\s*Saving\s*Typing/i,
+          /6\.\s*The\s*Child\s*Needs\s*Extra\s*Data/i,
+          /7\.\s*Understanding\s*`?super\(\)`?/i,
+          /8\.\s*The\s*Child\s*Can\s*Add\s*New\s*Behavior/i,
+          /9\.\s*Method\s*Overriding/i,
+          /super\(\)\.__init__/i,
+          /ElectricVehicle\(Vehicle\)/i,
+          /EmailNotification\(Notification\)/i,
+          /\bIS[- ]A\b/i,
+          /overrid/i,
+          /subclass/i,
+          /parent\s*class/i
+        ]
+      },
+      // 10.2: Composition, Aggregation & Objects Working Together ("HAS-A")
+      {
+        sectionNum: '10.2',
+        sectionId: '10-2',
+        triggers: [
+          /10\.\s*Inheritance\s*Is\s*NOT\s*Every\s*Relationship/i,
+          /11\.\s*Composition\s*=\s*[“"]HAS\s*A[”"]/i,
+          /12\.\s*Inheritance\s*vs\.?\s*Composition/i,
+          /13\.\s*Objects\s*Working\s*Together/i,
+          /14\.\s*Design\s*Check/i,
+          /15\.\s*Do\s*Classes\s*Need\s*Separate\s*Files/i,
+          /16\.\s*Optional\s*Colab\s*Demo/i,
+          /17\.\s*Knowledge\s*Check/i,
+          /In-Class\s*Practice\s*—\s*Campus\s*Library\s*System/i,
+          /Campus\s*Library/i,
+          /\bHAS[- ]A\b/i,
+          /LibraryItem/i,
+          /self\.battery\s*=\s*Battery/i,
+          /composition/i,
+          /aggregation/i
+        ]
+      }
+    ]
+  },
   // Module 6.1: Classes, Part 1 (Prof. Jade Cao)
   {
-    matcher: (name, id) => /6\.1|class1|classes/i.test(name || '') || id === 'prof-cao-module-6-1',
+    matcher: (name, id) => /(6\.1|class1|classes[_\s-]*1)/i.test(name || '') || (/(class|classes)/i.test(name || '') && !/6\.2|class2/i.test(name || '')) || id === 'prof-cao-module-6-1',
     chapterNum: 9,
     sectionRules: [
       // 9.1: Blueprint vs Instance, Allocation, __init__, self
@@ -146,6 +198,19 @@ const LECTURE_NOTEBOOK_RULES = [
 
 // Fallback topic detector for any custom or uploaded notebook (.ipynb)
 const TOPIC_SIGNATURES = [
+  {
+    chapterNum: 10, // Module 6.2 (Inheritance & Composition)
+    defaultSectionNum: '10.1',
+    weight: (text) => {
+      let score = 0;
+      if (/super\(\)\.__init__/i.test(text)) score += 7;
+      if (/\bclass\s+\w+\(\w+\):/i.test(text)) score += 6;
+      if (/\b(inheritance|subclass|superclass|polymorphism|override|composition)\b/i.test(text)) score += 4;
+      if (/\b(is-a|has-a)\b/i.test(text)) score += 4;
+      if (/Battery\s*\(|ElectricVehicle/i.test(text)) score += 3;
+      return score;
+    }
+  },
   {
     chapterNum: 9, // Module 6.1 (Classes & OOP)
     defaultSectionNum: '9.1',

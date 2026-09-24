@@ -28,8 +28,9 @@ Structured learning modules aligned to Prof. Cao's lectures and the Gaddis textb
 | Module 4.1/4.2 | 6 | While Loops & Workshops |
 | Module 5.1/5.2 | 7 | Functions & Scope |
 | Extended Ch 6 | 8 | File I/O & Exceptions |
-| Module 6.1 | 9 | Classes & Object-Oriented Design (Part 1) |
-| Module 6.2 | 10 | SQLite & Parameterized Queries |
+| Module 6.1 | 9 | Classes & Object-Oriented Design (Part 1: Building Objects) |
+| Module 6.2 | 10 | Classes, Part 2: Connecting Classes (Inheritance & Composition) |
+| Extended Ch 14 | 11 | Database Programming with SQLite & Parameterized Queries |
 
 Each section includes:
 - **💡 The Why** — pedagogical explanation with real-world analogies, RAM trace, and CPython internals

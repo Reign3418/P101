@@ -215,7 +215,34 @@ export function CodingRepLab({
         : `Create class Student with __init__(self, name, major). Create s = Student('${pickedName}', '${major}'). Store s.name in 'st_name'.`);
       setCode(`class Student:\n    def __init__(self, name, major):\n        # TODO: store name and major as instance attributes\n        pass\ns = Student('${pickedName}', '${major}')\nst_name = \nprint(st_name)`);
       setExpectedVal(pickedName);
-    } else if (testVar === 'query') {
+    } else if (testVar === 'ev_info') {
+      const evMakes = [
+        { make: 'Tesla', model: 'Model 3', kwh: 75 },
+        { make: 'Nissan', model: 'Leaf', kwh: 40 },
+        { make: 'Hyundai', model: 'Ioniq 5', kwh: 77 },
+        { make: 'Chevy', model: 'Bolt', kwh: 65 },
+        { make: 'Rivian', model: 'R1T', kwh: 135 }
+      ];
+      const evChoice = evMakes[Math.floor(Math.random() * evMakes.length)];
+      const exp = `${evChoice.make}: ${evChoice.kwh}kWh`;
+      setPrompt(lang === 'es'
+        ? `Crea Vehicle(make, model). Crea ElectricVehicle(Vehicle) con super().__init__(make, model) y self.battery=${evChoice.kwh}. Llama ev.battery_info() y guarda en 'ev_info'.`
+        : `Create Vehicle(make, model). Create ElectricVehicle(Vehicle) with super().__init__(make, model) and self.battery=${evChoice.kwh}. Call ev.battery_info() and store in 'ev_info'.`);
+      setCode(`class Vehicle:\n    def __init__(self, make, model):\n        self.make = make\n        self.model = model\n\nclass ElectricVehicle(Vehicle):\n    def __init__(self, make, model, battery):\n        # TODO: call super().__init__(make, model) and store self.battery\n        pass\n\n    def battery_info(self):\n        # TODO: return f'{self.make}: {self.battery}kWh'\n        pass\n\nev = ElectricVehicle('${evChoice.make}', '${evChoice.model}', ${evChoice.kwh})\nev_info = \nprint(ev_info)`);
+      setExpectedVal(exp);
+    } else if (testVar === 'item_count') {
+      const libNames = ["Central", "West Campus", "Downtown", "SciTech"];
+      const libName = libNames[Math.floor(Math.random() * libNames.length)];
+      const count = Math.floor(Math.random() * 3) + 2; // 2 to 4 items
+      const bookTitles = ["Python Basics", "Algorithms", "Data Systems", "Web Security"];
+      const chosenBooks = bookTitles.slice(0, count);
+      setPrompt(lang === 'es'
+        ? `Crea Book(title) y Library(name) con self.items=[]. Agrega ${count} libros a la biblioteca '${libName}'. Guarda len(lib.items) en 'item_count'.`
+        : `Create Book(title) and Library(name) with self.items=[]. Add ${count} books to library '${libName}'. Store len(lib.items) in 'item_count'.`);
+      const bookInserts = chosenBooks.map(b => `lib.add_item(Book('${b}'))`).join('\n');
+      setCode(`class Book:\n    def __init__(self, title):\n        self.title = title\n\nclass Library:\n    def __init__(self, name):\n        self.name = name\n        self.items = []\n\n    def add_item(self, item):\n        # TODO: append item to self.items\n        pass\n\nlib = Library('${libName}')\n${bookInserts}\nitem_count = \nprint(item_count)`);
+      setExpectedVal(count);
+    } else if (testVar === 'query' || testVar === 'rows') {
       const tables = ["Students", "Courses", "Faculty", "Employees"];
       const tbl = tables[Math.floor(Math.random() * tables.length)];
       setPrompt(lang === 'es'

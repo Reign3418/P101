@@ -56,7 +56,7 @@ Cognitive Load Theory posits that human working memory is strictly limited (typi
 
 1. **Intrinsic Load (The Concept Itself)**:
    - The inherent difficulty of understanding algorithmic logic (e.g., list mutation vs pointer aliasing, or `return` vs `print`).
-   - *P101 Solution*: Isolates concepts into atomic micro-units (**21 curriculum sections across 10 chapters**, Modules 1–6.2).
+   - *P101 Solution*: Isolates concepts into atomic micro-units (**23 curriculum sections across 11 chapters**, Modules 1–6.2 & Extended Database Systems).
 2. **Extraneous Load (Mental Waste from Tooling)**:
    - Friction caused by IDE crashes, broken terminal paths, lost network connections, or confusing UI layouts.
    - *P101 Solution*: Reduced to **zero**. The entire platform runs statically on GitHub Pages with client-side WebAssembly execution. No login, no install, no terminal setup.
