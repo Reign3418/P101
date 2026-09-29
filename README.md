@@ -1,7 +1,7 @@
 # P101 — Python Mastery Portal
 
 > Built for Prof. Jade Cao's Python course at Central Carolina Community College (CCCC).  
-> Bridges her lecture notebooks (Modules 1.0–6.1) with Tony Gaddis's *Starting Out with Python* (6th Ed.).
+> Bridges her lecture notebooks (Modules 1.0–7.2) with Tony Gaddis's *Starting Out with Python* (6th Ed.).
 
 **Live site → https://reign3418.github.io/P101/**
 
@@ -15,7 +15,7 @@ P101 is a bilingual (English / Spanish) Python learning portal that runs 100% in
 
 ## Features
 
-### 📚 Curriculum Modules 1–6
+### 📚 Curriculum Modules 1–7 & Capstone
 Structured learning modules aligned to Prof. Cao's lectures and the Gaddis textbook:
 
 | Module Code | Portal Ch | Topic |
@@ -27,9 +27,9 @@ Structured learning modules aligned to Prof. Cao's lectures and the Gaddis textb
 | Module 3.2 | 5 | Dictionaries |
 | Module 4.1/4.2 | 6 | While Loops & Workshops |
 | Module 5.1/5.2 | 7 | Functions & Scope |
-| Module 7.1 & 7.2 | 8 | Files, Robust Programs & JSON Persistence (Gaddis Ch 6) |
-| Module 6.1 | 9 | Classes & Object-Oriented Design (Part 1: Building Objects) |
-| Module 6.2 | 10 | Classes, Part 2: Connecting Classes (Inheritance & Composition) |
+| Module 6.1 | 8 | Classes & Object-Oriented Design (Part 1: Building Objects) |
+| Module 6.2 | 9 | Classes, Part 2: Connecting Classes (Inheritance & Composition) |
+| Module 7.1 & 7.2 | 10 | Files, Robust Programs & JSON Persistence (Gaddis Ch 6) |
 | Extended Ch 14 | 11 | Database Programming with SQLite & Parameterized Queries |
 
 Each section includes:
@@ -87,7 +87,7 @@ Each section includes:
 
 ## Citations
 
-**Cao, Jade.** Python Programming Lecture Notebooks (Modules 1.0–6.1). Central Carolina Community College (CCCC).
+**Cao, Jade.** Python Programming Lecture Notebooks (Modules 1.0–7.2). Central Carolina Community College (CCCC).
 
 **Gaddis, Tony.** *Starting Out with Python.* 6th ed., Pearson, 2024.
 

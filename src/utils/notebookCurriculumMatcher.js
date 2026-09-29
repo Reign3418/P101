@@ -11,12 +11,12 @@ const LECTURE_NOTEBOOK_RULES = [
   // Module 7.2: Robust Programs, Saved Data & Refactoring (Prof. Jade Cao)
   {
     matcher: (name, id) => /(7\.2|robust.*programs?|saved.*data|refactoring)/i.test(name || '') || id === 'prof-cao-module-7-2',
-    chapterNum: 8,
+    chapterNum: 10,
     sectionRules: [
       // 8.1: Processing Multiple Files, Reading, Word Counting, Maintenance Logs
       {
-        sectionNum: '8.1',
-        sectionId: '8-1',
+        sectionNum: '10.1',
+        sectionId: '10-1',
         triggers: [
           /Part\s*B\s*—\s*From\s*One\s*File\s*to\s*Many/i,
           /Analyze\s*Text/i,
@@ -31,8 +31,8 @@ const LECTURE_NOTEBOOK_RULES = [
       },
       // 8.2: Exception Handling (else block, FileNotFoundError, pass), JSON Persistence, Refactoring
       {
-        sectionNum: '8.2',
-        sectionId: '8-2',
+        sectionNum: '10.2',
+        sectionId: '10-2',
         triggers: [
           /Part\s*A\s*—\s*Better\s*Exception\s*Handling/i,
           /The\s*`?else`?\s*Block/i,
@@ -66,12 +66,12 @@ const LECTURE_NOTEBOOK_RULES = [
   // Module 7.1: Files & Basic Exceptions (Prof. Jade Cao)
   {
     matcher: (name, id) => ((/(7\.1|files?.*exceptions?|exceptions?.*files?)/i.test(name || '') && !/7\.2/i.test(name || '')) || id === 'prof-cao-module-7-1'),
-    chapterNum: 8,
+    chapterNum: 10,
     sectionRules: [
       // 8.1: File I/O, 'with' Statement, read/write/append, newlines, storage vs memory
       {
-        sectionNum: '8.1',
-        sectionId: '8-1',
+        sectionNum: '10.1',
+        sectionId: '10-1',
         triggers: [
           /Part\s*A\s*—\s*Working\s*with\s*Files/i,
           /Where\s*Is\s*the\s*File/i,
@@ -105,8 +105,8 @@ const LECTURE_NOTEBOOK_RULES = [
       },
       // 8.2: Exception Handling: try, except, FileNotFoundError, ValueError, while loop recovery
       {
-        sectionNum: '8.2',
-        sectionId: '8-2',
+        sectionNum: '10.2',
+        sectionId: '10-2',
         triggers: [
           /Part\s*C\s*—\s*Real\s*Programs\s*Go\s*Wrong/i,
           /Crashing\s*Is\s*Unfriendly/i,
@@ -128,12 +128,12 @@ const LECTURE_NOTEBOOK_RULES = [
   // Module 6.2: Classes, Part 2: Connecting Classes (Inheritance & Composition) (Prof. Jade Cao)
   {
     matcher: (name, id) => /(6\.2|class2|classes[_\s-]*2|inheritance|composition)/i.test(name || '') || id === 'prof-cao-module-6-2',
-    chapterNum: 10,
+    chapterNum: 9,
     sectionRules: [
       // 10.1: Inheritance, Subclasses, super(), Method Overriding ("IS-A")
       {
-        sectionNum: '10.1',
-        sectionId: '10-1',
+        sectionNum: '9.1',
+        sectionId: '9-1',
         triggers: [
           /1\.\s*Warm-Up/i,
           /2\.\s*Why\s*Inheritance/i,
@@ -155,8 +155,8 @@ const LECTURE_NOTEBOOK_RULES = [
       },
       // 10.2: Composition, Aggregation & Objects Working Together ("HAS-A")
       {
-        sectionNum: '10.2',
-        sectionId: '10-2',
+        sectionNum: '9.2',
+        sectionId: '9-2',
         triggers: [
           /10\.\s*Inheritance\s*Is\s*NOT\s*Every\s*Relationship/i,
           /11\.\s*Composition\s*=\s*[“"]HAS\s*A[”"]/i,
@@ -180,12 +180,12 @@ const LECTURE_NOTEBOOK_RULES = [
   // Module 6.1: Classes, Part 1 (Prof. Jade Cao)
   {
     matcher: (name, id) => /(6\.1|class1|classes[_\s-]*1)/i.test(name || '') || (/(class|classes)/i.test(name || '') && !/6\.2|class2/i.test(name || '')) || id === 'prof-cao-module-6-1',
-    chapterNum: 9,
+    chapterNum: 8,
     sectionRules: [
       // 9.1: Blueprint vs Instance, Allocation, __init__, self
       {
-        sectionNum: '9.1',
-        sectionId: '9-1',
+        sectionNum: '8.1',
+        sectionId: '8-1',
         triggers: [
           /1\.\s*Functions\s*→\s*Classes/i,
           /2\.\s*We\s*Already\s*Know\s*One\s*Way\s*to\s*Model/i,
@@ -203,8 +203,8 @@ const LECTURE_NOTEBOOK_RULES = [
       },
       // 9.2: Multiple Instances & Independent State
       {
-        sectionNum: '9.2',
-        sectionId: '9-2',
+        sectionNum: '8.2',
+        sectionId: '8-2',
         triggers: [
           /10\.\s*Multiple\s*Instances\s*Have\s*Independent\s*State/i,
           /student1\s*=\s*Student/i,
@@ -215,8 +215,8 @@ const LECTURE_NOTEBOOK_RULES = [
       },
       // 9.3: Guarding Rules with Methods, Validation, Clamping
       {
-        sectionNum: '9.3',
-        sectionId: '9-3',
+        sectionNum: '8.3',
+        sectionId: '8-3',
         triggers: [
           /11\.\s*Methods:\s*Functions\s*That\s*Belong/i,
           /12\.\s*Attribute\s*or\s*Method/i,
@@ -232,8 +232,8 @@ const LECTURE_NOTEBOOK_RULES = [
       },
       // 9.4: In-Class Lab: Pet Profile (State & Bounds)
       {
-        sectionNum: '9.4',
-        sectionId: '9-4',
+        sectionNum: '8.4',
+        sectionId: '8-4',
         triggers: [
           /16\.\s*Design\s*a\s*Class\s*Before\s*Writing\s*It/i,
           /18\.\s*Knowledge\s*Check/i,
@@ -316,8 +316,8 @@ const LECTURE_NOTEBOOK_RULES = [
 // Fallback topic detector for any custom or uploaded notebook (.ipynb)
 const TOPIC_SIGNATURES = [
   {
-    chapterNum: 10, // Module 6.2 (Inheritance & Composition)
-    defaultSectionNum: '10.1',
+    chapterNum: 9, // Module 6.2 (Inheritance & Composition)
+    defaultSectionNum: '9.1',
     weight: (text) => {
       let score = 0;
       if (/super\(\)\.__init__/i.test(text)) score += 7;
@@ -329,8 +329,8 @@ const TOPIC_SIGNATURES = [
     }
   },
   {
-    chapterNum: 9, // Module 6.1 (Classes & OOP)
-    defaultSectionNum: '9.1',
+    chapterNum: 8, // Module 6.1 (Classes & OOP)
+    defaultSectionNum: '8.1',
     weight: (text) => {
       let score = 0;
       if (/\bclass\s+\w+/i.test(text)) score += 6;
@@ -353,8 +353,8 @@ const TOPIC_SIGNATURES = [
     }
   },
   {
-    chapterNum: 8, // Module 7.1 & 7.2 (File I/O, Exceptions, JSON & Refactoring)
-    defaultSectionNum: '8.1',
+    chapterNum: 10, // Module 7.1 & 7.2 (File I/O, Exceptions, JSON & Refactoring)
+    defaultSectionNum: '10.1',
     weight: (text) => {
       let score = 0;
       if (/with\s+open\s*\(/i.test(text)) score += 6;

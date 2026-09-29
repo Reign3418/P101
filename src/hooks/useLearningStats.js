@@ -5,11 +5,26 @@ const REP_LOG_STORAGE_KEY = 'p101_rep_log';
 const IDLE_TIMEOUT_MS = 2 * 60 * 1000; // 2 minutes idle threshold
 
 export function useLearningStats(activeChapterNum) {
-  // Load saved statistics or default
   const [stats, setStats] = useState(() => {
     try {
       const saved = localStorage.getItem(STATS_STORAGE_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const isMigrated = localStorage.getItem('p101_stats_v2_migrated');
+        if (!isMigrated && parsed.modules) {
+          const old8 = parsed.modules['8'];
+          const old9 = parsed.modules['9'];
+          const old10 = parsed.modules['10'];
+          if (old8 || old9 || old10) {
+            parsed.modules['8'] = old9 || { timeSeconds: 0, visits: 0, repsCount: 0, quizzesPassed: 0, lastActive: null };
+            parsed.modules['9'] = old10 || { timeSeconds: 0, visits: 0, repsCount: 0, quizzesPassed: 0, lastActive: null };
+            parsed.modules['10'] = old8 || { timeSeconds: 0, visits: 0, repsCount: 0, quizzesPassed: 0, lastActive: null };
+            localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(parsed));
+          }
+          localStorage.setItem('p101_stats_v2_migrated', 'true');
+        }
+        return parsed;
+      }
     } catch (e) {
       console.error('Failed to load stats:', e);
     }

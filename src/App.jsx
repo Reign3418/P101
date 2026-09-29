@@ -49,14 +49,47 @@ export default function App() {
   const [activeNotebookId, setActiveNotebookId] = useState(null);
   const [completedSections, setCompletedSections] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('py_completed_sections') || '{}');
+      const raw = localStorage.getItem('py_completed_sections');
+      const parsed = raw ? JSON.parse(raw) : {};
+      const isMigrated = localStorage.getItem('p101_curriculum_v2_migrated');
+      if (!isMigrated) {
+        const next = {};
+        const map = {
+          '8-1': '10-1', '8-2': '10-2',
+          '9-1': '8-1', '9-2': '8-2', '9-3': '8-3', '9-4': '8-4',
+          '10-1': '9-1', '10-2': '9-2'
+        };
+        for (const [k, v] of Object.entries(parsed)) {
+          next[map[k] || k] = v;
+        }
+        localStorage.setItem('py_completed_sections', JSON.stringify(next));
+        return next;
+      }
+      return parsed;
     } catch {
       return {};
     }
   });
   const [reviewQueue, setReviewQueue] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('py_review_queue') || '{}');
+      const raw = localStorage.getItem('py_review_queue');
+      const parsed = raw ? JSON.parse(raw) : {};
+      const isMigrated = localStorage.getItem('p101_curriculum_v2_migrated');
+      if (!isMigrated) {
+        const next = {};
+        const map = {
+          '8-1': '10-1', '8-2': '10-2',
+          '9-1': '8-1', '9-2': '8-2', '9-3': '8-3', '9-4': '8-4',
+          '10-1': '9-1', '10-2': '9-2'
+        };
+        for (const [k, v] of Object.entries(parsed)) {
+          next[map[k] || k] = v;
+        }
+        localStorage.setItem('py_review_queue', JSON.stringify(next));
+        localStorage.setItem('p101_curriculum_v2_migrated', 'true');
+        return next;
+      }
+      return parsed;
     } catch {
       return {};
     }

@@ -1037,166 +1037,18 @@ export const CHAPTERS_DATA = [
     "desc_es": "La serie de funciones de la Prof. Cao: dar un nombre a una tarea, parámetros frente a argumentos, valores por defecto, return vs print, None para parámetros opcionales y paso de listas."
   },
   {
-    "num": 8,
-    "code_module": "Module 7.1 & 7.2",
-    "title": "Files, Robust Programs & JSON Persistence",
-    "icon": "📁",
-    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module7.1 & 7.2 / Tony Gaddis (6th Ed.) Ch 6",
-    "desc": "Moving beyond temporary RAM: file I/O ('r', 'w', 'a'), with open(), robust exception recovery (try-except-else-finally, FileNotFoundError, ValueError), structured data persistence with json.dump/load, and modular refactoring.",
-    "sections": [
-      {
-        "id": "8-1",
-        "num": "8.1",
-        "title": "File I/O and The with Statement",
-        "why": "Variables disappear when programs terminate. Files preserve data on disk permanently. The `with` statement guarantees files close cleanly even if crashes occur.",
-        "concept": "Modes: 'r' (read), 'w' (overwrite), 'a' (append). Context manager: `with open('data.txt', 'r') as f:`. Clean newlines with `.rstrip('\\n')`.",
-        "code": "lines = ['Python Programming', 'Central Carolina Community College']\nfor line in lines:\n    print(f'Disk record: {line}')",
-        "expected_output": "Disk record: Python Programming\nDisk record: Central Carolina Community College",
-        "pitfall": "Opening an existing file in 'w' mode by mistake. Mode 'w' instantly truncates (erases) the file! Use 'a' to append.",
-        "rep": {
-          "title": "File I/O Line Reader Rep",
-          "prompt": "Use io.BytesIO to simulate reading a binary file. Open raw_bytes = b'data_record\\\\n' with io.BytesIO, read the line, decode it, and strip the newline — store result in 'clean_record'.",
-          "starter": "import io\nraw_bytes = b'data_record\\n'\n# TODO: open raw_bytes with io.BytesIO and read the line, then decode and strip the newline into clean_record\nwith io.BytesIO(raw_bytes) as f:\n    clean_record = \nprint(clean_record)",
-          "test_var": "clean_record",
-          "expected_val": "data_record",
-          "title_es": "Repetición: Lector de Línea de Archivo",
-          "prompt_es": "Usa io.BytesIO para simular la lectura de un archivo binario. Abre raw_bytes = b'data_record\\\\n', lee la línea, decodifícala y elimina el salto de línea — guarda en 'clean_record'."
-        },
-        "quiz": {
-          "question": "Which file mode adds new content to the end of a file without erasing its existing data?",
-          "options": [
-            "'w'",
-            "'r'",
-            "'a'",
-            "'x'"
-          ],
-          "answer": 2,
-          "explanation": "Mode 'a' (Append) preserves existing file contents and writes all new records to the end of the file.",
-          "question_es": "¿Qué modo de archivo añade nuevo contenido al final de un archivo sin borrar sus datos existentes?",
-          "options_es": [
-            "'w'",
-            "'r'",
-            "'a'",
-            "'x'"
-          ],
-          "explanation_es": "El modo 'a' (Append) conserva los contenidos existentes del archivo y escribe todos los nuevos registros al final del mismo."
-        },
-        "title_es": "Entrada/Salida de Archivos y la Sentencia with",
-        "why_es": "Las variables desaparecen cuando el programa termina. Los archivos conservan los datos en el disco de forma permanente. La sentencia `with` garantiza que los archivos se cierren limpiamente.",
-        "concept_es": "Modos: 'r' (lectura), 'w' (sobrescribir), 'a' (anexar). Administrador de contexto: `with open('datos.txt', 'r') as f:`. Limpia saltos de línea con `.rstrip('\\n')`.",
-        "pitfall_es": "Abrir un archivo existente en modo 'w' por error. ¡El modo 'w' borra instantáneamente todo el contenido previo! Usa 'a' para agregar al final.",
-        "book_ref": {
-          "gaddis_chapter": 6,
-          "gaddis_section": "Sections 6.1 & 6.2",
-          "title": "Introduction to File Input and Output",
-          "explanation": "Gaddis teaches disk persistence: writing ('w'), appending ('a'), and reading ('r'). He explains buffer flushing, file pointers, and why leaving files open leads to data corruption.",
-          "explanation_es": "Gaddis enseña la persistencia en disco: escritura ('w'), anexado ('a') y lectura ('r'). Explica los búferes de memoria, punteros de archivo y por qué dejar archivos abiertos provoca corrupción de datos."
-        },
-        "breakdown": {
-          "analogy": "RAM is a whiteboard; when power turns off, everything is erased. Hard drives and SSDs are filing cabinets with folders. Opening a file takes a folder out of the cabinet; the 'with' statement guarantees the folder is returned and locked even if the building loses power.",
-          "analogy_es": "La memoria RAM es una pizarra: al apagar el equipo, se borra todo. Los discos duros son archivadores de metal. Abrir un archivo es sacar una carpeta; la sentencia 'with' garantiza que la carpeta se guarde y cierre bajo llave incluso si se corta la luz.",
-          "steps": [
-            "1. File Modes: 'w' wipes existing data; 'a' appends to the end; 'r' reads only.",
-            "2. Strip Newlines: Text lines read from disk include '\\n' at the end; clean them with .rstrip('\\n').",
-            "3. Context Manager: Always use 'with open(...) as f:' so Python closes the file automatically."
-          ],
-          "steps_es": [
-            "1. Modos de Archivo: 'w' borra todo lo previo; 'a' escribe al final; 'r' es solo lectura.",
-            "2. Limpiar Saltos: Las líneas leídas del disco traen '\\n' al final; límpialas con .rstrip('\\n').",
-            "3. Administrador de Contexto: Usa siempre 'with open(...) as f:' para que Python cierre el archivo en automático."
-          ]
-        },
-        "deep_dive": {
-          "concept": "OS File Descriptors & Buffer Flushing",
-          "detail": "When you call f.write(), data is not immediately written to physical disk platters—it sits in an operating system write buffer. If a program crashes before the buffer flushes, data is lost! The 'with' statement implements the Context Management protocol (__enter__ and __exit__), ensuring f.flush() and f.close() execute under all circumstances.",
-          "detail_es": "Cuando ejecutas f.write(), los datos no van directo al disco físico: se quedan en un búfer del sistema operativo. Si el programa falla antes de vaciar el búfer, ¡los datos se pierden! La sentencia 'with' implementa los métodos __enter__ y __exit__, garantizando que f.flush() y f.close() se ejecuten pase lo que pase."
-        }
-      },
-      {
-        "id": "8-2",
-        "num": "8.2",
-        "title": "Robust Programs, Exception Handling & JSON Persistence (Module 7.2)",
-        "why": "Real-world programs crash when files go missing or users input invalid data. Defensive programming catches exceptions (FileNotFoundError, ValueError), uses 'else' blocks for post-success operations, and serializes structured records permanently with json.dump/load.",
-        "concept": "`try-except-else-finally`: `try` code that may fail; `except FileNotFoundError` handles missing disk files; `else` runs only on success; `finally` runs cleanup. Structured persistence: `json.dump(data, file)` writes dicts/lists to disk; `json.load(file)` reconstructs Python objects.",
-        "code": "import json\nprofile = {'player': 'Alex', 'level': 5, 'completed': ['7.1', '7.2']}\nwith open('profile.json', 'w') as f:\n    json.dump(profile, f)\nwith open('profile.json', 'r') as f:\n    loaded = json.load(f)\nprint(f'Loaded: {loaded[\"player\"]} at level {loaded[\"level\"]}')",
-        "expected_output": "Loaded: Alex at level 5",
-        "pitfall": "Catching bare `except:` without specifying the error type, which silently hides syntax typos or NameErrors.",
-        "rep": {
-          "title": "Safe Integer Converter Rep",
-          "prompt": "Try int('invalid'). On ValueError, set status='recovered'.",
-          "starter": "try:\n    val = int('invalid')\nexcept ValueError:\n    # TODO: assign status = 'recovered'\n    status = \nprint(status)",
-          "test_var": "status",
-          "expected_val": "recovered",
-          "title_es": "Repetición: Convertidor Seguro de Enteros",
-          "prompt_es": "Intenta int('invalido'). Al ocurrir ValueError, asigna status='recovered'."
-        },
-        "quiz": {
-          "question": "Which block in a try-except structure executes regardless of whether an exception occurred or not?",
-          "options": [
-            "else",
-            "except",
-            "finally",
-            "catch"
-          ],
-          "answer": 2,
-          "explanation": "`finally` always executes at the end, making it ideal for cleanup tasks like closing database connections or release file locks.",
-          "question_es": "¿Qué bloque en una estructura try-except se ejecuta sin importar si ocurrió una excepción o no?",
-          "options_es": [
-            "else",
-            "except",
-            "finally",
-            "catch"
-          ],
-          "explanation_es": "`finally` siempre se ejecuta al final, haciéndolo ideal para tareas de limpieza como cerrar conexiones a bases de datos o liberar archivos."
-        },
-        "title_es": "Programas Robustos, Excepciones y Persistencia JSON (Módulo 7.2)",
-        "why_es": "En el mundo real, los programas se caen si faltan archivos o si los usuarios ingresan datos incorrectos. La programación defensiva captura excepciones (FileNotFoundError, ValueError), usa el bloque else tras operaciones exitosas y serializa datos estructurados con json.dump/load.",
-        "concept_es": "`try-except-else-finally`: `try` ejecuta código riesgoso; `except FileNotFoundError` captura archivos faltantes; `else` corre solo si no hubo error; `finally` corre siempre. Persistencia JSON: `json.dump(datos, archivo)` guarda diccionarios/listas en disco; `json.load(archivo)` reconstruye los objetos Python.",
-        "pitfall_es": "Capturar con un `except:` general sin especificar el tipo de error, lo cual oculta errores tipográficos de sintaxis o NameErrors.",
-        "book_ref": {
-          "gaddis_chapter": 6,
-          "gaddis_section": "Section 6.4",
-          "title": "Exception Handling: try, except, else, finally",
-          "explanation": "Gaddis teaches defensive programming through structured exception handling. Unhandled exceptions trigger traceback crashes. A try-except block intercepts the crash, allowing the program to display friendly feedback or recover gracefully.",
-          "explanation_es": "Gaddis enseña programación defensiva mediante el manejo de excepciones. Las excepciones no controladas provocan la caída del programa. Un bloque try-except intercepta el error, permitiendo informar al usuario o recuperarse limpiamente."
-        },
-        "breakdown": {
-          "analogy": "Think of a trapeze acrobat. The 'try' block is the high-wire act. The 'except' block is the safety net below. If the acrobat slips, the safety net catches them so the circus performance doesn't end in tragedy.",
-          "analogy_es": "Imagina un acróbata en el trapecio. El bloque 'try' es la maniobra en el aire. El bloque 'except' es la red de seguridad abajo. Si el acróbata resbala, la red lo atrapa para que el espectáculo continúe sin tragedias.",
-          "steps": [
-            "1. try: Put code that might fail (converting user input, reading files) inside the try block.",
-            "2. except SpecificError: Intercept specific errors (like ValueError, FileNotFoundError).",
-            "3. finally: Executes no matter what—perfect for closing database connections or cleaning up resources."
-          ],
-          "steps_es": [
-            "1. try: Coloca dentro el código que podría fallar (convertir entrada de usuario, abrir archivos).",
-            "2. except ErrorEspecifico: Captura errores puntuales (como ValueError, FileNotFoundError).",
-            "3. finally: Se ejecuta siempre, haya o no error; ideal para cerrar conexiones a bases de datos."
-          ]
-        },
-        "deep_dive": {
-          "concept": "EAFP vs LBYL in Python Architecture",
-          "detail": "Python embraces the EAFP philosophy ('Easier to Ask for Forgiveness than Permission') over LBYL ('Look Before You Leap'). Instead of writing complex if-checks before every operation, Pythonic architecture attempts the operation inside a try block and handles exceptions if they arise. This avoids race conditions in multi-threaded code.",
-          "detail_es": "Python adopta la filosofía EAFP ('Es Más Fácil Pedir Perdón Que Permiso') en lugar de LBYL ('Mira Antes De Saltar'). En vez de llenar el código con comprobaciones if previas, la arquitectura pythónica intenta la acción dentro de un try y captura las excepciones si ocurren, evitando condiciones de carrera."
-        }
-      }
-    ],
-    "title_es": "Módulo 7.1 y 7.2: Archivos, Programas Robustos y Persistencia JSON",
-    "desc_es": "Más allá de la memoria RAM: lectura y escritura de archivos, administrador with, captura robusta de errores (FileNotFoundError, ValueError), persistencia estructurada con JSON y refactorización modular."
-  },
-  {
-      "num": 9,
+      "num": 8,
       "code_module": "Module 6.1",
       "title": "Classes, Part 1: Building Objects (Data + Behavior)",
       "icon": "🏗️",
-      "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module6.1_Class1.ipynb",
+      "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module6.1_Class1.ipynb / Tony Gaddis (6th Ed.) Ch 10",
       "desc": "Object-Oriented Programming fundamentals: blueprints vs. instances, attributes as state, methods as behavior, __init__, self, independent object state, and business rule protection.",
       "title_es": "Clases, Parte 1: Creación de Objetos (Datos + Comportamiento)",
       "desc_es": "Fundamentos de Programación Orientada a Objetos: planos vs. instancias, atributos como estado, métodos como comportamiento, __init__, self, estado independiente y protección de reglas de negocio.",
       "sections": [
           {
-              "id": "9-1",
-              "num": "9.1",
+              "id": "8-1",
+              "num": "8.1",
               "title": "Functions to Classes: Blueprint vs. Instance",
               "why": "A function organizes a single job, and a dictionary organizes loose values. But as programs grow, scattering player data across variables and passing dictionaries into standalone functions creates fragile spaghetti code. A class binds related data (attributes) and related behaviors (methods) together into a single cohesive blueprint.",
               "concept": "`class Dog:` defines the blueprint. `def __init__(self, name, age):` runs automatically when an instance is born to initialize attributes. `self` refers to this specific instance in RAM. `self.name = name` copies the incoming argument to the object's memory slot. Access attributes with `obj.attr` and invoke methods with `obj.method()`.",
@@ -1265,8 +1117,8 @@ export const CHAPTERS_DATA = [
               }
           },
           {
-              "id": "9-2",
-              "num": "9.2",
+              "id": "8-2",
+              "num": "8.2",
               "title": "Multiple Instances & Independent State",
               "why": "A single blueprint stamps out dozens of unique objects. Two phones made by the same manufacturer share the exact same hardware design, but changing the wallpaper or contact list on Phone A never touches Phone B. In Python, every instance possesses its own isolated memory address in RAM with independent attribute values.",
               "concept": "`student1 = Student('Avery', 'IT')` and `student2 = Student('Morgan', 'Cybersecurity')` live at completely separate memory addresses. Modifying `student1.credits = 12` updates only `student1`'s memory slot. Methods can accept additional arguments: `def add_credits(self, amount): self.credits += amount`.",
@@ -1335,8 +1187,8 @@ export const CHAPTERS_DATA = [
               }
           },
           {
-              "id": "9-3",
-              "num": "9.3",
+              "id": "8-3",
+              "num": "8.3",
               "title": "Guarding Business Rules with Methods",
               "why": "Allowing external code to modify attributes directly (`account.balance = -9999` or `book.current_page = 500` in a 200-page book) corrupts application state. Methods act as protective gatekeepers that enforce validation, calculate boundaries, and protect business integrity before any attribute changes.",
               "concept": "Methods encapsulate business rules using conditional checks and boundary functions: `if amount > 0: self.balance += amount`. Using `min()` and `max()` clamps values safely: `self.current_page = min(self.pages, self.current_page + amount)` guarantees reading never exceeds the book. Always distinguish `print()` (one-time display) from `return` (passes values for reuse).",
@@ -1405,8 +1257,8 @@ export const CHAPTERS_DATA = [
               }
           },
           {
-              "id": "9-4",
-              "num": "9.4",
+              "id": "8-4",
+              "num": "8.4",
               "title": "In-Class Lab: The Pet Profile (State & Bounds)",
               "why": "Real-world applications model dynamic entities whose internal energy, score, or status fluctuates based on actions. In Prof. Cao's in-class practice lab, you engineer a Pet class with double-boundary clamping (0 to 100) and state query methods (`is_tired()`).",
               "concept": "Managing bounded state: `self.energy = max(0, self.energy - (minutes * 2))` for play, and `self.energy = min(100, self.energy + amount)` for rest. Boolean query methods return descriptive conditions: `def is_tired(self): return self.energy < 30`. Multiple pets verify that Luna's energy level is completely separate from Milo's.",
@@ -1477,16 +1329,16 @@ export const CHAPTERS_DATA = [
       ]
   },
   {
-    "num": 10,
+    "num": 9,
     "code_module": "Module 6.2",
     "title": "Classes, Part 2: Connecting Classes (Inheritance & Composition)",
     "icon": "🧬",
-    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module6.2_Class2.ipynb",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module6.2_Class2.ipynb / Tony Gaddis (6th Ed.) Ch 11",
     "desc": "Subclasses, super(), method overriding, polymorphism, and the critical design distinction between 'IS A' (Inheritance) and 'HAS A' (Composition).",
     "sections": [
       {
-        "id": "10-1",
-        "num": "10.1",
+        "id": "9-1",
+        "num": "9.1",
         "title": "Inheritance, Subclasses & super() (“IS A” Hierarchy)",
         "why": "Copy-pasting class code creates bugs and duplicate maintenance. Inheritance lets a child class reuse parent logic while specializing new attributes and behaviors.",
         "concept": "Syntax: `class Child(Parent):`. A child class inherits all parent attributes and methods. `super().__init__(...)` delegates shared setup to the parent on the same instance. Method overriding occurs when a child defines a method with the same name as the parent, providing a specialized implementation (polymorphism).",
@@ -1555,8 +1407,8 @@ export const CHAPTERS_DATA = [
         }
       },
       {
-        "id": "10-2",
-        "num": "10.2",
+        "id": "9-2",
+        "num": "9.2",
         "title": "Composition & Objects Working Together (“HAS A” Relationship)",
         "why": "Not every relationship is inheritance. A Car is not a Battery, and a Library is not a Book. Forcing inheritance where it doesn't fit creates brittle, illogical hierarchies. Composition models real systems by having objects contain and manage other objects.",
         "concept": "Composition represents a 'HAS A' relationship. Instead of inheriting, a class creates or holds references to instances of other classes as attributes or inside lists/dictionaries (e.g. `self.battery = Battery(77)` or `self.items.append(book)`).",
@@ -1627,6 +1479,154 @@ export const CHAPTERS_DATA = [
     ],
     "title_es": "Clases, Parte 2: Conexión de Clases (Herencia y Composición)",
     "desc_es": "Subclases, super(), anulación de métodos, polimorfismo y la distinción de diseño entre 'ES UN' (Herencia) y 'TIENE UN' (Composición)."
+  },
+  {
+    "num": 10,
+    "code_module": "Module 7.1 & 7.2",
+    "title": "Files, Robust Programs & JSON Persistence",
+    "icon": "📁",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module7.1 & 7.2 / Tony Gaddis (6th Ed.) Ch 6",
+    "desc": "Moving beyond temporary RAM: file I/O ('r', 'w', 'a'), with open(), robust exception recovery (try-except-else-finally, FileNotFoundError, ValueError), structured data persistence with json.dump/load, and modular refactoring.",
+    "sections": [
+      {
+        "id": "10-1",
+        "num": "10.1",
+        "title": "File I/O and The with Statement",
+        "why": "Variables disappear when programs terminate. Files preserve data on disk permanently. The `with` statement guarantees files close cleanly even if crashes occur.",
+        "concept": "Modes: 'r' (read), 'w' (overwrite), 'a' (append). Context manager: `with open('data.txt', 'r') as f:`. Clean newlines with `.rstrip('\\n')`.",
+        "code": "lines = ['Python Programming', 'Central Carolina Community College']\nfor line in lines:\n    print(f'Disk record: {line}')",
+        "expected_output": "Disk record: Python Programming\nDisk record: Central Carolina Community College",
+        "pitfall": "Opening an existing file in 'w' mode by mistake. Mode 'w' instantly truncates (erases) the file! Use 'a' to append.",
+        "rep": {
+          "title": "File I/O Line Reader Rep",
+          "prompt": "Use io.BytesIO to simulate reading a binary file. Open raw_bytes = b'data_record\\\\n' with io.BytesIO, read the line, decode it, and strip the newline — store result in 'clean_record'.",
+          "starter": "import io\nraw_bytes = b'data_record\\n'\n# TODO: open raw_bytes with io.BytesIO and read the line, then decode and strip the newline into clean_record\nwith io.BytesIO(raw_bytes) as f:\n    clean_record = \nprint(clean_record)",
+          "test_var": "clean_record",
+          "expected_val": "data_record",
+          "title_es": "Repetición: Lector de Línea de Archivo",
+          "prompt_es": "Usa io.BytesIO para simular la lectura de un archivo binario. Abre raw_bytes = b'data_record\\\\n', lee la línea, decodifícala y elimina el salto de línea — guarda en 'clean_record'."
+        },
+        "quiz": {
+          "question": "Which file mode adds new content to the end of a file without erasing its existing data?",
+          "options": [
+            "'w'",
+            "'r'",
+            "'a'",
+            "'x'"
+          ],
+          "answer": 2,
+          "explanation": "Mode 'a' (Append) preserves existing file contents and writes all new records to the end of the file.",
+          "question_es": "¿Qué modo de archivo añade nuevo contenido al final de un archivo sin borrar sus datos existentes?",
+          "options_es": [
+            "'w'",
+            "'r'",
+            "'a'",
+            "'x'"
+          ],
+          "explanation_es": "El modo 'a' (Append) conserva los contenidos existentes del archivo y escribe todos los nuevos registros al final del mismo."
+        },
+        "title_es": "Entrada/Salida de Archivos y la Sentencia with",
+        "why_es": "Las variables desaparecen cuando el programa termina. Los archivos conservan los datos en el disco de forma permanente. La sentencia `with` garantiza que los archivos se cierren limpiamente.",
+        "concept_es": "Modos: 'r' (lectura), 'w' (sobrescribir), 'a' (anexar). Administrador de contexto: `with open('datos.txt', 'r') as f:`. Limpia saltos de línea con `.rstrip('\\n')`.",
+        "pitfall_es": "Abrir un archivo existente en modo 'w' por error. ¡El modo 'w' borra instantáneamente todo el contenido previo! Usa 'a' para agregar al final.",
+        "book_ref": {
+          "gaddis_chapter": 6,
+          "gaddis_section": "Sections 6.1 & 6.2",
+          "title": "Introduction to File Input and Output",
+          "explanation": "Gaddis teaches disk persistence: writing ('w'), appending ('a'), and reading ('r'). He explains buffer flushing, file pointers, and why leaving files open leads to data corruption.",
+          "explanation_es": "Gaddis enseña la persistencia en disco: escritura ('w'), anexado ('a') y lectura ('r'). Explica los búferes de memoria, punteros de archivo y por qué dejar archivos abiertos provoca corrupción de datos."
+        },
+        "breakdown": {
+          "analogy": "RAM is a whiteboard; when power turns off, everything is erased. Hard drives and SSDs are filing cabinets with folders. Opening a file takes a folder out of the cabinet; the 'with' statement guarantees the folder is returned and locked even if the building loses power.",
+          "analogy_es": "La memoria RAM es una pizarra: al apagar el equipo, se borra todo. Los discos duros son archivadores de metal. Abrir un archivo es sacar una carpeta; la sentencia 'with' garantiza que la carpeta se guarde y cierre bajo llave incluso si se corta la luz.",
+          "steps": [
+            "1. File Modes: 'w' wipes existing data; 'a' appends to the end; 'r' reads only.",
+            "2. Strip Newlines: Text lines read from disk include '\\n' at the end; clean them with .rstrip('\\n').",
+            "3. Context Manager: Always use 'with open(...) as f:' so Python closes the file automatically."
+          ],
+          "steps_es": [
+            "1. Modos de Archivo: 'w' borra todo lo previo; 'a' escribe al final; 'r' es solo lectura.",
+            "2. Limpiar Saltos: Las líneas leídas del disco traen '\\n' al final; límpialas con .rstrip('\\n').",
+            "3. Administrador de Contexto: Usa siempre 'with open(...) as f:' para que Python cierre el archivo en automático."
+          ]
+        },
+        "deep_dive": {
+          "concept": "OS File Descriptors & Buffer Flushing",
+          "detail": "When you call f.write(), data is not immediately written to physical disk platters—it sits in an operating system write buffer. If a program crashes before the buffer flushes, data is lost! The 'with' statement implements the Context Management protocol (__enter__ and __exit__), ensuring f.flush() and f.close() execute under all circumstances.",
+          "detail_es": "Cuando ejecutas f.write(), los datos no van directo al disco físico: se quedan en un búfer del sistema operativo. Si el programa falla antes de vaciar el búfer, ¡los datos se pierden! La sentencia 'with' implementa los métodos __enter__ y __exit__, garantizando que f.flush() y f.close() se ejecuten pase lo que pase."
+        }
+      },
+      {
+        "id": "10-2",
+        "num": "10.2",
+        "title": "Robust Programs, Exception Handling & JSON Persistence (Module 7.2)",
+        "why": "Real-world programs crash when files go missing or users input invalid data. Defensive programming catches exceptions (FileNotFoundError, ValueError), uses 'else' blocks for post-success operations, and serializes structured records permanently with json.dump/load.",
+        "concept": "`try-except-else-finally`: `try` code that may fail; `except FileNotFoundError` handles missing disk files; `else` runs only on success; `finally` runs cleanup. Structured persistence: `json.dump(data, file)` writes dicts/lists to disk; `json.load(file)` reconstructs Python objects.",
+        "code": "import json\nprofile = {'player': 'Alex', 'level': 5, 'completed': ['7.1', '7.2']}\nwith open('profile.json', 'w') as f:\n    json.dump(profile, f)\nwith open('profile.json', 'r') as f:\n    loaded = json.load(f)\nprint(f'Loaded: {loaded[\"player\"]} at level {loaded[\"level\"]}')",
+        "expected_output": "Loaded: Alex at level 5",
+        "pitfall": "Catching bare `except:` without specifying the error type, which silently hides syntax typos or NameErrors.",
+        "rep": {
+          "title": "Safe Integer Converter Rep",
+          "prompt": "Try int('invalid'). On ValueError, set status='recovered'.",
+          "starter": "try:\n    val = int('invalid')\nexcept ValueError:\n    # TODO: assign status = 'recovered'\n    status = \nprint(status)",
+          "test_var": "status",
+          "expected_val": "recovered",
+          "title_es": "Repetición: Convertidor Seguro de Enteros",
+          "prompt_es": "Intenta int('invalido'). Al ocurrir ValueError, asigna status='recovered'."
+        },
+        "quiz": {
+          "question": "Which block in a try-except structure executes regardless of whether an exception occurred or not?",
+          "options": [
+            "else",
+            "except",
+            "finally",
+            "catch"
+          ],
+          "answer": 2,
+          "explanation": "`finally` always executes at the end, making it ideal for cleanup tasks like closing database connections or release file locks.",
+          "question_es": "¿Qué bloque en una estructura try-except se ejecuta sin importar si ocurrió una excepción o no?",
+          "options_es": [
+            "else",
+            "except",
+            "finally",
+            "catch"
+          ],
+          "explanation_es": "`finally` siempre se ejecuta al final, haciéndolo ideal para tareas de limpieza como cerrar conexiones a bases de datos o liberar archivos."
+        },
+        "title_es": "Programas Robustos, Excepciones y Persistencia JSON (Módulo 7.2)",
+        "why_es": "En el mundo real, los programas se caen si faltan archivos o si los usuarios ingresan datos incorrectos. La programación defensiva captura excepciones (FileNotFoundError, ValueError), usa el bloque else tras operaciones exitosas y serializa datos estructurados con json.dump/load.",
+        "concept_es": "`try-except-else-finally`: `try` ejecuta código riesgoso; `except FileNotFoundError` captura archivos faltantes; `else` corre solo si no hubo error; `finally` corre siempre. Persistencia JSON: `json.dump(datos, archivo)` guarda diccionarios/listas en disco; `json.load(archivo)` reconstruye los objetos Python.",
+        "pitfall_es": "Capturar con un `except:` general sin especificar el tipo de error, lo cual oculta errores tipográficos de sintaxis o NameErrors.",
+        "book_ref": {
+          "gaddis_chapter": 6,
+          "gaddis_section": "Section 6.4",
+          "title": "Exception Handling: try, except, else, finally",
+          "explanation": "Gaddis teaches defensive programming through structured exception handling. Unhandled exceptions trigger traceback crashes. A try-except block intercepts the crash, allowing the program to display friendly feedback or recover gracefully.",
+          "explanation_es": "Gaddis enseña programación defensiva mediante el manejo de excepciones. Las excepciones no controladas provocan la caída del programa. Un bloque try-except intercepta el error, permitiendo informar al usuario o recuperarse limpiamente."
+        },
+        "breakdown": {
+          "analogy": "Think of a trapeze acrobat. The 'try' block is the high-wire act. The 'except' block is the safety net below. If the acrobat slips, the safety net catches them so the circus performance doesn't end in tragedy.",
+          "analogy_es": "Imagina un acróbata en el trapecio. El bloque 'try' es la maniobra en el aire. El bloque 'except' es la red de seguridad abajo. Si el acróbata resbala, la red lo atrapa para que el espectáculo continúe sin tragedias.",
+          "steps": [
+            "1. try: Put code that might fail (converting user input, reading files) inside the try block.",
+            "2. except SpecificError: Intercept specific errors (like ValueError, FileNotFoundError).",
+            "3. finally: Executes no matter what—perfect for closing database connections or cleaning up resources."
+          ],
+          "steps_es": [
+            "1. try: Coloca dentro el código que podría fallar (convertir entrada de usuario, abrir archivos).",
+            "2. except ErrorEspecifico: Captura errores puntuales (como ValueError, FileNotFoundError).",
+            "3. finally: Se ejecuta siempre, haya o no error; ideal para cerrar conexiones a bases de datos."
+          ]
+        },
+        "deep_dive": {
+          "concept": "EAFP vs LBYL in Python Architecture",
+          "detail": "Python embraces the EAFP philosophy ('Easier to Ask for Forgiveness than Permission') over LBYL ('Look Before You Leap'). Instead of writing complex if-checks before every operation, Pythonic architecture attempts the operation inside a try block and handles exceptions if they arise. This avoids race conditions in multi-threaded code.",
+          "detail_es": "Python adopta la filosofía EAFP ('Es Más Fácil Pedir Perdón Que Permiso') en lugar de LBYL ('Mira Antes De Saltar'). En vez de llenar el código con comprobaciones if previas, la arquitectura pythónica intenta la acción dentro de un try y captura las excepciones si ocurren, evitando condiciones de carrera."
+        }
+      }
+    ],
+    "title_es": "Módulo 7.1 y 7.2: Archivos, Programas Robustos y Persistencia JSON",
+    "desc_es": "Más allá de la memoria RAM: lectura y escritura de archivos, administrador with, captura robusta de errores (FileNotFoundError, ValueError), persistencia estructurada con JSON y refactorización modular."
   },
   {
     "num": 11,
