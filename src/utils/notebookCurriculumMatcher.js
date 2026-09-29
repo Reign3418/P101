@@ -8,6 +8,68 @@
 
 // Explicit mapping rules for known lecture notebooks
 const LECTURE_NOTEBOOK_RULES = [
+  // Module 7.1: Files & Basic Exceptions (Prof. Jade Cao)
+  {
+    matcher: (name, id) => /(7\.1|files?.*exceptions?|exceptions?.*files?)/i.test(name || '') || id === 'prof-cao-module-7-1',
+    chapterNum: 8,
+    sectionRules: [
+      // 8.1: File I/O, 'with' Statement, read/write/append, newlines, storage vs memory
+      {
+        sectionNum: '8.1',
+        sectionId: '8-1',
+        triggers: [
+          /Part\s*A\s*—\s*Working\s*with\s*Files/i,
+          /Where\s*Is\s*the\s*File/i,
+          /Reading\s*an\s*Entire\s*File/i,
+          /Why\s*Do\s*We\s*Use\s*`?with`?/i,
+          /Storage\s*vs\.?\s*Memory/i,
+          /Extra\s*Blank\s*Lines/i,
+          /rstrip/i,
+          /Three\s*Common\s*Ways\s*to\s*Read/i,
+          /Old\s*Skills\s*\+\s*File\s*Data/i,
+          /Mini\s*Practice\s*—\s*Analyze\s*the\s*Log/i,
+          /Working\s*with\s*File\s*Contents/i,
+          /Larger\s*Files/i,
+          /Tiny\s*Data\s*Investigation/i,
+          /One\s*Important\s*Trap:\s*Text\s*Is\s*Text/i,
+          /Part\s*B\s*—\s*Writing\s*Files/i,
+          /Writing\s*Multiple\s*Lines/i,
+          /Append\s*Instead\s*of\s*Replace/i,
+          /with\s+open/i,
+          /mode\s*=\s*['"][rwa]['"]/i,
+          /readlines/i,
+          /learning_python\.txt/i,
+          /today_notes\.txt/i,
+          /vehicle_log\.txt/i,
+          /pi_digits\.txt/i,
+          /Vehicle\s*Service\s*Log\s*Analyzer/i,
+          /Activity\s*Tracker/i,
+          /Exit\s*Ticket/i,
+          /Homework.*Activity\s*Tracker/i
+        ]
+      },
+      // 8.2: Exception Handling: try, except, FileNotFoundError, ValueError, while loop recovery
+      {
+        sectionNum: '8.2',
+        sectionId: '8-2',
+        triggers: [
+          /Part\s*C\s*—\s*Real\s*Programs\s*Go\s*Wrong/i,
+          /Crashing\s*Is\s*Unfriendly/i,
+          /Our\s*First\s*`?try\/except`?/i,
+          /try\s*:\s*.*except/i,
+          /FileNotFoundError/i,
+          /ValueError/i,
+          /Another\s*Common\s*Problem/i,
+          /Exception\s*\+\s*`?while`?\s*=\s*Try\s*Again/i,
+          /defensive\s*programming/i,
+          /traceback/i,
+          /missing_file\.txt/i,
+          /int\(["']pizza["']\)/i,
+          /input\s*validation/i
+        ]
+      }
+    ]
+  },
   // Module 6.2: Classes, Part 2: Connecting Classes (Inheritance & Composition) (Prof. Jade Cao)
   {
     matcher: (name, id) => /(6\.2|class2|classes[_\s-]*2|inheritance|composition)/i.test(name || '') || id === 'prof-cao-module-6-2',
@@ -236,7 +298,7 @@ const TOPIC_SIGNATURES = [
     }
   },
   {
-    chapterNum: 8, // Extended Ch 6 (File I/O & Exceptions)
+    chapterNum: 8, // Module 7.1 (File I/O & Exceptions)
     defaultSectionNum: '8.1',
     weight: (text) => {
       let score = 0;

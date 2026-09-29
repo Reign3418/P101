@@ -1038,11 +1038,11 @@ export const CHAPTERS_DATA = [
   },
   {
     "num": 8,
-    "code_module": "Extended Ch 6",
-    "title": "Files, Exceptions, & Data Persistence",
+    "code_module": "Module 7.1",
+    "title": "Files & Basic Exceptions",
     "icon": "📁",
-    "prof_source": "Tony Gaddis (6th Ed.) — Chapter 6 Companion",
-    "desc": "Moving beyond RAM: writing to disk ('w', 'a'), reading records ('r'), the with statement, and robust error recovery with try-except blocks.",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module7.1_Files_and_Exceptions.ipynb / Tony Gaddis (6th Ed.) Ch 6",
+    "desc": "Moving beyond temporary RAM: reading ('r'), writing ('w'), appending ('a'), the with context manager, newline stripping (.rstrip()), and robust error handling with try-except (FileNotFoundError, ValueError).",
     "sections": [
       {
         "id": "8-1",
@@ -1181,8 +1181,8 @@ export const CHAPTERS_DATA = [
         }
       }
     ],
-    "title_es": "Archivos, Excepciones y Persistencia de Datos",
-    "desc_es": "Más allá de la RAM: escribir en disco ('w', 'a'), leer registros ('r'), la sentencia with y recuperación robusta de errores con bloques try-except."
+    "title_es": "Módulo 7.1: Archivos y Excepciones Básicas",
+    "desc_es": "Más allá de la memoria RAM: lectura ('r'), escritura ('w'), anexado ('a'), administrador de contexto with, rstrip() y recuperación de errores con bloques try-except (FileNotFoundError, ValueError)."
   },
   {
       "num": 9,

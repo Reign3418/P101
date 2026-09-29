@@ -189,21 +189,40 @@ const CURRICULUM_SYNTHESIS_DATA = [
   },
   {
     module: {
-      en: 'Extended Track: File I/O, OOP, Exceptions & SQL',
-      es: 'Pista Extendida: Archivos, POO, Excepciones y SQL',
+      en: 'Module 7.1: Files & Basic Exceptions',
+      es: 'Módulo 7.1: Archivos y Excepciones Básicas',
+      source: 'Lecture_Module7.1_Files_and_Exceptions.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 6 (Sections 6.1, 6.2, 6.4)',
+      es: 'Capítulo 6 (Secciones 6.1, 6.2, 6.4)'
+    },
+    concepts: {
+      en: 'Disk persistence, with open() context manager, r/w/a file modes, rstrip() newline sanitization, FileNotFoundError & ValueError recovery, while-try input loops.',
+      es: 'Persistencia en disco, administrador with open(), modos r/w/a, sanitización de saltos con rstrip(), captura de FileNotFoundError y ValueError, bucles while-try.'
+    },
+    analogy: {
+      en: 'RAM whiteboard vs metal filing cabinet; high-wire trapeze acrobat (try) caught safely by circus net (except).',
+      es: 'Pizarra RAM volátil vs archivador metálico; trapecista en el aire (try) protegido por red de seguridad (except).'
+    }
+  },
+  {
+    module: {
+      en: 'Extended Track: Database Programming with SQLite',
+      es: 'Pista Extendida: Programación de Bases de Datos con SQLite',
       source: 'Extended Engineering Track'
     },
     gaddis: {
-      en: 'Chapters 6, 10, 11, 14',
-      es: 'Capítulos 6, 10, 11, 14'
+      en: 'Chapter 14 (Sections 14.1, 14.2, 14.4)',
+      es: 'Capítulo 14 (Secciones 14.1, 14.2, 14.4)'
     },
     concepts: {
-      en: 'Context managers (with open), exception handling (try-except-finally), class encapsulation, parameterized queries preventing SQL injection.',
-      es: 'Gestores de contexto (with open), manejo de excepciones (try-except-finally), encapsulación en clases, consultas parametrizadas contra inyección SQL.'
+      en: 'Relational tables, sqlite3 cursor execution, transaction commits, parameterized queries with ? placeholders preventing SQL injection.',
+      es: 'Tablas relacionales, ejecución con cursor sqlite3, confirmación de transacciones con commit, consultas parametrizadas con marcadores ? contra inyección SQL.'
     },
     analogy: {
-      en: 'Legally binding lease agreement (with); building emergency sprinkler system; architectural blueprint vs physical house.',
-      es: 'Contrato legal de arrendamiento (with); sistema de rociadores de emergencia; plano arquitectónico vs casa construida.'
+      en: 'Bank vault with security badge (conn) and bank teller (cursor) safely retrieving requested deposit box.',
+      es: 'Bóveda bancaria con credencial de seguridad (conn) y cajero (cursor) entregando la caja solicitada.'
     }
   }
 ];
