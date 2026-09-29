@@ -8,9 +8,64 @@
 
 // Explicit mapping rules for known lecture notebooks
 const LECTURE_NOTEBOOK_RULES = [
+  // Module 7.2: Robust Programs, Saved Data & Refactoring (Prof. Jade Cao)
+  {
+    matcher: (name, id) => /(7\.2|robust.*programs?|saved.*data|refactoring)/i.test(name || '') || id === 'prof-cao-module-7-2',
+    chapterNum: 8,
+    sectionRules: [
+      // 8.1: Processing Multiple Files, Reading, Word Counting, Maintenance Logs
+      {
+        sectionNum: '8.1',
+        sectionId: '8-1',
+        triggers: [
+          /Part\s*B\s*—\s*From\s*One\s*File\s*to\s*Many/i,
+          /Analyze\s*Text/i,
+          /Count\s*a\s*Word\s*or\s*Phrase/i,
+          /Repeated\s*Code\s*Is\s*Sending\s*Us\s*a\s*Message/i,
+          /summarize_file/i,
+          /shop_notes/i,
+          /In-Class\s*Practice\s*—\s*Maintenance\s*Report\s*Processor/i,
+          /maintenance_[abc]\.txt/i,
+          /Maintenance\s*Report/i
+        ]
+      },
+      // 8.2: Exception Handling (else block, FileNotFoundError, pass), JSON Persistence, Refactoring
+      {
+        sectionNum: '8.2',
+        sectionId: '8-2',
+        triggers: [
+          /Part\s*A\s*—\s*Better\s*Exception\s*Handling/i,
+          /The\s*`?else`?\s*Block/i,
+          /A\s*File\s*Can\s*Be\s*Missing/i,
+          /Handling\s*`?FileNotFoundError`?/i,
+          /Fix\s*the\s*Bug\s*or\s*Handle\s*the\s*Exception/i,
+          /Part\s*C\s*—\s*Silent\s*Failure/i,
+          /`?pass`?\s*—\s*Intentionally\s*Do\s*Nothing/i,
+          /Report\s*It\s*or\s*Stay\s*Quiet/i,
+          /External\s*Boundaries/i,
+          /Part\s*D\s*—\s*Saving\s*Structured\s*Data\s*with\s*JSON/i,
+          /Save\s*Data\s*with\s*`?json\.dump\(\)`?/i,
+          /Load\s*It\s*Back\s*with\s*`?json\.load\(\)`?/i,
+          /json\.dump/i,
+          /json\.load/i,
+          /player_profile\.json/i,
+          /Remember\s*the\s*User/i,
+          /Part\s*E\s*—\s*Refactoring/i,
+          /What\s*Is\s*Refactoring/i,
+          /First\s*Refactor/i,
+          /Separate\s*the\s*Jobs/i,
+          /Refactoring\s*Is\s*NOT/i,
+          /Verify\s*the\s*User/i,
+          /Bridge\s*to\s*Testing/i,
+          /Exit\s*Ticket/i,
+          /Homework\s*—\s*Game\s*Profile\s*Manager/i
+        ]
+      }
+    ]
+  },
   // Module 7.1: Files & Basic Exceptions (Prof. Jade Cao)
   {
-    matcher: (name, id) => /(7\.1|files?.*exceptions?|exceptions?.*files?)/i.test(name || '') || id === 'prof-cao-module-7-1',
+    matcher: (name, id) => ((/(7\.1|files?.*exceptions?|exceptions?.*files?)/i.test(name || '') && !/7\.2/i.test(name || '')) || id === 'prof-cao-module-7-1'),
     chapterNum: 8,
     sectionRules: [
       // 8.1: File I/O, 'with' Statement, read/write/append, newlines, storage vs memory
@@ -298,13 +353,14 @@ const TOPIC_SIGNATURES = [
     }
   },
   {
-    chapterNum: 8, // Module 7.1 (File I/O & Exceptions)
+    chapterNum: 8, // Module 7.1 & 7.2 (File I/O, Exceptions, JSON & Refactoring)
     defaultSectionNum: '8.1',
     weight: (text) => {
       let score = 0;
       if (/with\s+open\s*\(/i.test(text)) score += 6;
       if (/try\s*:/i.test(text) && /except/i.test(text)) score += 6;
-      if (/\b(FileNotFoundError|ValueError|read\(\)|write\(\))\b/i.test(text)) score += 4;
+      if (/json\.(dump|load)\s*\(/i.test(text)) score += 6;
+      if (/\b(FileNotFoundError|ValueError|read\(\)|write\(\)|refactor|json)\b/i.test(text)) score += 4;
       return score;
     }
   },

@@ -1038,11 +1038,11 @@ export const CHAPTERS_DATA = [
   },
   {
     "num": 8,
-    "code_module": "Module 7.1",
-    "title": "Files & Basic Exceptions",
+    "code_module": "Module 7.1 & 7.2",
+    "title": "Files, Robust Programs & JSON Persistence",
     "icon": "📁",
-    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module7.1_Files_and_Exceptions.ipynb / Tony Gaddis (6th Ed.) Ch 6",
-    "desc": "Moving beyond temporary RAM: reading ('r'), writing ('w'), appending ('a'), the with context manager, newline stripping (.rstrip()), and robust error handling with try-except (FileNotFoundError, ValueError).",
+    "prof_source": "Prof. Jade Cao (CCCC) — Lecture_Module7.1 & 7.2 / Tony Gaddis (6th Ed.) Ch 6",
+    "desc": "Moving beyond temporary RAM: file I/O ('r', 'w', 'a'), with open(), robust exception recovery (try-except-else-finally, FileNotFoundError, ValueError), structured data persistence with json.dump/load, and modular refactoring.",
     "sections": [
       {
         "id": "8-1",
@@ -1115,11 +1115,11 @@ export const CHAPTERS_DATA = [
       {
         "id": "8-2",
         "num": "8.2",
-        "title": "Exception Handling: try, except, finally",
-        "why": "In the real world, users enter bad data and files go missing. Exception handling catches crashes gracefully and provides recovery instructions.",
-        "concept": "`try:` runs code that might fail. `except ValueError:` catches specific error. `else:` runs if no error. `finally:` runs always.",
-        "code": "user_entry = 'ninety'\ntry:\n    score = int(user_entry)\n    print(f'Score: {score}')\nexcept ValueError:\n    print('Handled: User entered non-numeric characters. Prompting again.')",
-        "expected_output": "Handled: User entered non-numeric characters. Prompting again.",
+        "title": "Robust Programs, Exception Handling & JSON Persistence (Module 7.2)",
+        "why": "Real-world programs crash when files go missing or users input invalid data. Defensive programming catches exceptions (FileNotFoundError, ValueError), uses 'else' blocks for post-success operations, and serializes structured records permanently with json.dump/load.",
+        "concept": "`try-except-else-finally`: `try` code that may fail; `except FileNotFoundError` handles missing disk files; `else` runs only on success; `finally` runs cleanup. Structured persistence: `json.dump(data, file)` writes dicts/lists to disk; `json.load(file)` reconstructs Python objects.",
+        "code": "import json\nprofile = {'player': 'Alex', 'level': 5, 'completed': ['7.1', '7.2']}\nwith open('profile.json', 'w') as f:\n    json.dump(profile, f)\nwith open('profile.json', 'r') as f:\n    loaded = json.load(f)\nprint(f'Loaded: {loaded[\"player\"]} at level {loaded[\"level\"]}')",
+        "expected_output": "Loaded: Alex at level 5",
         "pitfall": "Catching bare `except:` without specifying the error type, which silently hides syntax typos or NameErrors.",
         "rep": {
           "title": "Safe Integer Converter Rep",
@@ -1149,9 +1149,9 @@ export const CHAPTERS_DATA = [
           ],
           "explanation_es": "`finally` siempre se ejecuta al final, haciéndolo ideal para tareas de limpieza como cerrar conexiones a bases de datos o liberar archivos."
         },
-        "title_es": "Manejo de Excepciones: try, except, finally",
-        "why_es": "En el mundo real, los usuarios ingresan datos incorrectos y los archivos pueden no existir. El manejo de excepciones captura los fallos con gracia y ofrece instrucciones de recuperación.",
-        "concept_es": "`try:` ejecuta código que podría fallar. `except ValueError:` captura un error específico. `else:` corre si no hubo error. `finally:` corre siempre.",
+        "title_es": "Programas Robustos, Excepciones y Persistencia JSON (Módulo 7.2)",
+        "why_es": "En el mundo real, los programas se caen si faltan archivos o si los usuarios ingresan datos incorrectos. La programación defensiva captura excepciones (FileNotFoundError, ValueError), usa el bloque else tras operaciones exitosas y serializa datos estructurados con json.dump/load.",
+        "concept_es": "`try-except-else-finally`: `try` ejecuta código riesgoso; `except FileNotFoundError` captura archivos faltantes; `else` corre solo si no hubo error; `finally` corre siempre. Persistencia JSON: `json.dump(datos, archivo)` guarda diccionarios/listas en disco; `json.load(archivo)` reconstruye los objetos Python.",
         "pitfall_es": "Capturar con un `except:` general sin especificar el tipo de error, lo cual oculta errores tipográficos de sintaxis o NameErrors.",
         "book_ref": {
           "gaddis_chapter": 6,
@@ -1181,8 +1181,8 @@ export const CHAPTERS_DATA = [
         }
       }
     ],
-    "title_es": "Módulo 7.1: Archivos y Excepciones Básicas",
-    "desc_es": "Más allá de la memoria RAM: lectura ('r'), escritura ('w'), anexado ('a'), administrador de contexto with, rstrip() y recuperación de errores con bloques try-except (FileNotFoundError, ValueError)."
+    "title_es": "Módulo 7.1 y 7.2: Archivos, Programas Robustos y Persistencia JSON",
+    "desc_es": "Más allá de la memoria RAM: lectura y escritura de archivos, administrador with, captura robusta de errores (FileNotFoundError, ValueError), persistencia estructurada con JSON y refactorización modular."
   },
   {
       "num": 9,

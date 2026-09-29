@@ -26,6 +26,25 @@ export function usePyodide() {
           indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/"
         });
 
+        // Pre-populate Pyodide virtual filesystem with course starter files (Modules 7.1 & 7.2)
+        try {
+          const starterFiles = {
+            'shop_notes_1.txt': 'Check oil level before road test.\nBrake pads look good.\nCheck tire pressure after service.\n',
+            'shop_notes_2.txt': 'Coolant hose replaced.\nCheck coolant level tomorrow.\nBattery test completed.\n',
+            'shop_notes_3.txt': 'Customer reported vibration.\nCheck front tires and alignment.\nRoad test completed.\n',
+            'maintenance_a.txt': 'coolant hose,completed\nbattery,needs attention\noil level,completed\nbrake pads,needs attention\n',
+            'maintenance_b.txt': 'tire pressure,completed\nair filter,completed\nbattery,completed\n',
+            'maintenance_c.txt': 'coolant level,needs attention\nwiper blades,completed\nheadlight,needs attention\n',
+            'learning_python.txt': 'In Python you can store data in variables.\nIn Python you can model real systems with classes.\nIn Python you can persist records to disk files.\n',
+            'pi_digits.txt': '3.1415926535\n  8979323846\n  2643383279\n'
+          };
+          for (const [name, content] of Object.entries(starterFiles)) {
+            pyodide.FS.writeFile(name, content);
+          }
+        } catch (fsErr) {
+          console.warn("Virtual FS starter file notice:", fsErr);
+        }
+
         if (mounted) {
           pyodideRef.current = pyodide;
           setIsReady(true);

@@ -189,21 +189,21 @@ const CURRICULUM_SYNTHESIS_DATA = [
   },
   {
     module: {
-      en: 'Module 7.1: Files & Basic Exceptions',
-      es: 'Módulo 7.1: Archivos y Excepciones Básicas',
-      source: 'Lecture_Module7.1_Files_and_Exceptions.ipynb'
+      en: 'Module 7.1 & 7.2: Files, Robust Programs & JSON Persistence',
+      es: 'Módulo 7.1 y 7.2: Archivos, Programas Robustos y Persistencia JSON',
+      source: 'Lecture_Module7.1 & Lecture_Module7.2.ipynb'
     },
     gaddis: {
-      en: 'Chapter 6 (Sections 6.1, 6.2, 6.4)',
-      es: 'Capítulo 6 (Secciones 6.1, 6.2, 6.4)'
+      en: 'Chapter 6 (Sections 6.1, 6.2, 6.4) & Chapter 10',
+      es: 'Capítulo 6 (Secciones 6.1, 6.2, 6.4) y Capítulo 10'
     },
     concepts: {
-      en: 'Disk persistence, with open() context manager, r/w/a file modes, rstrip() newline sanitization, FileNotFoundError & ValueError recovery, while-try input loops.',
-      es: 'Persistencia en disco, administrador with open(), modos r/w/a, sanitización de saltos con rstrip(), captura de FileNotFoundError y ValueError, bucles while-try.'
+      en: 'Disk persistence, with open() context manager, r/w/a modes, rstrip(), multi-file batch processing, FileNotFoundError & ValueError recovery with else/finally, json.dump/load structured storage, and modular refactoring.',
+      es: 'Persistencia en disco, administrador with open(), modos r/w/a, rstrip(), procesamiento por lotes, captura de FileNotFoundError y ValueError con else/finally, almacenamiento estructurado json.dump/load y refactorización modular.'
     },
     analogy: {
-      en: 'RAM whiteboard vs metal filing cabinet; high-wire trapeze acrobat (try) caught safely by circus net (except).',
-      es: 'Pizarra RAM volátil vs archivador metálico; trapecista en el aire (try) protegido por red de seguridad (except).'
+      en: 'RAM whiteboard vs metal filing cabinet; high-wire trapeze acrobat (try) caught safely by circus net (except); universal standardized shipping container (JSON).',
+      es: 'Pizarra RAM volátil vs archivador metálico; trapecista en el aire (try) protegido por red de seguridad (except); contenedor de carga estandarizado universal (JSON).'
     }
   },
   {
