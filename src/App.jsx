@@ -50,9 +50,9 @@ export default function App() {
   const [completedSections, setCompletedSections] = useState(() => {
     try {
       const raw = localStorage.getItem('py_completed_sections');
-      const parsed = raw ? JSON.parse(raw) : {};
-      const isMigrated = localStorage.getItem('p101_curriculum_v2_migrated');
-      if (!isMigrated) {
+      let parsed = raw ? JSON.parse(raw) : {};
+      const isMigratedV2 = localStorage.getItem('p101_curriculum_v2_migrated');
+      if (!isMigratedV2) {
         const next = {};
         const map = {
           '8-1': '10-1', '8-2': '10-2',
@@ -62,9 +62,18 @@ export default function App() {
         for (const [k, v] of Object.entries(parsed)) {
           next[map[k] || k] = v;
         }
-        localStorage.setItem('py_completed_sections', JSON.stringify(next));
-        return next;
+        parsed = next;
+        localStorage.setItem('p101_curriculum_v2_migrated', 'true');
       }
+      const isMigratedV3 = localStorage.getItem('p101_curriculum_v3_migrated');
+      if (!isMigratedV3) {
+        if (parsed['11-1']) {
+          parsed['12-1'] = parsed['11-1'];
+          delete parsed['11-1'];
+        }
+        localStorage.setItem('p101_curriculum_v3_migrated', 'true');
+      }
+      localStorage.setItem('py_completed_sections', JSON.stringify(parsed));
       return parsed;
     } catch {
       return {};
@@ -73,9 +82,9 @@ export default function App() {
   const [reviewQueue, setReviewQueue] = useState(() => {
     try {
       const raw = localStorage.getItem('py_review_queue');
-      const parsed = raw ? JSON.parse(raw) : {};
-      const isMigrated = localStorage.getItem('p101_curriculum_v2_migrated');
-      if (!isMigrated) {
+      let parsed = raw ? JSON.parse(raw) : {};
+      const isMigratedV2 = localStorage.getItem('p101_curriculum_v2_migrated');
+      if (!isMigratedV2) {
         const next = {};
         const map = {
           '8-1': '10-1', '8-2': '10-2',
@@ -85,10 +94,16 @@ export default function App() {
         for (const [k, v] of Object.entries(parsed)) {
           next[map[k] || k] = v;
         }
-        localStorage.setItem('py_review_queue', JSON.stringify(next));
-        localStorage.setItem('p101_curriculum_v2_migrated', 'true');
-        return next;
+        parsed = next;
       }
+      const isMigratedV3 = localStorage.getItem('p101_curriculum_v3_migrated');
+      if (!isMigratedV3) {
+        if (parsed['11-1']) {
+          parsed['12-1'] = parsed['11-1'];
+          delete parsed['11-1'];
+        }
+      }
+      localStorage.setItem('py_review_queue', JSON.stringify(parsed));
       return parsed;
     } catch {
       return {};

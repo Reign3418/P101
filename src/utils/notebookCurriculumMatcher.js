@@ -8,6 +8,67 @@
 
 // Explicit mapping rules for known lecture notebooks
 const LECTURE_NOTEBOOK_RULES = [
+  // Module 8.1: Testing Your Code (Prof. Jade Cao)
+  {
+    matcher: (name, id) => /(8\.1|testing|test_your_code|pytest)/i.test(name || '') || id === 'prof-cao-module-8-1',
+    chapterNum: 11,
+    sectionRules: [
+      // 11.1: Testing Mindset, Expected vs Actual, Boundary Cases, assert
+      {
+        sectionNum: '11.1',
+        sectionId: '11-1',
+        triggers: [
+          /Module\s*8\s*—\s*Testing/i,
+          /Part\s*1\s*—\s*Live\s*Coding/i,
+          /How\s*a\s*Program\s*Actually\s*Gets\s*Built/i,
+          /Maintenance\s*Report\s*Processor\s*—\s*Problem\s*Reminder/i,
+          /Debugging\s*Prediction/i,
+          /Notebook\s*State/i,
+          /Part\s*2\s*—\s*Why\s*Test/i,
+          /Expected\s*result/i,
+          /Actual\s*result/i,
+          /Normal\s*Cases\s*and\s*Edge\s*Cases/i,
+          /Part\s*3\s*—\s*Your\s*First\s*Automated\s*Check:\s*`?assert`?/i,
+          /assert\s+/i,
+          /is_passing/i,
+          /format_username/i,
+          /Make\s*a\s*Test\s*Fail\s*on\s*Purpose/i
+        ]
+      },
+      // 11.2: pytest, Testing Classes, Fixtures, Refactoring Guardrails
+      {
+        sectionNum: '11.2',
+        sectionId: '11-2',
+        triggers: [
+          /Part\s*4\s*—\s*From\s*`?assert`?\s*to\s*`?pytest`?/i,
+          /pip\s*install.*pytest/i,
+          /pytest/i,
+          /test_discount\.py/i,
+          /discount\.py/i,
+          /calculate_discount/i,
+          /Reading\s*a\s*Failed\s*Test/i,
+          /Instructor\s*Demo/i,
+          /Part\s*5\s*—\s*Testing\s*Is\s*About\s*Behavior/i,
+          /Refactoring\s*=\s*change\s*structure/i,
+          /Part\s*6\s*—\s*Testing\s*a\s*Class/i,
+          /GameCharacter/i,
+          /take_damage/i,
+          /Exposure:\s*Fixtures/i,
+          /fixture/i,
+          /Part\s*7\s*—\s*In-Class\s*Practice:\s*Test\s*the\s*Parking\s*Fee/i,
+          /parking_fee/i,
+          /Exit\s*Ticket/i,
+          /Homework\s*—\s*5\s*Exercises/i,
+          /Shipping\s*Cost\s*Tests/i,
+          /Username\s*Cleaner/i,
+          /Movie\s*Ticket\s*Boundary/i,
+          /Class\s*Test\s*—\s*Battery/i,
+          /Refactor\s*Without\s*Breaking\s*Behavior/i,
+          /Code\s*is\s*a\s*claim\.\s*A\s*test\s*is\s*evidence/i
+        ]
+      }
+    ]
+  },
   // Module 7.2: Robust Programs, Saved Data & Refactoring (Prof. Jade Cao)
   {
     matcher: (name, id) => /(7\.2|robust.*programs?|saved.*data|refactoring)/i.test(name || '') || id === 'prof-cao-module-7-2',
@@ -315,6 +376,29 @@ const LECTURE_NOTEBOOK_RULES = [
 
 // Fallback topic detector for any custom or uploaded notebook (.ipynb)
 const TOPIC_SIGNATURES = [
+  {
+    chapterNum: 11, // Module 8.1 (Testing, assert, pytest, refactoring)
+    defaultSectionNum: '11.1',
+    weight: (text) => {
+      let score = 0;
+      if (/\bassert\s+/i.test(text)) score += 6;
+      if (/\bpytest\b/i.test(text)) score += 6;
+      if (/def\s+test_\w+\s*\(/i.test(text)) score += 6;
+      if (/\b(test\s*cases?|edge\s*cases?|expected\s*result|actual\s*result|fixture)\b/i.test(text)) score += 4;
+      if (/\b(parking_fee|GameCharacter|is_passing)\b/i.test(text)) score += 4;
+      return score;
+    }
+  },
+  {
+    chapterNum: 12, // Extended Ch 14 (SQLite)
+    defaultSectionNum: '12.1',
+    weight: (text) => {
+      let score = 0;
+      if (/sqlite3\.(connect|cursor)/i.test(text)) score += 7;
+      if (/\b(SELECT|INSERT|UPDATE|DELETE|CREATE\s+TABLE)\b/i.test(text)) score += 5;
+      return score;
+    }
+  },
   {
     chapterNum: 9, // Module 6.2 (Inheritance & Composition)
     defaultSectionNum: '9.1',

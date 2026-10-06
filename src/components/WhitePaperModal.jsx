@@ -208,6 +208,25 @@ const CURRICULUM_SYNTHESIS_DATA = [
   },
   {
     module: {
+      en: 'Module 8.1: Testing Your Code (assert, pytest, & Behavior)',
+      es: 'Módulo 8.1: Pruebas de Código (assert, pytest y Comportamiento)',
+      source: 'Lecture_Module8.1_Testing.ipynb'
+    },
+    gaddis: {
+      en: 'Chapter 5 (Sec 5.9), Chapter 10 (Sec 10.3) & Python Crash Course Ch 11',
+      es: 'Capítulo 5 (Sec 5.9), Capítulo 10 (Sec 10.3) y Python Crash Course Cap 11'
+    },
+    concepts: {
+      en: 'Expected vs actual results, boundary/edge cases, automated checks with assert, test discovery with pytest, testing class state mutations, and refactoring guardrails ("Code is a claim. A test is evidence.").',
+      es: 'Resultados esperados vs reales, casos límite, aserciones con assert, descubrimiento con pytest, pruebas de mutación de clases y protección al refactorizar ("El código es una afirmación. Una prueba es evidencia.").'
+    },
+    analogy: {
+      en: 'Airplane pre-flight checklist verifying every system before runway takeoff; automotive vehicle crash test dummies validating safety before and after chassis redesign.',
+      es: 'Lista de verificación previa al vuelo de un avión antes del despegue; maniquíes de pruebas de choque comprobando la seguridad antes y después de rediseñar el chasis.'
+    }
+  },
+  {
+    module: {
       en: 'Extended Track: Database Programming with SQLite',
       es: 'Pista Extendida: Programación de Bases de Datos con SQLite',
       source: 'Extended Engineering Track'

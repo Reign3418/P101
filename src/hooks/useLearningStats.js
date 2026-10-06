@@ -23,6 +23,15 @@ export function useLearningStats(activeChapterNum) {
           }
           localStorage.setItem('p101_stats_v2_migrated', 'true');
         }
+        const isMigratedV3 = localStorage.getItem('p101_stats_v3_migrated');
+        if (!isMigratedV3 && parsed.modules) {
+          if (parsed.modules['11']) {
+            parsed.modules['12'] = parsed.modules['11'];
+            delete parsed.modules['11'];
+            localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(parsed));
+          }
+          localStorage.setItem('p101_stats_v3_migrated', 'true');
+        }
         return parsed;
       }
     } catch (e) {

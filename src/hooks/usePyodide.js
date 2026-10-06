@@ -36,7 +36,9 @@ export function usePyodide() {
             'maintenance_b.txt': 'tire pressure,completed\nair filter,completed\nbattery,completed\n',
             'maintenance_c.txt': 'coolant level,needs attention\nwiper blades,completed\nheadlight,needs attention\n',
             'learning_python.txt': 'In Python you can store data in variables.\nIn Python you can model real systems with classes.\nIn Python you can persist records to disk files.\n',
-            'pi_digits.txt': '3.1415926535\n  8979323846\n  2643383279\n'
+            'pi_digits.txt': '3.1415926535\n  8979323846\n  2643383279\n',
+            'discount.py': 'def calculate_discount(price, member):\n    """Return the price after a 10% member discount."""\n    if member:\n        return price * 0.90\n    return price\n',
+            'test_discount.py': 'from discount import calculate_discount\n\ndef test_member_discount():\n    assert calculate_discount(100, True) == 90\n\ndef test_nonmember_price():\n    assert calculate_discount(100, False) == 100\n\ndef test_zero_price():\n    assert calculate_discount(0, True) == 0\n'
           };
           for (const [name, content] of Object.entries(starterFiles)) {
             pyodide.FS.writeFile(name, content);
