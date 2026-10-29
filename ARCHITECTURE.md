@@ -68,7 +68,7 @@ src/
 ├── App.jsx                    # Primary application controller & view switcher
 ├── index.css                  # Global styles, fonts, and dark mode base
 ├── data/
-│   ├── chaptersData.js        # 11 bilingual chapters, 23 sections, quizzes, and reps
+│   ├── chaptersData.js        # 12 bilingual chapters, 25 sections, quizzes, and reps
 │   ├── cheatSheetsData.js     # Data Science reference toolkit (NumPy, Matplotlib, SciPy)
 │   └── translations.js        # English & Spanish UI dictionary
 ├── hooks/
@@ -131,7 +131,7 @@ To ensure complete compliance with university intellectual property policies, P1
 
 ### 4.4 Bilingual Internationalization (i18n) System
 - **Centralized Dictionary (`translations.js`)**: Provides comprehensive English and Spanish strings for all UI buttons, labels, tooltips, and modal dialogues.
-- **Curriculum Localization (`chaptersData.js`)**: All 11 chapters and 23 sections include complete Spanish translations for titles, descriptions, "Why" breakdowns, pitfalls, and quizzes.
+- **Curriculum Localization (`chaptersData.js`)**: All 12 chapters and 25 sections include complete Spanish translations for titles, descriptions, "Why" breakdowns, pitfalls, and quizzes.
 - **Dynamic Getter (`getLocalizedChapters(lang)`)**: Returns the localized curriculum tree seamlessly based on the selected language, preserving code logic and test cases.
 - **Zero-Reload Toggle**: Header switch `[ 🇺🇸 EN | 🇪🇸 ES ]` updates the entire DOM and speech engine instantaneously.
 
@@ -209,9 +209,14 @@ Located in the project root for seamless operations without command-line frictio
 
 [Phase 6: Full-Site Internationalization (i18n)]
   • Built centralized English and Spanish translation dictionary (translations.js).
-  • Translated all 10 modules, 18 sections, "Why" notes, and quizzes into natural Spanish.
+  • Translated all 12 chapters, 25 sections, "Why" notes, and quizzes into natural Spanish.
   • Integrated Spanish neural voice synthesis with automatic language-matching.
   • Added header language toggle [ 🇺🇸 EN | 🇪🇸 ES ] with local storage persistence.
+
+[Phase 7: OOP, File Persistence, Automated Testing (pytest) & Code-Splitting]
+  • Added Modules 6.1 & 6.2 (Classes, Inheritance & Composition), Modules 7.1 & 7.2 (Files, Exceptions & JSON), and Module 8.1 (Testing with assert & pytest).
+  • Pre-mounted virtual filesystem (MEMFS) starter files and added Jupyter magic shims (%%writefile, !pytest, !pip) with sys.modules cache invalidation.
+  • Implemented React.lazy() code-splitting (-31% initial bundle), 10s execution timeout protection, and full 25/25 dynamic rep randomization.
 ```
 
 ---

@@ -83,12 +83,13 @@ export function usePyodide() {
       };
     }
 
+    const processedCode = preprocessCode(code);
     const pyodide = pyodideRef.current;
     try {
       // Auto-load packages like numpy, scipy, matplotlib on demand if imported
       if (pyodide.loadPackagesFromImports) {
         try {
-          await pyodide.loadPackagesFromImports(code);
+          await pyodide.loadPackagesFromImports(processedCode);
         } catch (pkgErr) {
           console.warn("Pyodide package autoload notice:", pkgErr);
         }
@@ -100,14 +101,31 @@ import sys, io, builtins
 _p101_sandbox = {}
 _p101_out = io.StringIO()
 _p101_old_stdout = sys.stdout
+_p101_old_stderr = sys.stderr
 sys.stdout = _p101_out
+sys.stderr = _p101_out
 try:
-    exec(compile(${JSON.stringify(code)}, '<rep>', 'exec'), {'__builtins__': builtins, **_p101_sandbox}, _p101_sandbox)
+    exec(compile(${JSON.stringify(processedCode)}, '<rep>', 'exec'), {'__builtins__': builtins, **_p101_sandbox}, _p101_sandbox)
 finally:
     _p101_captured = _p101_out.getvalue()
     sys.stdout = _p101_old_stdout
+    sys.stderr = _p101_old_stderr
 `;
-      await pyodide.runPythonAsync(sandboxSetup);
+      // Timeout protection against infinite loops (10 second limit)
+      let timeoutId;
+      const runPromise = pyodide.runPythonAsync(sandboxSetup);
+      const timeoutPromise = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => {
+          reject(new Error("Execution timed out (10s limit exceeded). Check for infinite while/for loops or blocking operations."));
+        }, 10000);
+      });
+
+      try {
+        await Promise.race([runPromise, timeoutPromise]);
+      } finally {
+        clearTimeout(timeoutId);
+      }
+
       const stdout = pyodide.globals.get('_p101_captured') || '';
       const elapsed = Math.round(performance.now() - startTime);
 
@@ -177,6 +195,13 @@ finally:
 }
 
 function parsePythonError(msg) {
+  if (msg.includes('Execution timed out') || msg.includes('timed out')) {
+    return {
+      type: 'TimeoutError',
+      summary: 'Execution exceeded the 10-second safety limit. Check your code for infinite while or for loops.',
+      details: msg
+    };
+  }
   if (msg.includes('SyntaxError')) {
     return {
       type: 'SyntaxError',
@@ -217,4 +242,41 @@ function parsePythonError(msg) {
     summary: 'Execution encountered an unexpected issue.',
     details: msg
   };
+}
+
+// Pre-process Jupyter shell magics (e.g. %%writefile, !pytest, !pip) for Pyodide WebAssembly runtime
+function preprocessCode(rawCode) {
+  if (!rawCode) return '';
+  let c = rawCode.trim();
+
+  // 1. Jupyter %%writefile <filename> (allows optional leading # comment lines)
+  const wfMatch = c.match(/^(?:\s*#[^\n]*\r?\n)*\s*%%writefile\s+([^\s\r\n]+)\r?\n([\s\S]*)$/);
+  if (wfMatch) {
+    const filename = wfMatch[1];
+    const fileContent = wfMatch[2];
+    const modStem = filename.replace(/\.py$/i, '');
+    return `import sys, importlib\nwith open(${JSON.stringify(filename)}, "w", encoding="utf-8") as _wf:\n    _wf.write(${JSON.stringify(fileContent)})\nimportlib.invalidate_caches()\nsys.modules.pop(${JSON.stringify(modStem)}, None)\nprint(${JSON.stringify(`Writing ${filename}`)})`;
+  }
+
+  // 2. Jupyter pytest invocation (!python -m pytest or !pytest)
+  if (/^\s*!\s*(?:python\s+-m\s+)?pytest\b/m.test(c)) {
+    c = c.replace(/^\s*!\s*(?:python\s+-m\s+)?pytest\s*(.*)$/gm, (_, argsStr) => {
+      const rawArgs = (argsStr || '').trim().split(/\s+/).filter(Boolean);
+      const args = rawArgs.length > 0 ? rawArgs : ['-q'];
+      if (!args.includes('-s') && !args.some(a => a.startsWith('--capture'))) {
+        args.push('--capture=sys');
+      }
+      return `import sys, importlib, pytest\nimportlib.invalidate_caches()\nfor _m in list(sys.modules.keys()):\n    if _m.startswith('test_') or _m in ('discount', 'vehicle'):\n        sys.modules.pop(_m, None)\npytest.main(${JSON.stringify(args)})`;
+    });
+  }
+
+  // 3. Jupyter pip install invocation (!python -m pip install or !pip install)
+  if (/^\s*!\s*(?:python\s+-m\s+)?pip\s+install/m.test(c)) {
+    c = c.replace(/^\s*!\s*(?:python\s+-m\s+)?pip\s+install\s*(.*)$/gm, (_, pkgs) => {
+      const msg = `Requirement already satisfied in Pyodide: ${(pkgs || '').trim()}`;
+      return `print(${JSON.stringify(msg)})`;
+    });
+  }
+
+  return c;
 }

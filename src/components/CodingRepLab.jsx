@@ -199,6 +199,20 @@ export function CodingRepLab({
         : `Use io.BytesIO to read b'${rec}\\n'. Decode and strip the newline into 'clean_record'.`);
       setCode(`import io\nraw_bytes = b'${rec}\\n'\n# TODO: open raw_bytes with io.BytesIO and read the line, then decode and strip the newline into clean_record\nwith io.BytesIO(raw_bytes) as f:\n    clean_record = \nprint(clean_record)`);
       setExpectedVal(rec);
+    } else if (testVar === 'status' && repData.starter && repData.starter.includes('class Player')) {
+      const pairs = [
+        { p1: 'Vega', p2: 'Sirius', dmg: 30 },
+        { p1: 'Atlas', p2: 'Zephyr', dmg: 40 },
+        { p1: 'Blaze', p2: 'Frost', dmg: 15 },
+        { p1: 'Echo', p2: 'Titan', dmg: 35 }
+      ];
+      const pair = pairs[Math.floor(Math.random() * pairs.length)];
+      const exp = `${pair.p1}:${100 - pair.dmg}|${pair.p2}:100`;
+      setPrompt(lang === 'es'
+        ? `Crea la clase Player con __init__(self, name, health=100) y take_damage(self, amount) que reste amount de self.health. Crea p1 = Player('${pair.p1}') y p2 = Player('${pair.p2}'). Llama p1.take_damage(${pair.dmg}). Guarda f'{p1.name}:{p1.health}|{p2.name}:{p2.health}' en 'status'.`
+        : `Create class Player with __init__(self, name, health=100) and take_damage(self, amount) that subtracts amount from self.health. Create p1 = Player('${pair.p1}') and p2 = Player('${pair.p2}'). Call p1.take_damage(${pair.dmg}). Store f'{p1.name}:{p1.health}|{p2.name}:{p2.health}' in 'status'.`);
+      setCode(`class Player:\n    def __init__(self, name, health=100):\n        # TODO: store name and health as instance attributes\n        pass\n\n    def take_damage(self, amount):\n        # TODO: subtract amount from self.health\n        pass\n\np1 = Player("${pair.p1}")\np2 = Player("${pair.p2}")\np1.take_damage(${pair.dmg})\nstatus = \nprint(status)`);
+      setExpectedVal(exp);
     } else if (testVar === 'status') {
       const invalids = ["'abc'", "'invalid'", "'not_a_num'", "'ninety'"];
       const inv = invalids[Math.floor(Math.random() * invalids.length)];
@@ -207,14 +221,46 @@ export function CodingRepLab({
         : `Try int(${inv}). On ValueError, set status='recovered'.`);
       setCode(`try:\n    val = int(${inv})\nexcept ValueError:\n    # TODO: assign status = 'recovered'\n    status = \nprint(status)`);
       setExpectedVal('recovered');
-    } else if (testVar === 'st_name') {
-      const majors = ["CS", "Data Science", "Cybersecurity", "Software Eng"];
-      const major = majors[Math.floor(Math.random() * majors.length)];
+    } else if (testVar === 'summary') {
+      const movies = [
+        { title: 'Interstellar', genre: 'Sci-Fi', rating: 10 },
+        { title: 'The Matrix', genre: 'Action', rating: 9 },
+        { title: 'Arrival', genre: 'Sci-Fi', rating: 8 },
+        { title: 'Dune', genre: 'Adventure', rating: 9 }
+      ];
+      const m = movies[Math.floor(Math.random() * movies.length)];
+      const exp = `${m.title} (${m.genre}) - ${m.rating}/10`;
       setPrompt(lang === 'es'
-        ? `Crea la clase Student con __init__(self, name, major). Crea s = Student('${pickedName}', '${major}'). Guarda s.name en 'st_name'.`
-        : `Create class Student with __init__(self, name, major). Create s = Student('${pickedName}', '${major}'). Store s.name in 'st_name'.`);
-      setCode(`class Student:\n    def __init__(self, name, major):\n        # TODO: store name and major as instance attributes\n        pass\ns = Student('${pickedName}', '${major}')\nst_name = \nprint(st_name)`);
-      setExpectedVal(pickedName);
+        ? `Crea la clase Movie con __init__(self, title, genre, rating) y el método describe() que devuelva f'{self.title} ({self.genre}) - {self.rating}/10'. Instancia fav = Movie('${m.title}', '${m.genre}', ${m.rating}). Guarda fav.describe() en 'summary'.`
+        : `Create class Movie with __init__(self, title, genre, rating) and method describe() that returns f'{self.title} ({self.genre}) - {self.rating}/10'. Instantiate fav = Movie('${m.title}', '${m.genre}', ${m.rating}). Store fav.describe() in 'summary'.`);
+      setCode(`class Movie:\n    def __init__(self, title, genre, rating):\n        # TODO: assign self.title, self.genre, and self.rating\n        pass\n\n    def describe(self):\n        # TODO: return f-string: '{title} ({genre}) - {rating}/10'\n        pass\n\nfav = Movie("${m.title}", "${m.genre}", ${m.rating})\nsummary = \nprint(summary)`);
+      setExpectedVal(exp);
+    } else if (testVar === 'final_bal') {
+      const txSets = [
+        { start: 200, dep: 80, wd: 50, badWd: 900, exp: 230 },
+        { start: 150, dep: 60, wd: 40, badWd: 500, exp: 170 },
+        { start: 300, dep: 100, wd: 75, badWd: 800, exp: 325 },
+        { start: 100, dep: 90, wd: 20, badWd: 400, exp: 170 }
+      ];
+      const tx = txSets[Math.floor(Math.random() * txSets.length)];
+      setPrompt(lang === 'es'
+        ? `Crea la clase BankAccount con __init__(self, owner, balance=0). Agrega deposit(amount) que solo sume si amount > 0, y withdraw(amount) que solo reste si 0 < amount <= self.balance. Crea acct = BankAccount('${pickedName}', ${tx.start}). deposit(${tx.dep}), withdraw(${tx.wd}), withdraw(${tx.badWd}). Guarda acct.balance en 'final_bal'.`
+        : `Create class BankAccount with __init__(self, owner, balance=0). Add deposit(amount) that only adds if amount > 0, and withdraw(amount) that only subtracts if 0 < amount <= self.balance. Create acct = BankAccount('${pickedName}', ${tx.start}). deposit(${tx.dep}), withdraw(${tx.wd}), withdraw(${tx.badWd}). Store acct.balance in 'final_bal'.`);
+      setCode(`class BankAccount:\n    def __init__(self, owner, balance=0):\n        # TODO: store owner and balance as instance attributes\n        pass\n\n    def deposit(self, amount):\n        # TODO: only add amount to self.balance if amount > 0\n        pass\n\n    def withdraw(self, amount):\n        # TODO: only subtract if 0 < amount <= self.balance\n        pass\n\nacct = BankAccount("${pickedName}", ${tx.start})\nacct.deposit(${tx.dep})\nacct.withdraw(${tx.wd})\nacct.withdraw(${tx.badWd})  # Should be rejected!\nfinal_bal = \nprint(final_bal)`);
+      setExpectedVal(tx.exp);
+    } else if (testVar === 'final_energy') {
+      const petScenarios = [
+        { name: 'Milo', play1: 25, rest1: 15, play2: 20, exp: 25 },
+        { name: 'Rocky', play1: 40, rest1: 30, play2: 10, exp: 30 },
+        { name: 'Bella', play1: 15, rest1: 50, play2: 30, exp: 40 },
+        { name: 'Koda', play1: 35, rest1: 20, play2: 30, exp: 0 }
+      ];
+      const sc = petScenarios[Math.floor(Math.random() * petScenarios.length)];
+      setPrompt(lang === 'es'
+        ? `Crea la clase Pet con __init__(self, name, age) iniciando self.energy = 100. Agrega play(mins) reduciendo energía en mins*2 (piso 0 con max(0, ...)) y rest(amt) sumando amt (techo 100 con min(100, ...)). Crea pet = Pet('${sc.name}', 2). pet.play(${sc.play1}), pet.rest(${sc.rest1}), pet.play(${sc.play2}). Guarda pet.energy en 'final_energy'.`
+        : `Create class Pet with __init__(self, name, age) setting self.energy = 100. Add play(mins) reducing energy by mins*2 (clamped floor 0 with max(0, ...)), and rest(amt) adding amt (clamped ceiling 100 with min(100, ...)). Create pet = Pet('${sc.name}', 2). pet.play(${sc.play1}), pet.rest(${sc.rest1}), pet.play(${sc.play2}). Store pet.energy in 'final_energy'.`);
+      setCode(`class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n        self.energy = 100\n\n    def play(self, mins):\n        # TODO: reduce self.energy by mins*2, floor at 0 using max(0, ...)\n        pass\n\n    def rest(self, amt):\n        # TODO: increase self.energy by amt, cap at 100 using min(100, ...)\n        pass\n\npet = Pet("${sc.name}", 2)\npet.play(${sc.play1})\npet.rest(${sc.rest1})\npet.play(${sc.play2})\nfinal_energy = \nprint(final_energy)`);
+      setExpectedVal(sc.exp);
     } else if (testVar === 'ev_info') {
       const evMakes = [
         { make: 'Tesla', model: 'Model 3', kwh: 75 },
@@ -250,6 +296,30 @@ export function CodingRepLab({
         : `Use sqlite3 in-memory. Create ${tbl} (name TEXT, major TEXT), insert a row, execute SELECT * WHERE major = ? with ('CS',). Store fetchall() in 'rows'.`);
       setCode(`import sqlite3\nconn = sqlite3.connect(':memory:')\ncur = conn.cursor()\ncur.execute('CREATE TABLE ${tbl} (name TEXT, major TEXT)')\ncur.execute('INSERT INTO ${tbl} VALUES (?, ?)', ('Maya', 'CS'))\n# TODO: execute SELECT * FROM ${tbl} WHERE major = ? with parameter ('CS',)\n# then fetch all results into rows\n\nrows = \nprint(rows)\nconn.close()`);
       setExpectedVal("[('Maya', 'CS')]");
+    } else if (testVar === 'result') {
+      const candidates = [
+        { raw: '  ALICE_dev ', clean: 'alice_dev' },
+        { raw: '  bob_CODER   ', clean: 'bob_coder' },
+        { raw: '  CAROL-99   ', clean: 'carol-99' },
+        { raw: '   Dave_X  ', clean: 'dave_x' },
+        { raw: '  Elena_Pro   ', clean: 'elena_pro' },
+        { raw: '  FELIX_42   ', clean: 'felix_42' }
+      ];
+      const pick = candidates[Math.floor(Math.random() * candidates.length)];
+      setPrompt(lang === 'es'
+        ? `Escribe clean_user(name) devolviendo name.strip().lower(). Asegura con assert clean_user('  Maya  ') == 'maya'. Guarda clean_user('${pick.raw}') en 'result'.`
+        : `Write clean_user(name) returning name.strip().lower(). Assert clean_user('  Maya  ') == 'maya'. Store clean_user('${pick.raw}') in 'result'.`);
+      setCode(`def clean_user(name):\n    # TODO: return name.strip().lower()\n    pass\n\nassert clean_user('  Maya  ') == 'maya'\nresult = \nprint(result)`);
+      setExpectedVal(pick.clean);
+    } else if (testVar === 'fee') {
+      const testHours = [2, 4, 5, 7, 8, 10];
+      const h = testHours[Math.floor(Math.random() * testHours.length)];
+      const expFee = Math.min(5 + (h - 1) * 3, 20);
+      setPrompt(lang === 'es'
+        ? `Corrige el cálculo de parking_fee(hours): 1ª hora $5, horas adicionales $3, tope $20. Verifica con assert parking_fee(1) == 5 y parking_fee(3) == 11. Guarda parking_fee(${h}) en 'fee'.`
+        : `Fix the parking_fee(hours) calculation: 1st hour is $5, each additional hour is $3, max $20. (Formula: 5 + (hours - 1) * 3 capped at 20). Assert parking_fee(1) == 5 and parking_fee(3) == 11. Store parking_fee(${h}) in 'fee'.`);
+      setCode(`def parking_fee(hours):\n    if hours < 1 or hours > 24:\n        raise ValueError('Hours must be between 1 and 24.')\n    # TODO: fix calculation (1st hr $5, add'l hrs $3, capped at 20)\n    return hours * 5\n\nassert parking_fee(1) == 5\nassert parking_fee(3) == 11\nfee = \nprint(fee)`);
+      setExpectedVal(expFee);
     } else {
       setCode(repData.starter + `\n# Rep #${newCount}`);
     }
@@ -348,7 +418,7 @@ export function CodingRepLab({
 
       {/* Result & Evaluation Panel */}
       {result && (
-        <div className="space-y-2 pt-1">
+        <div className="space-y-2 pt-1" role="status" aria-live="polite">
           {result.engine === 'pending' ? (
             <div className="p-3.5 rounded-xl bg-amber-500/15 border-2 border-amber-500/40 flex items-center gap-3">
               <span className="text-xl">⌛</span>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { getLocalizedChapters } from './data/chaptersData.js';
 import { TRANSLATIONS } from './data/translations.js';
 import { usePyodide } from './hooks/usePyodide.js';
@@ -10,13 +10,15 @@ import { ConceptBox } from './components/ConceptBox.jsx';
 import { TrapBox } from './components/TrapBox.jsx';
 import { CodingRepLab } from './components/CodingRepLab.jsx';
 import { QuizBox } from './components/QuizBox.jsx';
-import { CitationModal } from './components/CitationModal.jsx';
-import { CheatSheetModal } from './components/CheatSheetModal.jsx';
-import { NotebookViewer } from './components/NotebookViewer.jsx';
-import { ReviewModal } from './components/ReviewModal.jsx';
-import { WhitePaperModal } from './components/WhitePaperModal.jsx';
 import { useLearningStats } from './hooks/useLearningStats.js';
-import { StatsDashboard } from './components/StatsDashboard.jsx';
+
+// Lazy-loaded heavy views and modals for optimal initial bundle performance
+const CitationModal = lazy(() => import('./components/CitationModal.jsx'));
+const CheatSheetModal = lazy(() => import('./components/CheatSheetModal.jsx'));
+const NotebookViewer = lazy(() => import('./components/NotebookViewer.jsx'));
+const ReviewModal = lazy(() => import('./components/ReviewModal.jsx'));
+const WhitePaperModal = lazy(() => import('./components/WhitePaperModal.jsx'));
+const StatsDashboard = lazy(() => import('./components/StatsDashboard.jsx'));
 
 export default function App() {
   const [lang, setLang] = useState(() => {
@@ -375,36 +377,50 @@ export default function App() {
 
         {/* Main View: Either Notebook Viewer, Stats Dashboard, or Standard Chapters */}
         {activeView === 'notebook' ? (
-          <NotebookViewer
-            notebooks={importedNotebooks}
-            activeNotebookId={activeNotebookId}
-            onSelectNotebook={handleSelectNotebook}
-            onAddNotebook={handleAddNotebook}
-            onDeleteNotebook={handleDeleteNotebook}
-            onExecuteCode={executeCode}
-            pyodideReady={pyodideReady}
-            t={t}
-            lang={lang}
-            chapters={localizedChapters}
-            onJumpToCurriculum={handleJumpToCurriculum}
-          />
+          <Suspense fallback={
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-slate-400 bg-slate-950 space-y-3">
+              <span className="text-3xl animate-spin">⏳</span>
+              <p className="text-xs font-mono">{lang === 'es' ? 'Cargando Laboratorio de Cuadernos...' : 'Loading Notebook Lab...'}</p>
+            </div>
+          }>
+            <NotebookViewer
+              notebooks={importedNotebooks}
+              activeNotebookId={activeNotebookId}
+              onSelectNotebook={handleSelectNotebook}
+              onAddNotebook={handleAddNotebook}
+              onDeleteNotebook={handleDeleteNotebook}
+              onExecuteCode={executeCode}
+              pyodideReady={pyodideReady}
+              t={t}
+              lang={lang}
+              chapters={localizedChapters}
+              onJumpToCurriculum={handleJumpToCurriculum}
+            />
+          </Suspense>
         ) : activeView === 'stats' ? (
-          <StatsDashboard
-            stats={stats}
-            sessionSeconds={sessionSeconds}
-            repLog={repLog}
-            chapters={localizedChapters}
-            completedSections={completedSections}
-            onJumpToModule={(chNum) => {
-              setActiveChapterNum(chNum);
-              setActiveView('chapters');
-            }}
-            onBackToCurriculum={() => setActiveView('chapters')}
-            onOpenNotebookLab={handleOpenNotebookLab}
-            onResetStats={resetStats}
-            t={t}
-            lang={lang}
-          />
+          <Suspense fallback={
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-slate-400 bg-slate-950 space-y-3">
+              <span className="text-3xl animate-spin">📊</span>
+              <p className="text-xs font-mono">{lang === 'es' ? 'Cargando Estadísticas...' : 'Loading Analytics Dashboard...'}</p>
+            </div>
+          }>
+            <StatsDashboard
+              stats={stats}
+              sessionSeconds={sessionSeconds}
+              repLog={repLog}
+              chapters={localizedChapters}
+              completedSections={completedSections}
+              onJumpToModule={(chNum) => {
+                setActiveChapterNum(chNum);
+                setActiveView('chapters');
+              }}
+              onBackToCurriculum={() => setActiveView('chapters')}
+              onOpenNotebookLab={handleOpenNotebookLab}
+              onResetStats={resetStats}
+              t={t}
+              lang={lang}
+            />
+          </Suspense>
         ) : (
           /* Main Study Area */
           <main className="flex-1 overflow-y-auto custom-scroll p-4 md:p-8 space-y-8 bg-slate-950">
@@ -533,43 +549,59 @@ export default function App() {
       </div>
 
       {/* Academic Citation Modal */}
-      <CitationModal
-        isOpen={isCitationOpen}
-        onClose={() => setIsCitationOpen(false)}
-        t={t}
-        lang={lang}
-      />
+      {isCitationOpen && (
+        <Suspense fallback={null}>
+          <CitationModal
+            isOpen={isCitationOpen}
+            onClose={() => setIsCitationOpen(false)}
+            t={t}
+            lang={lang}
+          />
+        </Suspense>
+      )}
 
       {/* Data Science Cheat Sheet Modal */}
-      <CheatSheetModal
-        isOpen={isCheatSheetOpen}
-        onClose={() => setIsCheatSheetOpen(false)}
-        t={t}
-        lang={lang}
-        onExecuteCode={executeCode}
-        pyodideReady={pyodideReady}
-      />
+      {isCheatSheetOpen && (
+        <Suspense fallback={null}>
+          <CheatSheetModal
+            isOpen={isCheatSheetOpen}
+            onClose={() => setIsCheatSheetOpen(false)}
+            t={t}
+            lang={lang}
+            onExecuteCode={executeCode}
+            pyodideReady={pyodideReady}
+          />
+        </Suspense>
+      )}
 
       {/* Review Queue Modal */}
-      <ReviewModal
-        isOpen={isReviewModalOpen}
-        onClose={() => setIsReviewModalOpen(false)}
-        reviewItems={reviewItems}
-        onJumpToSection={handleJumpToReviewSection}
-        onDismissItem={handleDismissReviewItem}
-        onClearAll={handleClearAllReviews}
-        t={t}
-        lang={lang}
-      />
+      {isReviewModalOpen && (
+        <Suspense fallback={null}>
+          <ReviewModal
+            isOpen={isReviewModalOpen}
+            onClose={() => setIsReviewModalOpen(false)}
+            reviewItems={reviewItems}
+            onJumpToSection={handleJumpToReviewSection}
+            onDismissItem={handleDismissReviewItem}
+            onClearAll={handleClearAllReviews}
+            t={t}
+            lang={lang}
+          />
+        </Suspense>
+      )}
 
       {/* Academic Theory White Paper Modal */}
-      <WhitePaperModal
-        isOpen={isWhitePaperOpen}
-        onClose={() => setIsWhitePaperOpen(false)}
-        t={t}
-        lang={lang}
-        onToggleLang={setLang}
-      />
+      {isWhitePaperOpen && (
+        <Suspense fallback={null}>
+          <WhitePaperModal
+            isOpen={isWhitePaperOpen}
+            onClose={() => setIsWhitePaperOpen(false)}
+            t={t}
+            lang={lang}
+            onToggleLang={setLang}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }
