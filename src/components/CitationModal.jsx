@@ -239,3 +239,5 @@ export function CitationModal({ isOpen, onClose, t, lang = 'en' }) {
     </div>
   );
 }
+
+export default CitationModal;

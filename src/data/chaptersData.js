@@ -1718,7 +1718,7 @@ export const CHAPTERS_DATA = [
         "rep": {
           "title": "Parking Fee Boundary Test Rep",
           "prompt": "Fix the parking_fee(hours) calculation: 1st hour is $5, each additional hour is $3, max $20. (Formula: 5 + (hours - 1) * 3 capped at 20). Assert parking_fee(1) == 5 and parking_fee(3) == 11. Store parking_fee(6) in 'fee'.",
-          "starter": "def parking_fee(hours):\n    if hours < 1 or hours > 24:\n        raise ValueError('Hours must be between 1 and 24.')\n    # TODO: fix calculation (1st hr $5, add'l hrs $3, capped at 20)\n    fee = 5 + (hours - 1) * 3\n    return min(fee, 20)\n\nassert parking_fee(1) == 5\nassert parking_fee(3) == 11\nfee = \nprint(fee)",
+          "starter": "def parking_fee(hours):\n    if hours < 1 or hours > 24:\n        raise ValueError('Hours must be between 1 and 24.')\n    # TODO: fix calculation (1st hr $5, add'l hrs $3, capped at 20)\n    return hours * 5\n\nassert parking_fee(1) == 5\nassert parking_fee(3) == 11\nfee = \nprint(fee)",
           "test_var": "fee",
           "expected_val": 20,
           "title_es": "Repetición: Prueba de Límite de Tarifa de Estacionamiento",

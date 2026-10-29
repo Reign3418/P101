@@ -79,7 +79,7 @@ export function ConceptBox({ section, onRunCode, t, lang = 'en' }) {
 
         {/* Output Console */}
         {terminalOutput && (
-          <div className="p-3 bg-slate-950/90 border border-slate-800 rounded-xl font-mono text-xs space-y-1">
+          <div className="p-3 bg-slate-950/90 border border-slate-800 rounded-xl font-mono text-xs space-y-1" role="status" aria-live="polite">
             <div className="flex items-center justify-between text-slate-500 text-[10px] border-b border-slate-800/80 pb-1">
               <span>{t ? t('consoleOutput') : 'Terminal Output:'}</span>
               <span className="text-emerald-400">Exit Code: 0</span>

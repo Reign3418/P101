@@ -145,3 +145,5 @@ export function ReviewModal({
     </div>
   );
 }
+
+export default ReviewModal;

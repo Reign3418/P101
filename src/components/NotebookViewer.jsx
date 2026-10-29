@@ -872,7 +872,11 @@ export function NotebookViewer({
 
                       {/* Output Console (if run) */}
                       {output && (
-                        <div className="border-t border-slate-800/80 p-3 bg-slate-900/90 space-y-2">
+                        <div 
+                          className="border-t border-slate-800/80 p-3 bg-slate-900/90 space-y-2"
+                          role="status"
+                          aria-live="polite"
+                        >
                           <div className="flex items-center justify-between text-[11px]">
                             <span className="font-mono text-slate-400">Out [{idx + 1}]:</span>
                             <span className="font-mono text-[10px] text-slate-500">
@@ -1119,3 +1123,5 @@ function MarkdownPreview({ content, attachments }) {
 
   return <div className="space-y-1.5">{rendered}</div>;
 }
+
+export default NotebookViewer;

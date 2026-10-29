@@ -422,8 +422,8 @@ export function StatsDashboard({
                 </span>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
+              <div className="overflow-x-auto scrollbar-thin">
+                <table className="w-full text-left text-xs min-w-[620px]">
                   <thead className="bg-slate-950 text-slate-400 font-mono text-[11px] border-b border-slate-800">
                     <tr>
                       <th className="p-3">{isEs ? 'Módulo & Tema' : 'Module & Topic'}</th>
@@ -540,8 +540,8 @@ export function StatsDashboard({
             {/* Rep Log Table */}
             {filteredReps.length > 0 ? (
               <div className="rounded-xl border border-slate-800 bg-slate-900 overflow-hidden shadow">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
+                <div className="overflow-x-auto scrollbar-thin">
+                  <table className="w-full text-left text-xs min-w-[620px]">
                     <thead className="bg-slate-950 text-slate-400 font-mono text-[11px] border-b border-slate-800">
                       <tr>
                         <th className="p-3">{isEs ? 'Fecha y Hora' : 'Date & Time'}</th>
@@ -610,3 +610,5 @@ export function StatsDashboard({
     </div>
   );
 }
+
+export default StatsDashboard;

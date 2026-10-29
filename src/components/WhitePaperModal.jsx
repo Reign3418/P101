@@ -456,8 +456,8 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
                 </h3>
                 <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
                   {isEs
-                    ? 'Los cursos introductorios de informática (CS1) enfrentan altas tasas de fricción cognitiva. Los estudiantes adultos, quienes cambian de carrera y los veteranos militares que regresan al aula a menudo no fallan por falta de aptitud, sino por sobrecarga de herramientas complejas (terminales, entornos virtuales) y falta de modelos mentales físicos sobre la memoria RAM. P101 sintetiza los 9 cuadernos de clase de la Prof. Jade Cao en Central Carolina Community College (CCCC) con el libro de texto de Tony Gaddis (Starting Out with Python, 6.ª Ed.), ejecutando Python 3.12 directamente en el navegador con 0 telemetría y 0 almacenamiento remoto.'
-                    : 'Introductory computer science (CS1) courses face notoriously high attrition and cognitive friction. Adult learners, career switchers, and military veterans transitioning to civilian engineering frequently struggle not with logical aptitude, but with syntactic overload, ambiguous mental models of computer memory (RAM), and extraneous tooling friction. P101 bridges Prof. Jade Cao’s 9 classroom lecture notebooks at Central Carolina Community College (CCCC) with Tony Gaddis’s Starting Out with Python (6th Edition) textbook, running Python 3.12 entirely in the browser with zero telemetry and zero server data retention.'}
+                    ? 'Los cursos introductorios de informática (CS1) enfrentan altas tasas de fricción cognitiva. Los estudiantes adultos, quienes cambian de carrera y los veteranos militares que regresan al aula a menudo no fallan por falta de aptitud, sino por sobrecarga de herramientas complejas (terminales, entornos virtuales) y falta de modelos mentales físicos sobre la memoria RAM. P101 sintetiza los 14 cuadernos de clase de la Prof. Jade Cao en Central Carolina Community College (CCCC) con el libro de texto de Tony Gaddis (Starting Out with Python, 6.ª Ed.), ejecutando Python 3.12 directamente en el navegador con 0 telemetría y 0 almacenamiento remoto.'
+                    : 'Introductory computer science (CS1) courses face notoriously high attrition and cognitive friction. Adult learners, career switchers, and military veterans transitioning to civilian engineering frequently struggle not with logical aptitude, but with syntactic overload, ambiguous mental models of computer memory (RAM), and extraneous tooling friction. P101 bridges Prof. Jade Cao’s 14 classroom lecture notebooks at Central Carolina Community College (CCCC) with Tony Gaddis’s Starting Out with Python (6th Edition) textbook, running Python 3.12 entirely in the browser with zero telemetry and zero server data retention.'}
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 text-[11px] font-mono">
                   <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-800 text-center">
@@ -628,8 +628,8 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
               </p>
 
               {/* Fully Localized Module Mapping Table */}
-              <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950">
-                <table className="w-full text-left text-xs">
+              <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950 scrollbar-thin">
+                <table className="w-full text-left text-xs min-w-[640px]">
                   <thead className="bg-slate-900 text-slate-300 font-mono text-[11px] border-b border-slate-800">
                     <tr>
                       <th className="p-3 whitespace-nowrap">{isEs ? 'Módulo y Fuente (Prof. Cao)' : 'Module & Prof. Source'}</th>
@@ -858,3 +858,5 @@ Full Paper: https://github.com/Reign3418/P101/blob/main/WHITE_PAPER.md
     </div>
   );
 }
+
+export default WhitePaperModal;

@@ -593,3 +593,5 @@ function renderCard(item, lang, copiedId, handleCopyCode, executingId, handleRun
     </div>
   );
 }
+
+export default CheatSheetModal;
