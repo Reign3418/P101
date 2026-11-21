@@ -1,0 +1,20 @@
+{
+  "schema": "valkyrie-policy/v1",
+  "public_static_allowlist": [
+    {
+      "path": "public/cheatsheets/cheatsheets_matplotlib.pdf",
+      "sha256": "7e91c2548d04191b826c282bf0965693a866258fb397f3392758f9dafcd990b9",
+      "reason": "Intentional public CCCC CIS-115 educational reference sheet (Matplotlib) rendered by CheatSheetModal.jsx"
+    },
+    {
+      "path": "public/cheatsheets/Numpy_Python_Cheat_Sheet.pdf",
+      "sha256": "5f3449b9f7580c03a6b6a3a71e3d0d78940420d22bf6634224de60e602462306",
+      "reason": "Intentional public CCCC CIS-115 educational reference sheet (NumPy) rendered by CheatSheetModal.jsx"
+    },
+    {
+      "path": "public/cheatsheets/Python_SciPy_Cheat_Sheet_Linear_Algebra.pdf",
+      "sha256": "92baa0a0285398c0dc869b79a6e959fd309c2e8f40adfbefe8f07e92f63e22d1",
+      "reason": "Intentional public CCCC CIS-115 educational reference sheet (SciPy Linear Algebra) rendered by CheatSheetModal.jsx"
+    }
+  ]
+}

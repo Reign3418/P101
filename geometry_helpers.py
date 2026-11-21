@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # Starting Out with Python (6th Edition) - Tony Gaddis
 # Section 5.10: Storing Functions in Custom Modules
 # Module Name: geometry_helpers.py
